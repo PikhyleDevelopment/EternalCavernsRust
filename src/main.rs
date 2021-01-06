@@ -47,7 +47,7 @@ fn main() -> rltk::BError {
         .create_entity()
         .with(Position {x: 40, y: 25})
         .with(Renderable {
-            glyph: rltk::to_cp437('@'),
+            glyph: rltk::to_cp437('♠'),
             fg: RGB::named(rltk::YELLOW),
             bg: RGB::named(rltk::BLACK),
         })
