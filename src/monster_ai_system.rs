@@ -30,7 +30,7 @@ impl<'a> System<'a> for MonsterAI {
             mut position,
             mut wants_to_melee,
         ) = data;
-        
+
         if *runstate != RunState::MonsterTurn {
             return;
         }

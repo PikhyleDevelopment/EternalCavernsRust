@@ -3,6 +3,10 @@ use rltk::{Algorithm2D, BaseMap, Point, RandomNumberGenerator, Rltk, RGB};
 use specs::prelude::*;
 use std::cmp::{max, min};
 
+const MAPWIDTH: usize = 80;
+const MAPHEIGHT: usize = 43;
+const MAPCOUNT: usize = MAPHEIGHT * MAPWIDTH;
+
 #[derive(PartialEq, Copy, Clone)]
 pub enum TileType {
     Wall,
@@ -75,14 +79,14 @@ impl Map {
 
     pub fn new_map_rooms_and_corridors() -> Map {
         let mut map = Map {
-            tiles: vec![TileType::Wall; 80 * 50],
+            tiles: vec![TileType::Wall; MAPCOUNT],
             rooms: Vec::new(),
-            width: 80,
-            height: 50,
-            revealed_tiles: vec![false; 80 * 50],
-            visible_tiles: vec![false; 80 * 50],
-            blocked: vec![false; 80 * 50],
-            tile_content: vec![Vec::new(); 80 * 50],
+            width: MAPWIDTH as i32,
+            height: MAPHEIGHT as i32,
+            revealed_tiles: vec![false; MAPCOUNT],
+            visible_tiles: vec![false; MAPCOUNT],
+            blocked: vec![false; MAPCOUNT],
+            tile_content: vec![Vec::new(); MAPCOUNT],
         };
 
         const MAX_ROOMS: i32 = 30;
@@ -190,7 +194,7 @@ pub fn draw_map(ecs: &World, ctx: &mut Rltk) {
         // Render a tile depending upon the tile type
 
         if map.revealed_tiles[idx] {
-            let mut glyph;
+            let glyph;
             let mut fg;
             match tile {
                 TileType::Floor => {
@@ -199,20 +203,22 @@ pub fn draw_map(ecs: &World, ctx: &mut Rltk) {
                 }
                 TileType::Wall => {
                     glyph = rltk::to_cp437('#');
-                    fg = RGB::from_u8(89, 125, 206);
+                    fg = RGB::from_f32(0., 1.0, 0.);
                 }
             }
             if !map.visible_tiles[idx] {
-                match tile {
-                    TileType::Floor => {
-                        glyph = rltk::to_cp437('.');
-                        fg = RGB::from_u8(68, 36, 52);
-                    }
-                    TileType::Wall => {
-                        glyph = rltk::to_cp437('#');
-                        fg = RGB::from_u8(20, 12, 28);
-                    }
-                }
+                fg = fg.to_greyscale();
+                //ctx.set(x, y, fg, RGB::from_u8(0, 0, 0), glyph);
+                // match tile {
+                //     TileType::Floor => {
+                //         glyph = rltk::to_cp437('.');
+                //         fg = RGB::from_u8(68, 36, 52);
+                //     }
+                //     TileType::Wall => {
+                //         glyph = rltk::to_cp437('#');
+                //         fg = RGB::from_u8(20, 12, 28);
+                //     }
+                // }
             }
             ctx.set(x, y, fg, RGB::from_f32(0., 0., 0.), glyph);
         }
