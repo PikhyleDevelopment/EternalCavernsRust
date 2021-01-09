@@ -125,6 +125,9 @@ pub fn player_input(gs: &mut State, ctx: &mut Rltk) -> RunState {
 
             VirtualKeyCode::D => return RunState::ShowDropItem,
 
+            // Save and Quit
+            VirtualKeyCode::Escape => return RunState::SaveGame,
+
             _ => return RunState::AwaitingInput,
         },
     }
