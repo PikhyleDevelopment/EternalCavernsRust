@@ -24,8 +24,8 @@ use melee_combat_system::MeleeCombatSystem;
 mod gamelog;
 mod gui;
 mod inventory_system;
-mod spawner;
 mod saveload_system;
+mod spawner;
 
 use inventory_system::{ItemCollectionSystem, ItemDropSystem, ItemUseSystem};
 
@@ -203,7 +203,11 @@ impl GameState for State {
                     }
                     gui::MainMenuResult::Selected { selected } => match selected {
                         gui::MainMenuSelection::NewGame => newrunstate = RunState::PreRun,
-                        gui::MainMenuSelection::LoadGame => newrunstate = RunState::PreRun,
+                        gui::MainMenuSelection::LoadGame => {
+                            saveload_system::load_game(&mut self.ecs);
+                            newrunstate = RunState::AwaitingInput;
+                            saveload_system::delete_save();
+                        }
                         gui::MainMenuSelection::Quit => {
                             ::std::process::exit(0);
                         }
@@ -261,7 +265,6 @@ fn main() -> rltk::BError {
 
     gs.ecs.insert(SimpleMarkerAllocator::<SerializeMe>::new());
 
-
     let map: Map = Map::new_map_rooms_and_corridors();
     let (player_x, player_y) = map.rooms[0].center();
 
@@ -275,7 +278,9 @@ fn main() -> rltk::BError {
     gs.ecs.insert(map);
     gs.ecs.insert(Point::new(player_x, player_y));
     gs.ecs.insert(player_entity);
-    gs.ecs.insert(RunState::MainMenu {menu_selection: gui::MainMenuSelection::NewGame});
+    gs.ecs.insert(RunState::MainMenu {
+        menu_selection: gui::MainMenuSelection::NewGame,
+    });
     gs.ecs.insert(gamelog::GameLog {
         entries: vec!["Welcome to Eternal Caverns!".to_string()],
     });

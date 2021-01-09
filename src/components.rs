@@ -1,15 +1,15 @@
 use rltk::RGB;
-use specs::prelude::*;
-use specs_derive::*;
-use serde::{Serialize, Deserialize};
-use specs::saveload::{Marker, ConvertSaveload};
+use serde::{Deserialize, Serialize};
 use specs::error::NoError;
+use specs::prelude::*;
+use specs::saveload::{ConvertSaveload, Marker};
+use specs_derive::*;
 
 pub struct SerializeMe;
 
 #[derive(Component, Serialize, Deserialize, Clone)]
 pub struct SerializationHelper {
-    pub map: super::map::Map
+    pub map: super::map::Map,
 }
 
 #[derive(Component, ConvertSaveload, Debug)]

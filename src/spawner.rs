@@ -2,9 +2,9 @@ use super::{
     map::MAPWIDTH, AreaOfEffect, BlocksTile, CombatStats, Confusion, Consumable, InflictsDamage,
     Item, Monster, Name, Player, Position, ProvidesHealing, Ranged, Rect, Renderable, Viewshed,
 };
+use crate::SerializeMe;
 use rltk::{RandomNumberGenerator, RGB};
 use specs::prelude::*;
-use crate::SerializeMe;
 use specs::saveload::{MarkedBuilder, SimpleMarker};
 
 /// Spawns the player and returns his/her entity object
