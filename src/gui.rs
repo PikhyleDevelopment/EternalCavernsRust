@@ -368,7 +368,7 @@ pub fn draw_ui(ecs: &World, ctx: &mut Rltk) {
         let health = format!("HP: {} / {}", stats.hp, stats.max_hp);
         ctx.print_color(
             12,
-            42,
+            43,
             RGB::named(rltk::YELLOW),
             RGB::named(rltk::BLACK),
             &health,
@@ -394,6 +394,17 @@ pub fn draw_ui(ecs: &World, ctx: &mut Rltk) {
         }
         y += 1
     }
+
+    // Draw player depth
+    let map = ecs.fetch::<Map>();
+    let depth = format!("Depth {}", map.depth);
+    ctx.print_color(
+        2,
+        43,
+        RGB::named(rltk::YELLOW),
+        RGB::named(rltk::BLACK),
+        &depth,
+    );
 
     // Draw mouse cursor
     let mouse_pos = ctx.mouse_pos();
