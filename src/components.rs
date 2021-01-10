@@ -5,6 +5,23 @@ use specs::prelude::*;
 use specs::saveload::{ConvertSaveload, Marker};
 use specs_derive::*;
 
+#[derive(Component, ConvertSaveload, Clone)]
+pub struct Equipped {
+    pub owner: Entity,
+    pub slot: EquipmentSlot
+}
+
+#[derive(PartialEq, Copy, Clone, Serialize, Deserialize)]
+pub enum EquipmentSlot {
+    Melee,
+    Shield,
+}
+
+#[derive(Component, Serialize, Deserialize, Clone)]
+pub struct Equippable {
+    pub slot: EquipmentSlot
+}
+
 pub struct SerializeMe;
 
 #[derive(Component, Serialize, Deserialize, Clone)]
