@@ -1,7 +1,8 @@
 use super::{
-    gamelog::GameLog, CombatStats, Consumable, Entity, Equippable, Equipped, InBackpack,
-    InflictsDamage, Map, Name, Position, ProvidesHealing, WantsToDropItem, WantsToPickupItem,
-    WantsToUseItem, WantsToRemoveItem, SufferDamage, Confusion, AreaOfEffect
+    gamelog::GameLog, particle_system::ParticleBuilder, AreaOfEffect, CombatStats, Confusion,
+    Consumable, Entity, Equippable, Equipped, InBackpack, InflictsDamage, Map, Name, Position,
+    ProvidesHealing, SufferDamage, WantsToDropItem, WantsToPickupItem, WantsToRemoveItem,
+    WantsToUseItem,
 };
 use specs::prelude::*;
 
@@ -21,9 +22,9 @@ impl<'a> System<'a> for ItemRemoveSystem {
 
         for (entity, to_remove) in (&entities, &wants_remove).join() {
             equipped.remove(to_remove.item);
-            backpack.insert(to_remove.item, InBackpack {
-                owner: entity
-            }).expect("Unable to insert into backpack");
+            backpack
+                .insert(to_remove.item, InBackpack { owner: entity })
+                .expect("Unable to insert into backpack");
         }
 
         wants_remove.clear();
@@ -108,6 +109,8 @@ impl<'a> System<'a> for ItemUseSystem {
         ReadStorage<'a, Equippable>,
         WriteStorage<'a, Equipped>,
         WriteStorage<'a, InBackpack>,
+        WriteExpect<'a, ParticleBuilder>,
+        ReadStorage<'a, Position>,
     );
 
     fn run(&mut self, data: Self::SystemData) {
@@ -128,6 +131,8 @@ impl<'a> System<'a> for ItemUseSystem {
             equippable,
             mut equipped,
             mut backpack,
+            mut particle_builder,
+            positions
         ) = data;
 
         for (entity, useitem) in (&entities, &wants_use).join() {
@@ -161,6 +166,8 @@ impl<'a> System<'a> for ItemUseSystem {
                                 for mob in map.tile_content[idx].iter() {
                                     targets.push(*mob);
                                 }
+                                particle_builder.request(tile_idx.x, tile_idx.y, rltk::RGB::named(rltk::ORANGE), rltk::RGB::named(rltk::BLACK), 176, 400.0)
+
                             }
                         }
                     }
@@ -230,6 +237,11 @@ impl<'a> System<'a> for ItemUseSystem {
                                 "You use {} on {}, inflicting {} damage.",
                                 item_name.name, mob_name.name, damage.damage
                             ));
+
+                            let pos = positions.get(*mob);
+                            if let Some(pos) = pos {
+                                particle_builder.request(pos.x, pos.y, rltk::RGB::named(rltk::RED), rltk::RGB::named(rltk::BLACK), 19, 200.0);
+                            }
                         }
 
                         used_item = true;
@@ -251,6 +263,12 @@ impl<'a> System<'a> for ItemUseSystem {
                                     names.get(useitem.item).unwrap().name,
                                     healer.heal_amount
                                 ));
+                            }
+                            used_item = true;
+
+                            let pos = positions.get(*target);
+                            if let Some(pos) = pos {
+                                particle_builder.request(pos.x, pos.y, rltk::RGB::named(rltk::GREEN), rltk::RGB::named(rltk::BLACK), 3, 200.0)
                             }
                         }
                     }
@@ -274,6 +292,11 @@ impl<'a> System<'a> for ItemUseSystem {
                                     "You use {} on {}, confusing them.",
                                     item_name.name, mob_name.name
                                 ));
+
+                                let pos = positions.get(*mob);
+                                if let Some(pos) = pos {
+                                    particle_builder.request(pos.x, pos.y, rltk::RGB::named(rltk::MAGENTA), rltk::RGB::named(rltk::BLACK), 63, 200.0);
+                                }
                             }
                         }
                     }
@@ -315,10 +338,10 @@ impl<'a> System<'a> for ItemCollectionSystem {
     );
 
     fn run(&mut self, data: Self::SystemData) {
-        let (player_entity, mut gamelog, mut wants_pickup, mut position, name, mut backpack) = data;
+        let (player_entity, mut gamelog, mut wants_pickup, mut positions, name, mut backpack) = data;
 
         for pickup in wants_pickup.join() {
-            position.remove(pickup.item);
+            positions.remove(pickup.item);
             backpack
                 .insert(
                     pickup.item,

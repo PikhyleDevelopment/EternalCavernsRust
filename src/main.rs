@@ -24,12 +24,13 @@ use melee_combat_system::MeleeCombatSystem;
 mod gamelog;
 mod gui;
 mod inventory_system;
+mod particle_system;
 mod random_table;
 mod saveload_system;
 mod spawner;
 
-use inventory_system::{ItemCollectionSystem, ItemDropSystem, ItemUseSystem};
 use crate::inventory_system::ItemRemoveSystem;
+use inventory_system::{ItemCollectionSystem, ItemDropSystem, ItemUseSystem};
 
 #[derive(PartialEq, Copy, Clone)]
 pub enum RunState {
@@ -49,7 +50,7 @@ pub enum RunState {
     SaveGame,
     NextLevel,
     ShowRemoveItem,
-    GameOver
+    GameOver,
 }
 
 pub struct State {
@@ -77,6 +78,8 @@ impl State {
         drop_items.run_now(&self.ecs);
         let mut item_remove = ItemRemoveSystem {};
         item_remove.run_now(&self.ecs);
+        let mut particles = particle_system::ParticleSpawnSystem {};
+        particles.run_now(&self.ecs);
         self.ecs.maintain();
     }
 }
@@ -89,6 +92,7 @@ impl GameState for State {
             newrunstate = *runstate;
         }
         ctx.cls();
+        particle_system::cull_dead_particles(&mut self.ecs, ctx);
 
         match newrunstate {
             RunState::MainMenu { .. } => {}
@@ -238,13 +242,16 @@ impl GameState for State {
                 let result = gui::remove_item_menu(self, ctx);
                 match result.0 {
                     gui::ItemMenuResult::Cancel => newrunstate = RunState::AwaitingInput,
-                    gui::ItemMenuResult::NoResponse => {},
+                    gui::ItemMenuResult::NoResponse => {}
                     gui::ItemMenuResult::Selected => {
                         let item_entity = result.1.unwrap();
                         let mut intent = self.ecs.write_storage::<WantsToRemoveItem>();
-                        intent.insert(*self.ecs.fetch::<Entity>(), WantsToRemoveItem {
-                            item: item_entity
-                        }).expect("Unable to insert intent");
+                        intent
+                            .insert(
+                                *self.ecs.fetch::<Entity>(),
+                                WantsToRemoveItem { item: item_entity },
+                            )
+                            .expect("Unable to insert intent");
                         newrunstate = RunState::PlayerTurn;
                     }
                 }
@@ -257,7 +264,7 @@ impl GameState for State {
                     gui::GameOverResult::QuitToMenu => {
                         self.game_over_cleanup();
                         newrunstate = RunState::MainMenu {
-                            menu_selection: gui::MainMenuSelection::NewGame
+                            menu_selection: gui::MainMenuSelection::NewGame,
                         };
                     }
                 }
@@ -417,7 +424,7 @@ impl State {
 
 fn main() -> rltk::BError {
     use rltk::RltkBuilder;
-    let version = "0.1.0";
+    let version = "0.1.1";
     let mut context = RltkBuilder::simple80x50()
         .with_title(format!("Eternal Caverns Version: {}", version))
         .build()?;
@@ -452,6 +459,7 @@ fn main() -> rltk::BError {
     gs.ecs.register::<MeleePowerBonus>();
     gs.ecs.register::<DefenseBonus>();
     gs.ecs.register::<WantsToRemoveItem>();
+    gs.ecs.register::<ParticleLifetime>();
 
     gs.ecs.insert(SimpleMarkerAllocator::<SerializeMe>::new());
 
@@ -474,6 +482,7 @@ fn main() -> rltk::BError {
     gs.ecs.insert(gamelog::GameLog {
         entries: vec!["Welcome to Eternal Caverns!".to_string()],
     });
+    gs.ecs.insert(particle_system::ParticleBuilder::new());
 
     rltk::main_loop(context, gs)
 }

@@ -5,9 +5,14 @@ use specs::prelude::*;
 use specs::saveload::{ConvertSaveload, Marker};
 use specs_derive::*;
 
+#[derive(Component, Serialize, Deserialize, Clone)]
+pub struct ParticleLifetime {
+    pub lifetime_ms: f32,
+}
+
 #[derive(Component, Debug, ConvertSaveload, Clone)]
 pub struct WantsToRemoveItem {
-    pub item: Entity
+    pub item: Entity,
 }
 
 #[derive(Component, ConvertSaveload, Clone)]
