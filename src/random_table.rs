@@ -2,14 +2,14 @@ use rltk::RandomNumberGenerator;
 
 pub struct RandomEntry {
     name: String,
-    weight: i32
+    weight: i32,
 }
 
 impl RandomEntry {
     pub fn new<S: ToString>(name: S, weight: i32) -> RandomEntry {
         RandomEntry {
             name: name.to_string(),
-            weight
+            weight,
         }
     }
 }
@@ -17,20 +17,23 @@ impl RandomEntry {
 #[derive(Default)]
 pub struct RandomTable {
     entries: Vec<RandomEntry>,
-    total_weight: i32
+    total_weight: i32,
 }
 
 impl RandomTable {
     pub fn new() -> RandomTable {
         RandomTable {
             entries: Vec::new(),
-            total_weight: 0
+            total_weight: 0,
         }
     }
 
-    pub fn add<S:ToString>(mut self, name: S, weight: i32) -> RandomTable {
-        self.total_weight += weight;
-        self.entries.push(RandomEntry::new(name.to_string(), weight));
+    pub fn add<S: ToString>(mut self, name: S, weight: i32) -> RandomTable {
+        if weight > 0 {
+            self.total_weight += weight;
+            self.entries
+                .push(RandomEntry::new(name.to_string(), weight));
+        }
         self
     }
 

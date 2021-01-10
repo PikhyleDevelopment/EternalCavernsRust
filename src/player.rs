@@ -1,6 +1,6 @@
 use super::{
-    gamelog::GameLog, CombatStats, Item, Map, Player, Position, RunState, State, Viewshed,
-    WantsToMelee, WantsToPickupItem, TileType, Monster,
+    gamelog::GameLog, CombatStats, Item, Map, Monster, Player, Position, RunState, State, TileType,
+    Viewshed, WantsToMelee, WantsToPickupItem,
 };
 use rltk::{Point, Rltk, VirtualKeyCode};
 use specs::prelude::*;
@@ -96,7 +96,9 @@ pub fn try_next_level(ecs: &mut World) -> bool {
         true
     } else {
         let mut gamelog = ecs.fetch_mut::<GameLog>();
-        gamelog.entries.push("There is no way down from here.".to_string());
+        gamelog
+            .entries
+            .push("There is no way down from here.".to_string());
         false
     }
 }
@@ -162,12 +164,15 @@ pub fn player_input(gs: &mut State, ctx: &mut Rltk) -> RunState {
 
             VirtualKeyCode::Numpad1 | VirtualKeyCode::B => try_move_player(-1, 1, &mut gs.ecs),
 
-            // Additional Keys
+            // Grab Items
             VirtualKeyCode::G => get_item(&mut gs.ecs),
 
+            // Inventory Management
             VirtualKeyCode::I => return RunState::ShowInventory,
 
             VirtualKeyCode::D => return RunState::ShowDropItem,
+
+            VirtualKeyCode::R => return RunState::ShowRemoveItem,
 
             // Save and Quit
             VirtualKeyCode::Escape => return RunState::SaveGame,
