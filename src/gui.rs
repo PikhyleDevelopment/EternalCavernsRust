@@ -1,11 +1,10 @@
 use super::{
     gamelog::GameLog, CombatStats, Entity, InBackpack, Map, Name, Player, Position, RunState,
-    State, Viewshed, Equipped
+    State, Viewshed, Equipped,
 };
 use rltk::{Point, Rltk, VirtualKeyCode, RGB};
 use specs::prelude::*;
-use crate::spawner::player;
-use crate::Item;
+
 
 #[derive(PartialEq, Copy, Clone)]
 pub enum ItemMenuResult {

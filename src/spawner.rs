@@ -43,7 +43,7 @@ pub fn player(ecs: &mut World, player_x: i32, player_y: i32) -> Entity {
 
 // Constants
 const MAX_MONSTERS: i32 = 4;
-const MAX_ITEMS: i32 = 2;
+//const MAX_ITEMS: i32 = 2;
 
 // Entity functions
 
@@ -190,9 +190,9 @@ fn room_table(map_depth: i32) -> RandomTable {
         .add("Health Potion", 7)
         .add("Fireball Scroll", 2 + map_depth)
         .add("Confusion Scroll", 2 + map_depth)
-        .add("Magic Missle Scroll", 4)
-        .add("Dagger", 20)
-        .add("Shield", 20)
+        .add("Magic Missile Scroll", 4)
+        .add("Dagger", 4)
+        .add("Shield", 4)
         .add("Longsword", map_depth - 1)
         .add("Tower Shield", map_depth - 1)
 }
@@ -261,7 +261,7 @@ fn health_potion(ecs: &mut World, x: i32, y: i32) {
         })
         .with(Item {})
         .with(Consumable {})
-        .with(ProvidesHealing { heal_amount: 25 })
+        .with(ProvidesHealing { heal_amount: 8 })
         .marked::<SimpleMarker<SerializeMe>>()
         .build();
 }

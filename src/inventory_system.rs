@@ -131,7 +131,7 @@ impl<'a> System<'a> for ItemUseSystem {
         ) = data;
 
         for (entity, useitem) in (&entities, &wants_use).join() {
-            let mut used_item = false;
+            let mut used_item = true;
 
             // Targeting
             let mut targets: Vec<Entity> = Vec::new();
@@ -256,13 +256,6 @@ impl<'a> System<'a> for ItemUseSystem {
                     }
                 }
             }
-            let consumable = consumables.get(useitem.item);
-            match consumable {
-                None => {}
-                Some(_) => {
-                    entities.delete(useitem.item).expect("Delete failed");
-                }
-            }
 
             // Can it pass along confusion? Note the use of scopes to escape from the borrow checker
             let mut add_confusion = Vec::new();
@@ -291,6 +284,16 @@ impl<'a> System<'a> for ItemUseSystem {
                 confused
                     .insert(mob.0, Confusion { turns: mob.1 })
                     .expect("Unable to insert status");
+            }
+
+            if used_item {
+                let consumable = consumables.get(useitem.item);
+                match consumable {
+                    None => {}
+                    Some(_) => {
+                        entities.delete(useitem.item).expect("Delete failed");
+                    }
+                }
             }
         }
 

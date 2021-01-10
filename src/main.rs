@@ -417,8 +417,9 @@ impl State {
 
 fn main() -> rltk::BError {
     use rltk::RltkBuilder;
+    let version = "0.1.0";
     let mut context = RltkBuilder::simple80x50()
-        .with_title("Eternal Rust")
+        .with_title(format!("Eternal Caverns Version: {}", version))
         .build()?;
     // uncomment this next line for cool retro effect
     context.with_post_scanlines(true);
