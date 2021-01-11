@@ -1,6 +1,6 @@
 use super::{
     gamelog::GameLog, CombatStats, Item, Map, Monster, Player, Position, RunState, State, TileType,
-    Viewshed, WantsToMelee, WantsToPickupItem,
+    Viewshed, WantsToMelee, WantsToPickupItem, HungerClock, HungerState
 };
 use rltk::{Point, Rltk, VirtualKeyCode};
 use specs::prelude::*;
@@ -122,6 +122,16 @@ fn skip_turn(ecs: &mut World) -> RunState {
                     can_heal = false;
                 }
             }
+        }
+    }
+
+    let hunger_clocks = ecs.read_storage::<HungerClock>();
+    let hc = hunger_clocks.get(*player_entity);
+    if let Some(hc) = hc {
+        match hc.state {
+            HungerState::Hungry => can_heal = false,
+            HungerState::Starving => can_heal = false,
+            _ => {}
         }
     }
 

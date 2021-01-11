@@ -1,13 +1,19 @@
 use super::{
     map::MAPWIDTH, random_table::RandomTable, AreaOfEffect, BlocksTile, CombatStats, Confusion,
     Consumable, InflictsDamage, Item, Monster, Name, Player, Position, ProvidesHealing, Ranged,
-    Rect, Renderable, Viewshed,
+    Rect, Renderable, Viewshed, HungerClock, ProvidesFood
 };
-use crate::{DefenseBonus, EquipmentSlot, Equippable, MeleePowerBonus, SerializeMe};
+use crate::{DefenseBonus, EquipmentSlot, Equippable, MeleePowerBonus, SerializeMe, HungerState};
 use rltk::{RandomNumberGenerator, RGB};
 use specs::prelude::*;
 use specs::saveload::{MarkedBuilder, SimpleMarker};
 use std::collections::HashMap;
+
+// Constants
+const MAX_MONSTERS: i32 = 4;
+//const MAX_ITEMS: i32 = 2;
+
+// Entity functions
 
 /// Spawns the player and returns his/her entity object
 pub fn player(ecs: &mut World, player_x: i32, player_y: i32) -> Entity {
@@ -37,15 +43,13 @@ pub fn player(ecs: &mut World, player_x: i32, player_y: i32) -> Entity {
             defense: 2,
             power: 5,
         })
+        .with(HungerClock {
+            state: HungerState::WellFed,
+            duration: 20
+        })
         .marked::<SimpleMarker<SerializeMe>>()
         .build()
 }
-
-// Constants
-const MAX_MONSTERS: i32 = 4;
-//const MAX_ITEMS: i32 = 2;
-
-// Entity functions
 
 fn orc(ecs: &mut World, x: i32, y: i32) {
     monster(ecs, x, y, rltk::to_cp437('o'), "Orc");
@@ -149,6 +153,27 @@ fn shield(ecs: &mut World, x: i32, y: i32) {
         .build();
 }
 
+// Rations
+
+fn rations(ecs: &mut World, x: i32, y: i32) {
+    ecs.create_entity()
+        .with(Position {x, y})
+        .with(Renderable {
+            glyph: rltk::to_cp437('%'),
+            fg: RGB::named(rltk::LIGHT_GREEN),
+            bg: RGB::named(rltk::BLACK),
+            render_order: 2
+        })
+        .with(Name {
+            name: "Rations".to_string()
+        })
+        .with(Item {})
+        .with(ProvidesFood {})
+        .with(Consumable {})
+        .marked::<SimpleMarker<SerializeMe>>()
+        .build();
+}
+
 fn monster<S: ToString>(ecs: &mut World, x: i32, y: i32, glyph: rltk::FontCharType, name: S) {
     ecs.create_entity()
         .with(Position { x, y })
@@ -178,6 +203,8 @@ fn monster<S: ToString>(ecs: &mut World, x: i32, y: i32, glyph: rltk::FontCharTy
         .build();
 }
 
+// Spawn table
+
 fn room_table(map_depth: i32) -> RandomTable {
     RandomTable::new()
         .add("Goblin", 10)
@@ -191,6 +218,7 @@ fn room_table(map_depth: i32) -> RandomTable {
         .add("Shield", 4)
         .add("Longsword", map_depth - 1)
         .add("Tower Shield", map_depth - 1)
+        .add("Rations", 10)
 }
 
 /// Fills a room with stuff!
@@ -238,6 +266,7 @@ pub fn spawn_room(ecs: &mut World, room: &Rect, map_depth: i32) {
             "Shield" => shield(ecs, x, y),
             "Longsword" => longsword(ecs, x, y),
             "Tower Shield" => tower_shield(ecs, x, y),
+            "Rations" => rations(ecs, x, y),
             _ => {}
         }
     }

@@ -28,6 +28,7 @@ mod particle_system;
 mod random_table;
 mod saveload_system;
 mod spawner;
+mod hunger_system;
 
 use crate::inventory_system::ItemRemoveSystem;
 use inventory_system::{ItemCollectionSystem, ItemDropSystem, ItemUseSystem};
@@ -78,6 +79,8 @@ impl State {
         drop_items.run_now(&self.ecs);
         let mut item_remove = ItemRemoveSystem {};
         item_remove.run_now(&self.ecs);
+        let mut hunger = hunger_system::HungerSystem {};
+        hunger.run_now(&self.ecs);
         let mut particles = particle_system::ParticleSpawnSystem {};
         particles.run_now(&self.ecs);
         self.ecs.maintain();
@@ -460,6 +463,9 @@ fn main() -> rltk::BError {
     gs.ecs.register::<DefenseBonus>();
     gs.ecs.register::<WantsToRemoveItem>();
     gs.ecs.register::<ParticleLifetime>();
+    gs.ecs.register::<HungerClock>();
+    gs.ecs.register::<ProvidesFood>();
+    gs.ecs.register::<MagicMapper>();
 
     gs.ecs.insert(SimpleMarkerAllocator::<SerializeMe>::new());
 
