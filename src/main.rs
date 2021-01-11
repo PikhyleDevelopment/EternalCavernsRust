@@ -29,6 +29,7 @@ mod random_table;
 mod saveload_system;
 mod spawner;
 mod hunger_system;
+mod rex_assets;
 
 use crate::inventory_system::ItemRemoveSystem;
 use inventory_system::{ItemCollectionSystem, ItemDropSystem, ItemUseSystem};
@@ -52,6 +53,9 @@ pub enum RunState {
     NextLevel,
     ShowRemoveItem,
     GameOver,
+    MagicMapReveal {
+        row: i32
+    }
 }
 
 pub struct State {
@@ -132,7 +136,10 @@ impl GameState for State {
             RunState::PlayerTurn => {
                 self.run_systems();
                 self.ecs.maintain();
-                newrunstate = RunState::MonsterTurn;
+                match *self.ecs.fetch::<RunState>() {
+                    RunState::MagicMapReveal{ .. } => newrunstate = RunState::MagicMapReveal{ row: 0 },
+                    _ => newrunstate = RunState::MonsterTurn
+                }
             }
             RunState::MonsterTurn => {
                 self.run_systems();
@@ -270,6 +277,18 @@ impl GameState for State {
                             menu_selection: gui::MainMenuSelection::NewGame,
                         };
                     }
+                }
+            }
+            RunState::MagicMapReveal {row} => {
+                let mut map = self.ecs.fetch_mut::<Map>();
+                for x in 0..MAPWIDTH {
+                    let idx = map.xy_idx(x as i32, row);
+                    map.revealed_tiles[idx] = true;
+                }
+                if row as usize == MAPHEIGHT - 1 {
+                    newrunstate = RunState::MonsterTurn;
+                } else {
+                    newrunstate = RunState::MagicMapReveal {row: row + 1};
                 }
             }
         }
@@ -429,6 +448,8 @@ fn main() -> rltk::BError {
     use rltk::RltkBuilder;
     let version = "0.1.1";
     let mut context = RltkBuilder::simple80x50()
+        .with_dimensions(120, 90)
+        //.with_fullscreen(true)
         .with_title(format!("Eternal Caverns Version: {}", version))
         .build()?;
     // uncomment this next line for cool retro effect
@@ -489,6 +510,7 @@ fn main() -> rltk::BError {
         entries: vec!["Welcome to Eternal Caverns!".to_string()],
     });
     gs.ecs.insert(particle_system::ParticleBuilder::new());
+    gs.ecs.insert(rex_assets::RexAssets::new());
 
     rltk::main_loop(context, gs)
 }
