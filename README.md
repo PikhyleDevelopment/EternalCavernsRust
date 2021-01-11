@@ -39,6 +39,8 @@ When in the Remove Item Screen, press the corresponding key to the item you want
     - Target a single enemy to confuse them for a certain amount of turns.
 - Magic Missile Scroll
     - Target a single enemy to fire a magical missile at them.
+- Scroll of Magic Mapping
+    - Rare scroll that will show you the entire map of the level.
     
 ### Current Potions
 - Health Potion
