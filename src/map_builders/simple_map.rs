@@ -1,17 +1,17 @@
 use super::{
-    apply_horizontal_tunnel, apply_room_to_map, apply_vertical_tunnel, Map, MapBuilder, Position,
-    Rect, TileType, spawner
+    apply_horizontal_tunnel, apply_room_to_map, apply_vertical_tunnel, spawner, Map, MapBuilder,
+    Position, Rect, TileType,
 };
+use crate::SHOW_MAPGEN_VISUALIZER;
 use rltk::RandomNumberGenerator;
 use specs::prelude::*;
-use crate::SHOW_MAPGEN_VISUALIZER;
 
 pub struct SimpleMapBuilder {
     map: Map,
     starting_position: Position,
     depth: i32,
     rooms: Vec<Rect>,
-    history: Vec<Map>
+    history: Vec<Map>,
 }
 
 impl MapBuilder for SimpleMapBuilder {
@@ -50,13 +50,10 @@ impl SimpleMapBuilder {
     pub fn new(new_depth: i32) -> SimpleMapBuilder {
         SimpleMapBuilder {
             map: Map::new(new_depth),
-            starting_position: Position {
-                x: 0,
-                y: 0
-            },
+            starting_position: Position { x: 0, y: 0 },
             depth: new_depth,
             rooms: Vec::new(),
-            history: Vec::new()
+            history: Vec::new(),
         }
     }
 
@@ -106,7 +103,7 @@ impl SimpleMapBuilder {
         let start_pos = self.rooms[0].center();
         self.starting_position = Position {
             x: start_pos.0,
-            y: start_pos.1
+            y: start_pos.1,
         };
     }
 }

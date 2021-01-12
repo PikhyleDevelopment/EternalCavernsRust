@@ -1,9 +1,12 @@
 mod simple_map;
 use simple_map::SimpleMapBuilder;
+mod bsp_dungeon;
 mod common;
+use bsp_dungeon::BspDungeonBuilder;
+
 use common::*;
 
-use super::{spawner, Map, Position, Rect, TileType, World};
+use super::{spawner, Map, Position, Rect, TileType, World, SHOW_MAPGEN_VISUALIZER};
 
 pub trait MapBuilder {
     fn build_map(&mut self);
@@ -15,7 +18,11 @@ pub trait MapBuilder {
 }
 
 pub fn random_builder(new_depth: i32) -> Box<dyn MapBuilder> {
-    // Note that until we have a second map type, this isn't even slightly random.
-    // Just ask Soviet election systems.
-    Box::new(SimpleMapBuilder::new(new_depth))
+    // Randomize MapBuilder per dungeon level
+    let mut rng = rltk::RandomNumberGenerator::new();
+    let builder = rng.roll_dice(1, 2);
+    match builder {
+        1 => Box::new(BspDungeonBuilder::new(new_depth)),
+        _ => Box::new(SimpleMapBuilder::new(new_depth))
+    }
 }

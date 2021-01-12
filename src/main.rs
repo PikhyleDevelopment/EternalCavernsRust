@@ -59,7 +59,7 @@ pub enum RunState {
     MagicMapReveal {
         row: i32,
     },
-    MapGeneration
+    MapGeneration,
 }
 
 pub struct State {
@@ -67,7 +67,7 @@ pub struct State {
     mapgen_next_state: Option<RunState>,
     mapgen_history: Vec<Map>,
     mapgen_index: usize,
-    mapgen_timer: f32
+    mapgen_timer: f32,
 }
 
 impl State {
@@ -476,11 +476,11 @@ fn main() -> rltk::BError {
     let mut gs = State {
         ecs: World::new(),
         mapgen_next_state: Some(RunState::MainMenu {
-            menu_selection: gui::MainMenuSelection::NewGame
+            menu_selection: gui::MainMenuSelection::NewGame,
         }),
         mapgen_index: 0,
         mapgen_history: Vec::new(),
-        mapgen_timer: 0.0
+        mapgen_timer: 0.0,
     };
     gs.ecs.register::<Position>();
     gs.ecs.register::<Renderable>();
