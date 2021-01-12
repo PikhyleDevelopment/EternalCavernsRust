@@ -2,8 +2,8 @@ use super::{
     map::MAPWIDTH, random_table::RandomTable, AreaOfEffect, BlocksTile, CombatStats, Confusion,
     Consumable, DefenseBonus, EntryTrigger, EquipmentSlot, Equippable, Hidden, HungerClock,
     HungerState, InflictsDamage, Item, MagicMapper, MeleePowerBonus, Monster, Name, Player,
-    Position, ProvidesFood, ProvidesHealing, Ranged, Rect, Renderable, SerializeMe, Viewshed,
-    SingleActivation
+    Position, ProvidesFood, ProvidesHealing, Ranged, Rect, Renderable, SerializeMe,
+    SingleActivation, Viewshed,
 };
 use rltk::{RandomNumberGenerator, RGB};
 use specs::prelude::*;

@@ -1,6 +1,6 @@
 use super::{
     gamelog::GameLog, particle_system::ParticleBuilder, EntityMoved, EntryTrigger, Hidden,
-    InflictsDamage, Map, Name, Position, SufferDamage, SingleActivation
+    InflictsDamage, Map, Name, Position, SingleActivation, SufferDamage,
 };
 use specs::prelude::*;
 
@@ -20,7 +20,7 @@ impl<'a> System<'a> for TriggerSystem {
         ReadStorage<'a, InflictsDamage>,
         WriteExpect<'a, ParticleBuilder>,
         WriteStorage<'a, SufferDamage>,
-        ReadStorage<'a, SingleActivation>
+        ReadStorage<'a, SingleActivation>,
     );
 
     fn run(&mut self, data: Self::SystemData) {
@@ -36,7 +36,7 @@ impl<'a> System<'a> for TriggerSystem {
             inflicts_damage,
             mut particle_builder,
             mut inflict_damage,
-            single_activation
+            single_activation,
         ) = data;
 
         // Iterate the entities that moved and their final position

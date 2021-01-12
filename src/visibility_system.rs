@@ -1,4 +1,4 @@
-use super::{Map, Player, Position, Viewshed, Hidden, gamelog::GameLog, Name};
+use super::{gamelog::GameLog, Hidden, Map, Name, Player, Position, Viewshed};
 use rltk::{field_of_view, Point};
 use specs::prelude::*;
 
@@ -14,20 +14,12 @@ impl<'a> System<'a> for VisibilitySystem {
         WriteStorage<'a, Hidden>,
         WriteExpect<'a, rltk::RandomNumberGenerator>,
         WriteExpect<'a, GameLog>,
-        ReadStorage<'a, Name>
+        ReadStorage<'a, Name>,
     );
 
     fn run(&mut self, data: Self::SystemData) {
-        let (mut map,
-            entities,
-            mut viewshed,
-            pos,
-            player,
-            mut hidden,
-            mut rng,
-            mut log,
-            names
-        ) = data;
+        let (mut map, entities, mut viewshed, pos, player, mut hidden, mut rng, mut log, names) =
+            data;
 
         for (ent, viewshed, pos) in (&entities, &mut viewshed, &pos).join() {
             if viewshed.dirty {

@@ -183,7 +183,7 @@ pub struct Viewshed {
     pub dirty: bool,
 }
 
-#[derive(Component, ConvertSaveload)]
+#[derive(Component, ConvertSaveload, Clone)]
 pub struct Position {
     pub x: i32,
     pub y: i32,
