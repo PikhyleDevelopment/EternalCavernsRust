@@ -1,10 +1,9 @@
-
-use rltk::{rex::XpFile};
+use rltk::rex::XpFile;
 
 rltk::embedded_resource!(SMALL_DUNGEON, "../resources/menu_background.xp");
 
 pub struct RexAssets {
-    pub menu: XpFile
+    pub menu: XpFile,
 }
 
 impl RexAssets {
@@ -13,7 +12,7 @@ impl RexAssets {
         rltk::link_resource!(SMALL_DUNGEON, "../resources/menu_background.xp");
 
         RexAssets {
-            menu: XpFile::from_resource("../resources/menu_background.xp").unwrap()
+            menu: XpFile::from_resource("../resources/menu_background.xp").unwrap(),
         }
     }
 }

@@ -1,6 +1,6 @@
 use super::{
-    gamelog::GameLog, CombatStats, Entity, Equipped, InBackpack, Map, Name, Player, Position,
-    RunState, State, Viewshed, HungerClock, HungerState, rex_assets::RexAssets
+    gamelog::GameLog, rex_assets::RexAssets, CombatStats, Entity, Equipped, Hidden, HungerClock,
+    HungerState, InBackpack, Map, Name, Player, Position, RunState, State, Viewshed,
 };
 use rltk::{Point, Rltk, VirtualKeyCode, RGB};
 use specs::prelude::*;
@@ -390,13 +390,14 @@ fn draw_tooltips(ecs: &World, ctx: &mut Rltk) {
     let map = ecs.fetch::<Map>();
     let names = ecs.read_storage::<Name>();
     let positions = ecs.read_storage::<Position>();
+    let hidden = ecs.read_storage::<Hidden>();
 
     let mouse_pos = ctx.mouse_pos();
     if mouse_pos.0 >= map.width || mouse_pos.1 >= map.height {
         return;
     }
     let mut tooltip: Vec<String> = Vec::new();
-    for (name, position) in (&names, &positions).join() {
+    for (name, position, _hidden) in (&names, &positions, !&hidden).join() {
         let idx = map.xy_idx(position.x, position.y);
         if position.x == mouse_pos.0 && position.y == mouse_pos.1 && map.visible_tiles[idx] {
             tooltip.push(name.name.to_string());
@@ -512,10 +513,28 @@ pub fn draw_ui(ecs: &World, ctx: &mut Rltk) {
         );
 
         match hc.state {
-            HungerState::WellFed => ctx.print_color(71, 42, RGB::named(rltk::GREEN), RGB::named(rltk::BLACK), "Well Fed"),
-            HungerState::Normal => {},
-            HungerState::Hungry => ctx.print_color(71, 42, RGB::named(rltk::ORANGE), RGB::named(rltk::BLACK), "Hungry"),
-            HungerState::Starving => ctx.print_color(71, 42, RGB::named(rltk::RED), RGB::named(rltk::BLACK), "Starving"),
+            HungerState::WellFed => ctx.print_color(
+                71,
+                42,
+                RGB::named(rltk::GREEN),
+                RGB::named(rltk::BLACK),
+                "Well Fed",
+            ),
+            HungerState::Normal => {}
+            HungerState::Hungry => ctx.print_color(
+                71,
+                42,
+                RGB::named(rltk::ORANGE),
+                RGB::named(rltk::BLACK),
+                "Hungry",
+            ),
+            HungerState::Starving => ctx.print_color(
+                71,
+                42,
+                RGB::named(rltk::RED),
+                RGB::named(rltk::BLACK),
+                "Starving",
+            ),
         }
     }
 
@@ -560,25 +579,25 @@ pub fn main_menu(gs: &mut State, ctx: &mut Rltk) -> MainMenuResult {
         31,
         10,
         RGB::named(rltk::WHEAT),
-        RGB::named(rltk::BLACK)
+        RGB::named(rltk::BLACK),
     );
     ctx.print_color_centered(
         20,
         RGB::named(rltk::YELLOW),
         RGB::named(rltk::BLACK),
-        "Eternal Caverns"
+        "Eternal Caverns",
     );
     ctx.print_color_centered(
         21,
         RGB::named(rltk::CYAN),
         RGB::named(rltk::BLACK),
-        "by Pikhyle"
+        "by Pikhyle",
     );
     ctx.print_color_centered(
         22,
         RGB::named(rltk::GRAY),
         RGB::named(rltk::BLACK),
-        "Use Up/Down Arrows and Enter"
+        "Use Up/Down Arrows and Enter",
     );
     let mut y = 24;
     if let RunState::MainMenu {
@@ -628,11 +647,7 @@ pub fn main_menu(gs: &mut State, ctx: &mut Rltk) -> MainMenuResult {
                 "Quit",
             );
         } else {
-            ctx.print_color_centered(
-                y,
-                RGB::named(rltk::WHITE),
-                RGB::named(rltk::BLACK),
-                "Quit");
+            ctx.print_color_centered(y, RGB::named(rltk::WHITE), RGB::named(rltk::BLACK), "Quit");
         }
 
         match ctx.key {

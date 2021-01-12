@@ -1,8 +1,8 @@
 use super::{
     gamelog::GameLog, particle_system::ParticleBuilder, AreaOfEffect, CombatStats, Confusion,
-    Consumable, Entity, Equippable, Equipped, InBackpack, InflictsDamage, Map, Name, Position,
-    ProvidesHealing, SufferDamage, WantsToDropItem, WantsToPickupItem, WantsToRemoveItem,
-    WantsToUseItem, ProvidesFood, HungerClock, HungerState, MagicMapper, RunState
+    Consumable, Entity, Equippable, Equipped, HungerClock, HungerState, InBackpack, InflictsDamage,
+    MagicMapper, Map, Name, Position, ProvidesFood, ProvidesHealing, RunState, SufferDamage,
+    WantsToDropItem, WantsToPickupItem, WantsToRemoveItem, WantsToUseItem,
 };
 use specs::prelude::*;
 
@@ -95,7 +95,7 @@ impl<'a> System<'a> for ItemUseSystem {
     type SystemData = (
         ReadExpect<'a, Entity>,
         WriteExpect<'a, GameLog>,
-        WriteExpect<'a, Map>,
+        ReadExpect<'a, Map>,
         Entities<'a>,
         WriteStorage<'a, WantsToUseItem>,
         ReadStorage<'a, Name>,
@@ -114,14 +114,14 @@ impl<'a> System<'a> for ItemUseSystem {
         ReadStorage<'a, ProvidesFood>,
         WriteStorage<'a, HungerClock>,
         ReadStorage<'a, MagicMapper>,
-        WriteExpect<'a, RunState>
+        WriteExpect<'a, RunState>,
     );
 
     fn run(&mut self, data: Self::SystemData) {
         let (
             player_entity,
             mut gamelog,
-            mut map,
+            map,
             entities,
             mut wants_use,
             names,
@@ -140,7 +140,7 @@ impl<'a> System<'a> for ItemUseSystem {
             provides_food,
             mut hunger_clocks,
             magic_mapper,
-            mut runstate
+            mut runstate,
         ) = data;
 
         for (entity, useitem) in (&entities, &wants_use).join() {
@@ -174,8 +174,14 @@ impl<'a> System<'a> for ItemUseSystem {
                                 for mob in map.tile_content[idx].iter() {
                                     targets.push(*mob);
                                 }
-                                particle_builder.request(tile_idx.x, tile_idx.y, rltk::RGB::named(rltk::ORANGE), rltk::RGB::named(rltk::BLACK), 176, 400.0)
-
+                                particle_builder.request(
+                                    tile_idx.x,
+                                    tile_idx.y,
+                                    rltk::RGB::named(rltk::ORANGE),
+                                    rltk::RGB::named(rltk::BLACK),
+                                    176,
+                                    400.0,
+                                )
                             }
                         }
                     }
@@ -248,7 +254,14 @@ impl<'a> System<'a> for ItemUseSystem {
 
                             let pos = positions.get(*mob);
                             if let Some(pos) = pos {
-                                particle_builder.request(pos.x, pos.y, rltk::RGB::named(rltk::RED), rltk::RGB::named(rltk::BLACK), 19, 200.0);
+                                particle_builder.request(
+                                    pos.x,
+                                    pos.y,
+                                    rltk::RGB::named(rltk::RED),
+                                    rltk::RGB::named(rltk::BLACK),
+                                    19,
+                                    200.0,
+                                );
                             }
                         }
 
@@ -276,7 +289,14 @@ impl<'a> System<'a> for ItemUseSystem {
 
                             let pos = positions.get(*target);
                             if let Some(pos) = pos {
-                                particle_builder.request(pos.x, pos.y, rltk::RGB::named(rltk::GREEN), rltk::RGB::named(rltk::BLACK), 3, 200.0)
+                                particle_builder.request(
+                                    pos.x,
+                                    pos.y,
+                                    rltk::RGB::named(rltk::GREEN),
+                                    rltk::RGB::named(rltk::BLACK),
+                                    3,
+                                    200.0,
+                                )
                             }
                         }
                     }
@@ -294,7 +314,10 @@ impl<'a> System<'a> for ItemUseSystem {
                     if let Some(hc) = hc {
                         hc.state = HungerState::WellFed;
                         hc.duration = 20;
-                        gamelog.entries.push(format!("You eat the {}.", names.get(useitem.item).unwrap().name));
+                        gamelog.entries.push(format!(
+                            "You eat the {}.",
+                            names.get(useitem.item).unwrap().name
+                        ));
                     }
                 }
             }
@@ -305,7 +328,9 @@ impl<'a> System<'a> for ItemUseSystem {
                 None => {}
                 Some(_) => {
                     used_item = true;
-                    gamelog.entries.push("The map is revealed to you!".to_string());
+                    gamelog
+                        .entries
+                        .push("The map is revealed to you!".to_string());
                     *runstate = RunState::MagicMapReveal { row: 0 };
                 }
             }
@@ -330,7 +355,14 @@ impl<'a> System<'a> for ItemUseSystem {
 
                                 let pos = positions.get(*mob);
                                 if let Some(pos) = pos {
-                                    particle_builder.request(pos.x, pos.y, rltk::RGB::named(rltk::MAGENTA), rltk::RGB::named(rltk::BLACK), 63, 200.0);
+                                    particle_builder.request(
+                                        pos.x,
+                                        pos.y,
+                                        rltk::RGB::named(rltk::MAGENTA),
+                                        rltk::RGB::named(rltk::BLACK),
+                                        63,
+                                        200.0,
+                                    );
                                 }
                             }
                         }
@@ -373,7 +405,8 @@ impl<'a> System<'a> for ItemCollectionSystem {
     );
 
     fn run(&mut self, data: Self::SystemData) {
-        let (player_entity, mut gamelog, mut wants_pickup, mut positions, name, mut backpack) = data;
+        let (player_entity, mut gamelog, mut wants_pickup, mut positions, name, mut backpack) =
+            data;
 
         for pickup in wants_pickup.join() {
             positions.remove(pickup.item);

@@ -23,16 +23,16 @@ mod melee_combat_system;
 use melee_combat_system::MeleeCombatSystem;
 mod gamelog;
 mod gui;
+mod hunger_system;
 mod inventory_system;
 mod particle_system;
 mod random_table;
+mod rex_assets;
 mod saveload_system;
 mod spawner;
-mod hunger_system;
-mod rex_assets;
+mod trigger_system;
 
-use crate::inventory_system::ItemRemoveSystem;
-use inventory_system::{ItemCollectionSystem, ItemDropSystem, ItemUseSystem};
+use inventory_system::{ItemCollectionSystem, ItemDropSystem, ItemRemoveSystem, ItemUseSystem};
 
 #[derive(PartialEq, Copy, Clone)]
 pub enum RunState {
@@ -54,8 +54,8 @@ pub enum RunState {
     ShowRemoveItem,
     GameOver,
     MagicMapReveal {
-        row: i32
-    }
+        row: i32,
+    },
 }
 
 pub struct State {
@@ -69,6 +69,8 @@ impl State {
         vis.run_now(&self.ecs);
         let mut mob = MonsterAI {};
         mob.run_now(&self.ecs);
+        let mut triggers = trigger_system::TriggerSystem {};
+        triggers.run_now(&self.ecs);
         let mut mapindex = MapIndexingSystem {};
         mapindex.run_now(&self.ecs);
         let mut melee = MeleeCombatSystem {};
@@ -110,10 +112,13 @@ impl GameState for State {
                     let positions = self.ecs.read_storage::<Position>();
                     let renderables = self.ecs.read_storage::<Renderable>();
                     let map = self.ecs.fetch::<Map>();
+                    let hidden = self.ecs.read_storage::<Hidden>();
 
-                    let mut data = (&positions, &renderables).join().collect::<Vec<_>>();
+                    let mut data = (&positions, &renderables, !&hidden)
+                        .join()
+                        .collect::<Vec<_>>();
                     data.sort_by(|&a, &b| b.1.render_order.cmp(&a.1.render_order));
-                    for (pos, render) in data.iter() {
+                    for (pos, render, _hidden) in data.iter() {
                         let idx = map.xy_idx(pos.x, pos.y);
                         if map.visible_tiles[idx] {
                             ctx.set(pos.x, pos.y, render.fg, render.bg, render.glyph)
@@ -137,8 +142,10 @@ impl GameState for State {
                 self.run_systems();
                 self.ecs.maintain();
                 match *self.ecs.fetch::<RunState>() {
-                    RunState::MagicMapReveal{ .. } => newrunstate = RunState::MagicMapReveal{ row: 0 },
-                    _ => newrunstate = RunState::MonsterTurn
+                    RunState::MagicMapReveal { .. } => {
+                        newrunstate = RunState::MagicMapReveal { row: 0 }
+                    }
+                    _ => newrunstate = RunState::MonsterTurn,
                 }
             }
             RunState::MonsterTurn => {
@@ -279,7 +286,7 @@ impl GameState for State {
                     }
                 }
             }
-            RunState::MagicMapReveal {row} => {
+            RunState::MagicMapReveal { row } => {
                 let mut map = self.ecs.fetch_mut::<Map>();
                 for x in 0..MAPWIDTH {
                     let idx = map.xy_idx(x as i32, row);
@@ -288,7 +295,7 @@ impl GameState for State {
                 if row as usize == MAPHEIGHT - 1 {
                     newrunstate = RunState::MonsterTurn;
                 } else {
-                    newrunstate = RunState::MagicMapReveal {row: row + 1};
+                    newrunstate = RunState::MagicMapReveal { row: row + 1 };
                 }
             }
         }
@@ -487,6 +494,10 @@ fn main() -> rltk::BError {
     gs.ecs.register::<HungerClock>();
     gs.ecs.register::<ProvidesFood>();
     gs.ecs.register::<MagicMapper>();
+    gs.ecs.register::<Hidden>();
+    gs.ecs.register::<EntryTrigger>();
+    gs.ecs.register::<EntityMoved>();
+    gs.ecs.register::<SingleActivation>();
 
     gs.ecs.insert(SimpleMarkerAllocator::<SerializeMe>::new());
 

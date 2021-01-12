@@ -1,4 +1,7 @@
-use super::{Map, Monster, Position, RunState, Viewshed, WantsToMelee, Confusion, particle_system::ParticleBuilder};
+use super::{
+    particle_system::ParticleBuilder, Confusion, EntityMoved, Map, Monster, Position, RunState,
+    Viewshed, WantsToMelee,
+};
 use rltk::Point;
 use specs::prelude::*;
 
@@ -17,7 +20,8 @@ impl<'a> System<'a> for MonsterAI {
         WriteStorage<'a, Position>,
         WriteStorage<'a, WantsToMelee>,
         WriteStorage<'a, Confusion>,
-        WriteExpect<'a, ParticleBuilder>
+        WriteExpect<'a, ParticleBuilder>,
+        WriteStorage<'a, EntityMoved>,
     );
 
     fn run(&mut self, data: Self::SystemData) {
@@ -32,7 +36,8 @@ impl<'a> System<'a> for MonsterAI {
             mut position,
             mut wants_to_melee,
             mut confused,
-            mut particle_builder
+            mut particle_builder,
+            mut entity_moved,
         ) = data;
 
         if *runstate != RunState::MonsterTurn {
@@ -52,7 +57,14 @@ impl<'a> System<'a> for MonsterAI {
                 }
                 can_act = false;
 
-                particle_builder.request(pos.x, pos.y, rltk::RGB::named(rltk::MAGENTA), rltk::RGB::named(rltk::BLACK), 63, 200.0);
+                particle_builder.request(
+                    pos.x,
+                    pos.y,
+                    rltk::RGB::named(rltk::MAGENTA),
+                    rltk::RGB::named(rltk::BLACK),
+                    63,
+                    200.0,
+                );
             }
 
             if can_act {
@@ -79,6 +91,9 @@ impl<'a> System<'a> for MonsterAI {
                         map.blocked[idx] = false;
                         pos.x = path.steps[1] as i32 % map.width;
                         pos.y = path.steps[1] as i32 / map.width;
+                        entity_moved
+                            .insert(entity, EntityMoved {})
+                            .expect("Unable to insert marker");
                         idx = map.xy_idx(pos.x, pos.y);
                         map.blocked[idx] = true;
                         viewshed.dirty = true;

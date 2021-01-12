@@ -1,6 +1,6 @@
 use super::{
     gamelog::GameLog, particle_system::ParticleBuilder, CombatStats, DefenseBonus, Equipped,
-    MeleePowerBonus, Name, Position, SufferDamage, WantsToMelee, HungerClock, HungerState,
+    HungerClock, HungerState, MeleePowerBonus, Name, Position, SufferDamage, WantsToMelee,
 };
 use specs::prelude::*;
 
@@ -20,7 +20,7 @@ impl<'a> System<'a> for MeleeCombatSystem {
         ReadStorage<'a, Equipped>,
         WriteExpect<'a, ParticleBuilder>,
         ReadStorage<'a, Position>,
-        ReadStorage<'a, HungerClock>
+        ReadStorage<'a, HungerClock>,
     );
 
     fn run(&mut self, data: Self::SystemData) {

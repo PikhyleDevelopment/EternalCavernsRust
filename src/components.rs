@@ -6,6 +6,18 @@ use specs::saveload::{ConvertSaveload, Marker};
 use specs_derive::*;
 
 #[derive(Component, Debug, Serialize, Deserialize, Clone)]
+pub struct SingleActivation {}
+
+#[derive(Component, Debug, Serialize, Deserialize, Clone)]
+pub struct EntityMoved {}
+
+#[derive(Component, Debug, Serialize, Deserialize, Clone)]
+pub struct EntryTrigger {}
+
+#[derive(Component, Debug, Serialize, Deserialize, Clone)]
+pub struct Hidden {}
+
+#[derive(Component, Debug, Serialize, Deserialize, Clone)]
 pub struct MagicMapper {}
 
 #[derive(Component, Debug, Serialize, Deserialize, Clone)]
@@ -16,13 +28,13 @@ pub enum HungerState {
     WellFed,
     Normal,
     Hungry,
-    Starving
+    Starving,
 }
 
 #[derive(Component, Serialize, Deserialize, Clone)]
 pub struct HungerClock {
     pub state: HungerState,
-    pub duration: i32
+    pub duration: i32,
 }
 
 #[derive(Component, Serialize, Deserialize, Clone)]
