@@ -1,7 +1,7 @@
 # ETERNAL CAVERNS (Rust Edition) - By Pikhyle
 
 This is a roguelike adventure based off the tutorial from http://bfnightly.bracketproductions.com/rustbook
-written by [Herbert Wolverson](http://bfnightly.bracketproductions.com/rustbook)
+written by [Herbert Wolverson](https://github.com/thebracket)
 
 ### Main Controls:
 | Result        | Key                   |
