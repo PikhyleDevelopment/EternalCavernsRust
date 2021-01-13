@@ -45,3 +45,15 @@ When in the Remove Item Screen, press the corresponding key to the item you want
 ### Current Potions
 - Health Potion
     - Restores a certain amount of HP
+  
+### Map Generation
+
+#### The following are the type of map generation utilized in this game:
+- Simple Map
+  - Generates rooms around the map, then adds horizontal and vertical passage ways.
+- Binary Space Partition (BSP) 
+  - BSP rooms as well as interior design (like inside of a structure)
+- Cellular Automata
+  - Organic looking maps like you're in a cave
+- Drunkards walk
+  - Three different implementations that utilize the Drunkards Walk generation
