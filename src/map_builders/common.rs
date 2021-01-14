@@ -62,7 +62,10 @@ pub fn remove_unreachable_areas_returning_most_distant(map: &mut Map, start_idx:
 }
 
 /// Generates a Voronoi/cellular noise map of a region, and divides it into spawn regions
-pub fn generate_voronoi_spawn_regions(map: &Map, rng: &mut rltk::RandomNumberGenerator) -> HashMap<i32, Vec<usize>> {
+pub fn generate_voronoi_spawn_regions(
+    map: &Map,
+    rng: &mut rltk::RandomNumberGenerator,
+) -> HashMap<i32, Vec<usize>> {
     let mut noise_areas: HashMap<i32, Vec<usize>> = HashMap::new();
     // Build a noise map for use in spawning entities later
     let mut noise = rltk::FastNoise::seeded(rng.roll_dice(1, 65536) as u64);

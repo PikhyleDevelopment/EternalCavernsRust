@@ -1,8 +1,10 @@
 use super::{spawner, Map, MapBuilder, Position, TileType, SHOW_MAPGEN_VISUALIZER};
+use crate::map_builders::common::{
+    generate_voronoi_spawn_regions, remove_unreachable_areas_returning_most_distant,
+};
 use rltk::RandomNumberGenerator;
 use specs::prelude::*;
 use std::collections::HashMap;
-use crate::map_builders::common::{remove_unreachable_areas_returning_most_distant, generate_voronoi_spawn_regions};
 
 pub struct CellularAutomataBuilder {
     map: Map,
