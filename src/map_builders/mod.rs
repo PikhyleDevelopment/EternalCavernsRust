@@ -4,8 +4,11 @@ mod bsp_dungeon;
 mod bsp_interior;
 mod cellular_automata;
 mod common;
+mod dla;
 mod drunkard;
 mod maze;
+
+use dla::DLABuilder;
 
 use maze::MazeBuilder;
 
@@ -33,7 +36,7 @@ pub trait MapBuilder {
 pub fn random_builder(new_depth: i32) -> Box<dyn MapBuilder> {
     // Randomize MapBuilder per dungeon level
     let mut rng = rltk::RandomNumberGenerator::new();
-    let builder = rng.roll_dice(1, 8);
+    let builder = rng.roll_dice(1, 12);
     match builder {
         1 => Box::new(BspDungeonBuilder::new(new_depth)),
         2 => Box::new(BspInteriorBuilder::new(new_depth)),
@@ -42,6 +45,10 @@ pub fn random_builder(new_depth: i32) -> Box<dyn MapBuilder> {
         5 => Box::new(DrunkardsWalkBuilder::open_halls(new_depth)),
         6 => Box::new(DrunkardsWalkBuilder::winding_passages(new_depth)),
         7 => Box::new(MazeBuilder::new(new_depth)),
+        8 => Box::new(DLABuilder::walk_inwards(new_depth)),
+        9 => Box::new(DLABuilder::vertical_walk(new_depth)),
+        10 => Box::new(DLABuilder::central_attraction(new_depth)),
+        11 => Box::new(DLABuilder::insectoid(new_depth)),
         _ => Box::new(SimpleMapBuilder::new(new_depth)),
     }
 }

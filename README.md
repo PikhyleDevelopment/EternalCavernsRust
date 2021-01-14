@@ -57,3 +57,11 @@ When in the Remove Item Screen, press the corresponding key to the item you want
   - Organic looking maps like you're in a cave
 - Drunkards walk
   - Three different implementations that utilize the Drunkards Walk generation
+- Maze
+  - Generates maze like structure
+- Diffusion-limited aggregation (DLA)
+  - Carves out floor from a central point, factors include: 
+    - DLA Algorithm
+    - DLA Symmetry
+    - Brush size
+    - Floor percentage
