@@ -72,7 +72,7 @@ impl MazeBuilder {
 
         // Set a central starting point
         self.starting_position = Position { x: 2, y: 2 };
-        let mut start_idx = self
+        let start_idx = self
             .map
             .xy_idx(self.starting_position.x, self.starting_position.y);
 

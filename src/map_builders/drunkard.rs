@@ -1,8 +1,9 @@
 use super::{spawner, Map, MapBuilder, Position, TileType, SHOW_MAPGEN_VISUALIZER};
 use crate::map_builders::common::{
-    generate_voronoi_spawn_regions, remove_unreachable_areas_returning_most_distant,
+    generate_voronoi_spawn_regions, paint, remove_unreachable_areas_returning_most_distant,
+    Symmetry,
 };
-use rltk::{RandomNumberGenerator, Tile};
+use rltk::{RandomNumberGenerator};
 use specs::prelude::*;
 use std::collections::HashMap;
 
@@ -16,6 +17,8 @@ pub struct DrunkardSettings {
     pub spawn_mode: DrunkSpawnMode,
     pub drunken_lifetime: i32,
     pub floor_percent: f32,
+    pub brush_size: i32,
+    pub symmetry: Symmetry,
 }
 
 pub struct DrunkardsWalkBuilder {
@@ -62,6 +65,7 @@ impl MapBuilder for DrunkardsWalkBuilder {
 }
 
 impl DrunkardsWalkBuilder {
+    #[allow(dead_code)]
     pub fn new(new_depth: i32, settings: DrunkardSettings) -> DrunkardsWalkBuilder {
         DrunkardsWalkBuilder {
             map: Map::new(new_depth),
@@ -84,6 +88,8 @@ impl DrunkardsWalkBuilder {
                 spawn_mode: DrunkSpawnMode::StartingPoint,
                 drunken_lifetime: 400,
                 floor_percent: 0.5,
+                brush_size: 1,
+                symmetry: Symmetry::None,
             },
         }
     }
@@ -99,6 +105,8 @@ impl DrunkardsWalkBuilder {
                 spawn_mode: DrunkSpawnMode::Random,
                 drunken_lifetime: 400,
                 floor_percent: 0.5,
+                brush_size: 1,
+                symmetry: Symmetry::None,
             },
         }
     }
@@ -114,6 +122,42 @@ impl DrunkardsWalkBuilder {
                 spawn_mode: DrunkSpawnMode::Random,
                 drunken_lifetime: 100,
                 floor_percent: 0.4,
+                brush_size: 1,
+                symmetry: Symmetry::None,
+            },
+        }
+    }
+
+    pub fn fat_passages(new_depth: i32) -> DrunkardsWalkBuilder {
+        DrunkardsWalkBuilder {
+            map: Map::new(new_depth),
+            starting_position: Position { x: 0, y: 0 },
+            depth: new_depth,
+            history: Vec::new(),
+            noise_areas: HashMap::new(),
+            settings: DrunkardSettings {
+                spawn_mode: DrunkSpawnMode::Random,
+                drunken_lifetime: 100,
+                floor_percent: 0.4,
+                brush_size: 2,
+                symmetry: Symmetry::None,
+            },
+        }
+    }
+
+    pub fn fearful_symmetry(new_depth: i32) -> DrunkardsWalkBuilder {
+        DrunkardsWalkBuilder {
+            map: Map::new(new_depth),
+            starting_position: Position { x: 0, y: 0 },
+            depth: new_depth,
+            history: Vec::new(),
+            noise_areas: HashMap::new(),
+            settings: DrunkardSettings {
+                spawn_mode: DrunkSpawnMode::Random,
+                drunken_lifetime: 100,
+                floor_percent: 0.4,
+                brush_size: 1,
+                symmetry: Symmetry::Both,
             },
         }
     }
@@ -170,6 +214,13 @@ impl DrunkardsWalkBuilder {
                 if self.map.tiles[drunk_idx] == TileType::Wall {
                     did_something = true;
                 }
+                paint(
+                    &mut self.map,
+                    self.settings.symmetry,
+                    self.settings.brush_size,
+                    drunk_x,
+                    drunk_y,
+                );
                 self.map.tiles[drunk_idx] = TileType::DownStairs;
 
                 let stagger_direction = rng.roll_dice(1, 4);
