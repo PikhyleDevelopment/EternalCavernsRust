@@ -3,7 +3,7 @@ use crate::map_builders::common::{
     generate_voronoi_spawn_regions, paint, remove_unreachable_areas_returning_most_distant,
     Symmetry,
 };
-use rltk::{RandomNumberGenerator};
+use rltk::RandomNumberGenerator;
 use specs::prelude::*;
 use std::collections::HashMap;
 
