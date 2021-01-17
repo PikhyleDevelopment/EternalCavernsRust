@@ -4,8 +4,8 @@ use rltk::RandomNumberGenerator;
 use specs::prelude::*;
 
 use super::{
-    generate_voronoi_spawn_regions, paint, remove_unreachable_areas_returning_most_distant,
-    spawner, Map, MapBuilder, Position, Symmetry, TileType, SHOW_MAPGEN_VISUALIZER,
+    generate_voronoi_spawn_regions, remove_unreachable_areas_returning_most_distant,
+    spawner, Map, MapBuilder, Position, TileType, SHOW_MAPGEN_VISUALIZER,
 };
 
 #[derive(PartialEq, Copy, Clone)]
