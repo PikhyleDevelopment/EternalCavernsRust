@@ -1,13 +1,3 @@
-mod image_loader;
-mod constraints;
-mod common;
-mod solver;
-
-use image_loader::load_rex_map;
-use constraints::*;
-use common::*;
-use solver::*;
-
 use super::{
     MapBuilder, Map, TileType, Position, spawner, SHOW_MAPGEN_VISUALIZER, generate_voronoi_spawn_regions,
     remove_unreachable_areas_returning_most_distant
@@ -16,19 +6,22 @@ use rltk::RandomNumberGenerator;
 use specs::prelude::*;
 use std::collections::HashMap;
 
-#[derive(PartialEq, Copy, Clone)]
-pub enum WaveformMode {
-    TestMap,
-    Derived
-}
+mod constraints;
+use constraints::*;
 
+mod common;
+use common::*;
+
+mod solver;
+use solver::*;
+
+/// Provides a map builder using the Wave Function Collapse algorithm
 pub struct WaveformCollapseBuilder {
     map: Map,
     starting_position: Position,
     depth: i32,
     history: Vec<Map>,
     noise_areas: HashMap<i32, Vec<usize>>,
-    mode: WaveformMode,
     derive_from: Option<Box<dyn MapBuilder>>
 }
 
@@ -67,7 +60,12 @@ impl MapBuilder for WaveformCollapseBuilder {
 }
 
 impl WaveformCollapseBuilder {
-    pub fn new(new_depth: i32, mode: WaveformMode, derive_from: Option<Box<dyn MapBuilder>>) -> WaveformCollapseBuilder {
+    /// Generic constructor for waveform collapse.
+    /// # Arguments
+    /// * new_depth - the new map depth
+    /// * derive_from - either None, or a boxed MapBuilder, as output by `random_builder`
+    #[allow(dead_code)]
+    pub fn new(new_depth: i32, derive_from: Option<Box<dyn MapBuilder>>) -> WaveformCollapseBuilder {
         WaveformCollapseBuilder {
             map: Map::new(new_depth),
             starting_position: Position {
@@ -77,26 +75,20 @@ impl WaveformCollapseBuilder {
             depth: new_depth,
             history: Vec::new(),
             noise_areas: HashMap::new(),
-            mode,
             derive_from
         }
     }
 
-    pub fn test_map(new_depth: i32) -> WaveformCollapseBuilder {
-        WaveformCollapseBuilder::new(new_depth, WaveformMode::TestMap, None)
-    }
-
+    /// Derives a map from a pre-existing map builder.
+    /// # Arguments
+    /// * new_depth - the new map depth
+    /// * derive_from - either None, or a boxed MapBuilder, as output by `random_builder`
     pub fn derived_map(new_depth: i32, builder: Box<dyn MapBuilder>) -> WaveformCollapseBuilder {
-        WaveformCollapseBuilder::new(new_depth, WaveformMode::Derived, Some(builder))
+        WaveformCollapseBuilder::new(new_depth, Some(builder))
     }
 
     fn build(&mut self) {
-        if self.mode == WaveformMode::TestMap {
-            // Builder for .xp files
-            self.map = load_rex_map(self.depth, &rltk::rex::XpFile::from_resource("../resources/custom_map.xp").unwrap());
-            self.take_snapshot();
-            return;
-        }
+
         let mut rng = RandomNumberGenerator::new();
 
         const CHUNK_SIZE: i32 = 8;
