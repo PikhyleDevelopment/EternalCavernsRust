@@ -465,9 +465,9 @@ impl State {
 
 fn main() -> rltk::BError {
     use rltk::RltkBuilder;
-    let version = "0.1.1";
+    let version = "0.1.2";
     let mut context = RltkBuilder::simple80x50()
-        .with_dimensions(120, 90)
+        //.with_dimensions(120, 90)
         //.with_fullscreen(true)
         .with_title(format!("Eternal Caverns Version: {}", version))
         .build()?;

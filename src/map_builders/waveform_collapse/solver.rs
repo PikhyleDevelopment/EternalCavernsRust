@@ -1,6 +1,4 @@
-use super::{
-    MapChunk, Map
-};
+use super::{Map, MapChunk};
 use std::collections::HashSet;
 
 pub struct Solver {
@@ -10,7 +8,7 @@ pub struct Solver {
     chunks_x: usize,
     chunks_y: usize,
     remaining: Vec<(usize, i32)>, // (index, # numbers)
-    pub possible: bool
+    pub possible: bool,
 }
 
 impl Solver {
@@ -29,7 +27,7 @@ impl Solver {
             chunks_x,
             chunks_y,
             remaining,
-            possible: true
+            possible: true,
         }
     }
 
@@ -175,7 +173,7 @@ impl Solver {
             for y in top_y..bottom_y {
                 for x in left_x..right_x {
                     let mapidx = map.xy_idx(x, y);
-                    let tile= self.constraints[new_chunk_idx].pattern[i];
+                    let tile = self.constraints[new_chunk_idx].pattern[i];
                     map.tiles[mapidx] = tile;
                     i += 1;
                 }

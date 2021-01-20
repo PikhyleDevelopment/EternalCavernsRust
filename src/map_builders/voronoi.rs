@@ -1,18 +1,17 @@
 use std::collections::HashMap;
 
 use rltk::RandomNumberGenerator;
-use specs::prelude::*;
 
 use super::{
-    generate_voronoi_spawn_regions, remove_unreachable_areas_returning_most_distant,
-    spawner, Map, MapBuilder, Position, TileType, SHOW_MAPGEN_VISUALIZER,
+    generate_voronoi_spawn_regions, remove_unreachable_areas_returning_most_distant, spawner, Map,
+    MapBuilder, Position, TileType, SHOW_MAPGEN_VISUALIZER,
 };
 
 #[derive(PartialEq, Copy, Clone)]
 pub enum DistanceAlgorithm {
     Pythagoras,
     Manhattan,
-    Chebyshev
+    Chebyshev,
 }
 
 pub struct VoronoiCellBuilder {
@@ -23,6 +22,7 @@ pub struct VoronoiCellBuilder {
     noise_areas: HashMap<i32, Vec<usize>>,
     n_seeds: usize,
     distance_algorithm: DistanceAlgorithm,
+    spawn_list: Vec<(usize, String)>
 }
 
 impl MapBuilder for VoronoiCellBuilder {
@@ -42,10 +42,8 @@ impl MapBuilder for VoronoiCellBuilder {
         self.build();
     }
 
-    fn spawn_entities(&mut self, ecs: &mut World) {
-        for area in self.noise_areas.iter() {
-            spawner::spawn_region(ecs, area.1, self.depth);
-        }
+    fn get_spawn_list(&self) -> &Vec<(usize, String)> {
+        &self.spawn_list
     }
 
     fn take_snapshot(&mut self) {
@@ -69,43 +67,50 @@ impl VoronoiCellBuilder {
             history: Vec::new(),
             noise_areas: HashMap::new(),
             n_seeds: 64,
-            distance_algorithm: DistanceAlgorithm::Manhattan
+            distance_algorithm: DistanceAlgorithm::Manhattan,
+            spawn_list: Vec::new()
         }
     }
 
     pub fn manhattan(new_depth: i32) -> VoronoiCellBuilder {
         VoronoiCellBuilder {
             map: Map::new(new_depth),
-            starting_position: Position {x: 0, y: 0},
+            starting_position: Position { x: 0, y: 0 },
             depth: new_depth,
             history: Vec::new(),
             noise_areas: HashMap::new(),
             n_seeds: 64,
-            distance_algorithm: DistanceAlgorithm::Manhattan
+            distance_algorithm: DistanceAlgorithm::Manhattan,
+            spawn_list: Vec::new()
+
         }
     }
 
     pub fn pythagoras(new_depth: i32) -> VoronoiCellBuilder {
         VoronoiCellBuilder {
             map: Map::new(new_depth),
-            starting_position: Position {x: 0, y: 0},
+            starting_position: Position { x: 0, y: 0 },
             depth: new_depth,
             history: Vec::new(),
             noise_areas: HashMap::new(),
             n_seeds: 64,
-            distance_algorithm: DistanceAlgorithm::Pythagoras
+            distance_algorithm: DistanceAlgorithm::Pythagoras,
+            spawn_list: Vec::new()
+
         }
     }
 
     pub fn chebyshev(new_depth: i32) -> VoronoiCellBuilder {
         VoronoiCellBuilder {
             map: Map::new(new_depth),
-            starting_position: Position {x: 0, y: 0},
+            starting_position: Position { x: 0, y: 0 },
             depth: new_depth,
             history: Vec::new(),
             noise_areas: HashMap::new(),
             n_seeds: 64,
-            distance_algorithm: DistanceAlgorithm::Chebyshev
+            distance_algorithm: DistanceAlgorithm::Chebyshev,
+            spawn_list: Vec::new()
+
         }
     }
 
@@ -136,22 +141,16 @@ impl VoronoiCellBuilder {
                 let distance;
                 match self.distance_algorithm {
                     DistanceAlgorithm::Pythagoras => {
-                        distance = rltk::DistanceAlg::PythagorasSquared.distance2d(
-                            rltk::Point::new(x, y),
-                            pos.1
-                        );
+                        distance = rltk::DistanceAlg::PythagorasSquared
+                            .distance2d(rltk::Point::new(x, y), pos.1);
                     }
                     DistanceAlgorithm::Manhattan => {
-                        distance = rltk::DistanceAlg::Manhattan.distance2d(
-                            rltk::Point::new(x, y),
-                            pos.1
-                        );
+                        distance =
+                            rltk::DistanceAlg::Manhattan.distance2d(rltk::Point::new(x, y), pos.1);
                     }
                     DistanceAlgorithm::Chebyshev => {
-                        distance = rltk::DistanceAlg::Chebyshev.distance2d(
-                            rltk::Point::new(x, y),
-                            pos.1
-                        );
+                        distance =
+                            rltk::DistanceAlg::Chebyshev.distance2d(rltk::Point::new(x, y), pos.1);
                     }
                 }
                 voronoi_distance[seed] = (seed, distance);
@@ -214,5 +213,10 @@ impl VoronoiCellBuilder {
 
         // Now we build a noise map for use in spawning entities later
         self.noise_areas = generate_voronoi_spawn_regions(&self.map, &mut rng);
+
+        // Spawn some entities
+        for area in self.noise_areas.iter() {
+            spawner::spawn_region(&self.map, &mut rng, area.1, self.depth, &mut self.spawn_list);
+        }
     }
 }
