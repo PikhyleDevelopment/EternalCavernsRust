@@ -22,7 +22,7 @@ pub struct VoronoiCellBuilder {
     noise_areas: HashMap<i32, Vec<usize>>,
     n_seeds: usize,
     distance_algorithm: DistanceAlgorithm,
-    spawn_list: Vec<(usize, String)>
+    spawn_list: Vec<(usize, String)>,
 }
 
 impl MapBuilder for VoronoiCellBuilder {
@@ -68,7 +68,7 @@ impl VoronoiCellBuilder {
             noise_areas: HashMap::new(),
             n_seeds: 64,
             distance_algorithm: DistanceAlgorithm::Manhattan,
-            spawn_list: Vec::new()
+            spawn_list: Vec::new(),
         }
     }
 
@@ -81,8 +81,7 @@ impl VoronoiCellBuilder {
             noise_areas: HashMap::new(),
             n_seeds: 64,
             distance_algorithm: DistanceAlgorithm::Manhattan,
-            spawn_list: Vec::new()
-
+            spawn_list: Vec::new(),
         }
     }
 
@@ -95,8 +94,7 @@ impl VoronoiCellBuilder {
             noise_areas: HashMap::new(),
             n_seeds: 64,
             distance_algorithm: DistanceAlgorithm::Pythagoras,
-            spawn_list: Vec::new()
-
+            spawn_list: Vec::new(),
         }
     }
 
@@ -109,8 +107,7 @@ impl VoronoiCellBuilder {
             noise_areas: HashMap::new(),
             n_seeds: 64,
             distance_algorithm: DistanceAlgorithm::Chebyshev,
-            spawn_list: Vec::new()
-
+            spawn_list: Vec::new(),
         }
     }
 
@@ -216,7 +213,13 @@ impl VoronoiCellBuilder {
 
         // Spawn some entities
         for area in self.noise_areas.iter() {
-            spawner::spawn_region(&self.map, &mut rng, area.1, self.depth, &mut self.spawn_list);
+            spawner::spawn_region(
+                &self.map,
+                &mut rng,
+                area.1,
+                self.depth,
+                &mut self.spawn_list,
+            );
         }
     }
 }

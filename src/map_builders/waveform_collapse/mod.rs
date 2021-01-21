@@ -22,7 +22,7 @@ pub struct WaveformCollapseBuilder {
     history: Vec<Map>,
     noise_areas: HashMap<i32, Vec<usize>>,
     derive_from: Option<Box<dyn MapBuilder>>,
-    spawn_list: Vec<(usize, String)>
+    spawn_list: Vec<(usize, String)>,
 }
 
 impl MapBuilder for WaveformCollapseBuilder {
@@ -74,7 +74,7 @@ impl WaveformCollapseBuilder {
             history: Vec::new(),
             noise_areas: HashMap::new(),
             derive_from,
-            spawn_list: Vec::new()
+            spawn_list: Vec::new(),
         }
     }
 
@@ -143,7 +143,13 @@ impl WaveformCollapseBuilder {
 
         // Spawn some entities
         for area in self.noise_areas.iter() {
-            spawner::spawn_region(&self.map, &mut rng, area.1, self.depth, &mut self.spawn_list);
+            spawner::spawn_region(
+                &self.map,
+                &mut rng,
+                area.1,
+                self.depth,
+                &mut self.spawn_list,
+            );
         }
     }
 

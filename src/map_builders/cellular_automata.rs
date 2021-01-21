@@ -5,14 +5,13 @@ use crate::map_builders::common::{
 use rltk::RandomNumberGenerator;
 use std::collections::HashMap;
 
-
 pub struct CellularAutomataBuilder {
     map: Map,
     starting_position: Position,
     depth: i32,
     history: Vec<Map>,
     noise_areas: HashMap<i32, Vec<usize>>,
-    spawn_list: Vec<(usize, String)>
+    spawn_list: Vec<(usize, String)>,
 }
 
 impl MapBuilder for CellularAutomataBuilder {
@@ -56,7 +55,7 @@ impl CellularAutomataBuilder {
             depth: new_depth,
             history: Vec::new(),
             noise_areas: HashMap::new(),
-            spawn_list: Vec::new()
+            spawn_list: Vec::new(),
         }
     }
 
@@ -151,7 +150,13 @@ impl CellularAutomataBuilder {
 
         // Spawn some entities
         for area in self.noise_areas.iter() {
-            spawner::spawn_region(&self.map, &mut rng, area.1, self.depth, &mut self.spawn_list);
+            spawner::spawn_region(
+                &self.map,
+                &mut rng,
+                area.1,
+                self.depth,
+                &mut self.spawn_list,
+            );
         }
     }
 }

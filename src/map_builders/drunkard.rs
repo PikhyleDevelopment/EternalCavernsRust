@@ -27,7 +27,7 @@ pub struct DrunkardsWalkBuilder {
     history: Vec<Map>,
     noise_areas: HashMap<i32, Vec<usize>>,
     settings: DrunkardSettings,
-    spawn_list: Vec<(usize, String)>
+    spawn_list: Vec<(usize, String)>,
 }
 
 impl MapBuilder for DrunkardsWalkBuilder {
@@ -72,7 +72,7 @@ impl DrunkardsWalkBuilder {
             history: Vec::new(),
             noise_areas: HashMap::new(),
             settings,
-            spawn_list: Vec::new()
+            spawn_list: Vec::new(),
         }
     }
 
@@ -90,7 +90,7 @@ impl DrunkardsWalkBuilder {
                 brush_size: 1,
                 symmetry: Symmetry::None,
             },
-            spawn_list: Vec::new()
+            spawn_list: Vec::new(),
         }
     }
 
@@ -108,7 +108,7 @@ impl DrunkardsWalkBuilder {
                 brush_size: 1,
                 symmetry: Symmetry::None,
             },
-            spawn_list: Vec::new()
+            spawn_list: Vec::new(),
         }
     }
 
@@ -126,7 +126,7 @@ impl DrunkardsWalkBuilder {
                 brush_size: 1,
                 symmetry: Symmetry::None,
             },
-            spawn_list: Vec::new()
+            spawn_list: Vec::new(),
         }
     }
 
@@ -144,7 +144,7 @@ impl DrunkardsWalkBuilder {
                 brush_size: 2,
                 symmetry: Symmetry::None,
             },
-            spawn_list: Vec::new()
+            spawn_list: Vec::new(),
         }
     }
 
@@ -162,7 +162,7 @@ impl DrunkardsWalkBuilder {
                 brush_size: 1,
                 symmetry: Symmetry::Both,
             },
-            spawn_list: Vec::new()
+            spawn_list: Vec::new(),
         }
     }
 
@@ -291,7 +291,13 @@ impl DrunkardsWalkBuilder {
 
         // Spawn some entities
         for area in self.noise_areas.iter() {
-            spawner::spawn_region(&self.map, &mut rng, area.1, self.depth, &mut self.spawn_list);
+            spawner::spawn_region(
+                &self.map,
+                &mut rng,
+                area.1,
+                self.depth,
+                &mut self.spawn_list,
+            );
         }
     }
 }

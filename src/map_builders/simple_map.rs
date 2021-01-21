@@ -5,7 +5,6 @@ use super::{
 use crate::SHOW_MAPGEN_VISUALIZER;
 use rltk::RandomNumberGenerator;
 
-
 pub struct SimpleMapBuilder {
     map: Map,
     starting_position: Position,
@@ -54,7 +53,7 @@ impl SimpleMapBuilder {
             depth: new_depth,
             rooms: Vec::new(),
             history: Vec::new(),
-            spawn_list: Vec::new()
+            spawn_list: Vec::new(),
         }
     }
 

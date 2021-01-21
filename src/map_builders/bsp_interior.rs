@@ -1,7 +1,6 @@
 use super::{spawner, Map, MapBuilder, Position, Rect, TileType, SHOW_MAPGEN_VISUALIZER};
 use rltk::RandomNumberGenerator;
 
-
 const MIN_ROOM_SIZE: i32 = 8;
 
 pub struct BspInteriorBuilder {
@@ -11,7 +10,7 @@ pub struct BspInteriorBuilder {
     rooms: Vec<Rect>,
     history: Vec<Map>,
     rects: Vec<Rect>,
-    spawn_list: Vec<(usize, String)>
+    spawn_list: Vec<(usize, String)>,
 }
 
 impl MapBuilder for BspInteriorBuilder {
@@ -55,7 +54,7 @@ impl BspInteriorBuilder {
             rooms: Vec::new(),
             history: Vec::new(),
             rects: Vec::new(),
-            spawn_list: Vec::new()
+            spawn_list: Vec::new(),
         }
     }
 

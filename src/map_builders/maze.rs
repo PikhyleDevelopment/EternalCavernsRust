@@ -11,7 +11,7 @@ pub struct MazeBuilder {
     depth: i32,
     history: Vec<Map>,
     noise_areas: HashMap<i32, Vec<usize>>,
-    spawn_list: Vec<(usize, String)>
+    spawn_list: Vec<(usize, String)>,
 }
 
 impl MapBuilder for MazeBuilder {
@@ -54,7 +54,7 @@ impl MazeBuilder {
             depth: new_depth,
             history: Vec::new(),
             noise_areas: HashMap::new(),
-            spawn_list: Vec::new()
+            spawn_list: Vec::new(),
         }
     }
 
@@ -90,7 +90,13 @@ impl MazeBuilder {
 
         // Spawn some entities
         for area in self.noise_areas.iter() {
-            spawner::spawn_region(&self.map, &mut rng, area.1, self.depth, &mut self.spawn_list);
+            spawner::spawn_region(
+                &self.map,
+                &mut rng,
+                area.1,
+                self.depth,
+                &mut self.spawn_list,
+            );
         }
     }
 }

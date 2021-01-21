@@ -1,6 +1,5 @@
 use super::{
-    apply_room_to_map, spawner, Map, MapBuilder, Position, Rect, TileType,
-    SHOW_MAPGEN_VISUALIZER,
+    apply_room_to_map, spawner, Map, MapBuilder, Position, Rect, TileType, SHOW_MAPGEN_VISUALIZER,
 };
 use rltk::RandomNumberGenerator;
 
@@ -11,7 +10,7 @@ pub struct BspDungeonBuilder {
     rooms: Vec<Rect>,
     history: Vec<Map>,
     rects: Vec<Rect>,
-    spawn_list: Vec<(usize, String)>
+    spawn_list: Vec<(usize, String)>,
 }
 
 impl MapBuilder for BspDungeonBuilder {
@@ -55,7 +54,7 @@ impl BspDungeonBuilder {
             rooms: Vec::new(),
             history: Vec::new(),
             rects: Vec::new(),
-            spawn_list: Vec::new()
+            spawn_list: Vec::new(),
         }
     }
 
@@ -116,7 +115,6 @@ impl BspDungeonBuilder {
         for room in self.rooms.iter().skip(1) {
             spawner::spawn_room(&self.map, &mut rng, room, self.depth, &mut self.spawn_list);
         }
-
     }
 
     fn add_subrects(&mut self, rect: Rect) {

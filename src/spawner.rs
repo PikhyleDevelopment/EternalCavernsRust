@@ -226,7 +226,13 @@ fn room_table(map_depth: i32) -> RandomTable {
         .add("Bear Trap", 4)
 }
 
-pub fn spawn_region(_map: &Map, rng: &mut RandomNumberGenerator, area: &[usize], map_depth: i32, spawn_list: &mut Vec<(usize, String)>) {
+pub fn spawn_region(
+    _map: &Map,
+    rng: &mut RandomNumberGenerator,
+    area: &[usize],
+    map_depth: i32,
+    spawn_list: &mut Vec<(usize, String)>,
+) {
     let spawn_table = room_table(map_depth);
     let mut spawn_points: HashMap<usize, String> = HashMap::new();
     let mut areas: Vec<usize> = Vec::from(area);
@@ -261,7 +267,13 @@ pub fn spawn_region(_map: &Map, rng: &mut RandomNumberGenerator, area: &[usize],
 }
 
 /// Fills a room with stuff!
-pub fn spawn_room(map: &Map, rng: &mut RandomNumberGenerator, room: &Rect, map_depth: i32, spawn_list: &mut Vec<(usize, String)>) {
+pub fn spawn_room(
+    map: &Map,
+    rng: &mut RandomNumberGenerator,
+    room: &Rect,
+    map_depth: i32,
+    spawn_list: &mut Vec<(usize, String)>,
+) {
     let mut possible_targets: Vec<usize> = Vec::new();
     {
         // Borrow scope to keep access to the map separated
