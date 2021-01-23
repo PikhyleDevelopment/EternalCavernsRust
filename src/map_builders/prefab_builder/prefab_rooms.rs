@@ -19,11 +19,11 @@ pub const TOTALLY_NOT_A_TRAP: PrefabRoom = PrefabRoom {
 
 #[allow(dead_code)]
 /*
- TODO: Just a note regarding these constants. As stated in this same style of
- todo statement in prefab_sections.rs, I had to copy and paste from thebracket's source code.
-    Here, I tried to do the same thing as last time and it still wouldn't work. *SO* i added the
-    line break to enforce the correct layout.
- */
+TODO: Just a note regarding these constants. As stated in this same style of
+todo statement in prefab_sections.rs, I had to copy and paste from thebracket's source code.
+   Here, I tried to do the same thing as last time and it still wouldn't work. *SO* i added the
+   line break to enforce the correct layout.
+*/
 const TOTALLY_NOT_A_TRAP_MAP: &str = "
      \n
  ^^^ \n
@@ -38,7 +38,7 @@ pub const SILLY_SMILE: PrefabRoom = PrefabRoom {
     width: 6,
     height: 6,
     first_depth: 0,
-    last_depth: 100
+    last_depth: 100,
 };
 
 #[allow(dead_code)]
