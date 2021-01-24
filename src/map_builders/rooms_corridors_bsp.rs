@@ -1,6 +1,4 @@
-use super::{
-    MetaMapBuilder, BuilderMap, Rect, draw_corridor
-};
+use super::{draw_corridor, BuilderMap, MetaMapBuilder, Rect};
 use rltk::RandomNumberGenerator;
 
 pub struct BspCorridors {}
@@ -25,7 +23,6 @@ impl BspCorridors {
         } else {
             panic!("BSP Corridors require a builder with room structures");
         }
-
 
         // Bring on the corridors
         for i in 0..rooms.len() - 1 {

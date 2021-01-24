@@ -1,7 +1,4 @@
-use super::{
-    apply_horizontal_tunnel, apply_room_to_map, apply_vertical_tunnel, BuilderMap,
-    InitialMapBuilder, Rect
-};
+use super::{apply_horizontal_tunnel, apply_vertical_tunnel, BuilderMap, InitialMapBuilder, Rect};
 use rltk::RandomNumberGenerator;
 
 pub struct SimpleMapBuilder {}
@@ -19,11 +16,7 @@ impl SimpleMapBuilder {
         Box::new(SimpleMapBuilder {})
     }
 
-    fn build_rooms(
-        &mut self,
-        rng: &mut RandomNumberGenerator,
-        build_data: &mut BuilderMap,
-    ) {
+    fn build_rooms(&mut self, rng: &mut RandomNumberGenerator, build_data: &mut BuilderMap) {
         const MAX_ROOMS: i32 = 30;
         const MIN_SIZE: i32 = 6;
         const MAX_SIZE: i32 = 10;
@@ -42,11 +35,7 @@ impl SimpleMapBuilder {
                 }
             }
             if ok {
-                apply_room_to_map(&mut build_data.map, &new_room);
-                build_data.take_snapshot();
-
                 rooms.push(new_room);
-                build_data.take_snapshot();
             }
         }
         build_data.rooms = Some(rooms);

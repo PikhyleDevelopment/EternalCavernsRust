@@ -1,4 +1,4 @@
-use super::{MetaMapBuilder, BuilderMap, TileType, Rect};
+use super::{BuilderMap, MetaMapBuilder, Rect, TileType};
 use rltk::RandomNumberGenerator;
 
 pub struct RoomCornerRounder {}

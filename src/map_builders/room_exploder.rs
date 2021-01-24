@@ -1,4 +1,4 @@
-use super::{MetaMapBuilder, BuilderMap, TileType, paint, Symmetry, Rect};
+use super::{paint, BuilderMap, MetaMapBuilder, Rect, Symmetry, TileType};
 use rltk::RandomNumberGenerator;
 
 pub struct RoomExploder {}
@@ -45,18 +45,26 @@ impl RoomExploder {
 
                         let stagger_direction = rng.roll_dice(1, 4);
                         match stagger_direction {
-                            1 => { if drunk_x > 2 {
-                                drunk_x -= 1;
-                            }}
-                            2 => { if drunk_x < build_data.map.width - 2 {
-                                drunk_x += 1;
-                            }}
-                            3 => { if drunk_y > 2 {
-                                drunk_y -= 1;
-                            }}
-                            _ => { if drunk_y < build_data.map.height - 2 {
-                                drunk_y += 1;
-                            }}
+                            1 => {
+                                if drunk_x > 2 {
+                                    drunk_x -= 1;
+                                }
+                            }
+                            2 => {
+                                if drunk_x < build_data.map.width - 2 {
+                                    drunk_x += 1;
+                                }
+                            }
+                            3 => {
+                                if drunk_y > 2 {
+                                    drunk_y -= 1;
+                                }
+                            }
+                            _ => {
+                                if drunk_y < build_data.map.height - 2 {
+                                    drunk_y += 1;
+                                }
+                            }
                         }
 
                         drunk_life -= 1;

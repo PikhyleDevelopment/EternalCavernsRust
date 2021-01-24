@@ -47,7 +47,7 @@ impl DLABuilder {
             algorithm: DLAAlgorithm::WalkInwards,
             brush_size: 2,
             symmetry: Symmetry::None,
-            floor_percent: 0.35
+            floor_percent: 0.35,
         })
     }
 
