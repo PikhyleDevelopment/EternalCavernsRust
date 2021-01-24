@@ -62,9 +62,9 @@ pub const CHECKERBOARD: PrefabRoom = PrefabRoom {
 
 #[allow(dead_code)]
 const CHECKERBOARD_MAP: &str = "
-      &nbsp
- g#%# &nbsp
- #!#  &nbsp
- ^# # &nbsp
-      &nbsp
+      \n
+ g#%# \n
+ #!#  \n
+ ^# # \n
+      \n
 ";

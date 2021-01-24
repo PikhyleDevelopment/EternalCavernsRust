@@ -65,6 +65,10 @@ fn troll(ecs: &mut World, x: i32, y: i32) {
     monster(ecs, x, y, rltk::to_cp437('t'), "Troll");
 }
 
+fn blood_elf(ecs: &mut World, x: i32, y: i32) {
+    monster(ecs, x, y, rltk::to_cp437('b'), "Blood Elf");
+}
+
 // Equipment functions
 
 // Offensive
@@ -94,7 +98,7 @@ fn dagger(ecs: &mut World, x: i32, y: i32) {
     ecs.create_entity()
         .with(Position { x, y })
         .with(Renderable {
-            glyph: rltk::to_cp437('⌠'),
+            glyph: rltk::to_cp437('-'),
             fg: RGB::named(rltk::AZURE),
             bg: RGB::named(rltk::BLACK),
             render_order: 2,
@@ -213,6 +217,7 @@ fn room_table(map_depth: i32) -> RandomTable {
         .add("Goblin", 10)
         .add("Orc", 4 + map_depth)
         .add("Troll", 1 + (map_depth - 1))
+        .add("Blood Elf", 1 + (map_depth - 2))
         .add("Health Potion", 7)
         .add("Fireball Scroll", 2 + map_depth)
         .add("Confusion Scroll", 2 + map_depth)
@@ -299,6 +304,7 @@ pub fn spawn_entity(ecs: &mut World, spawn: &(&usize, &String)) {
         "Goblin" => goblin(ecs, x, y),
         "Orc" => orc(ecs, x, y),
         "Troll" => troll(ecs, x, y),
+        "Blood Elf" => blood_elf(ecs, x, y),
         "Health Potion" => health_potion(ecs, x, y),
         "Fireball Scroll" => fireball_scroll(ecs, x, y),
         "Confusion Scroll" => confusion_scroll(ecs, x, y),
