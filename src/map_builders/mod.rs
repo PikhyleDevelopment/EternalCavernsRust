@@ -28,6 +28,15 @@ mod room_sorter;
 mod rooms_corridors_bsp;
 mod rooms_corridors_dogleg;
 mod voronoi_spawning;
+mod rooms_corridors_nearest;
+mod rooms_corridors_lines;
+mod room_corridors_spawner;
+
+use room_corridors_spawner::*;
+
+use rooms_corridors_lines::*;
+
+use rooms_corridors_nearest::*;
 
 use room_draw::*;
 
@@ -72,6 +81,7 @@ pub struct BuilderMap {
     pub map: Map,
     pub starting_position: Option<Position>,
     pub rooms: Option<Vec<Rect>>,
+    pub corridors: Option<Vec<Vec<usize>>>,
     pub history: Vec<Map>,
 }
 
@@ -103,6 +113,7 @@ impl BuilderChain {
                 map: Map::new(new_depth),
                 starting_position: None,
                 rooms: None,
+		corridors: None,
                 history: Vec::new(),
             },
         }
@@ -226,11 +237,18 @@ fn random_room_builder(rng: &mut rltk::RandomNumberGenerator, builder: &mut Buil
 
         builder.with(RoomDrawer::new());
 
-        let corridor_roll = rng.roll_dice(1, 2);
+        let corridor_roll = rng.roll_dice(1, 4);
         match corridor_roll {
             1 => builder.with(DoglegCorridors::new()),
+	    2 => builder.with(NearestCorridors::new()),
+	    3 => builder.with(StraightLineCorridors::new()),
             _ => builder.with(BspCorridors::new()),
         }
+
+	let cspawn_roll = rng.roll_dice(1, 2);
+	if cspawn_roll == 1 {
+	    builder.with(CorridorSpawner::new());
+	}
 
         let modifier_roll = rng.roll_dice(1, 6);
         match modifier_roll {
@@ -264,22 +282,21 @@ fn random_room_builder(rng: &mut rltk::RandomNumberGenerator, builder: &mut Buil
 
 pub fn random_builder(new_depth: i32, rng: &mut rltk::RandomNumberGenerator) -> BuilderChain {
     let mut builder = BuilderChain::new(new_depth);
-        let type_roll = rng.roll_dice(1, 2);
-        match type_roll {
-            1 => random_room_builder(rng, &mut builder),
-            _ => random_shape_builder(rng, &mut builder)
-        }
+    let type_roll = rng.roll_dice(1, 2);
+    match type_roll {
+        1 => random_room_builder(rng, &mut builder),
+        _ => random_shape_builder(rng, &mut builder)
+    }
 
-        if rng.roll_dice(1, 3) == 1 {
-            builder.with(WaveformCollapseBuilder::new());
-        }
+    if rng.roll_dice(1, 3) == 1 {
+        builder.with(WaveformCollapseBuilder::new());
+    }
 
-        if rng.roll_dice(1, 20) == 1 {
-            builder.with(PrefabBuilder::sectional(prefab_builder::prefab_sections::UNDERGROUND_FORT));
-        }
+    if rng.roll_dice(1, 20) == 1 {
+        builder.with(PrefabBuilder::sectional(prefab_builder::prefab_sections::UNDERGROUND_FORT));
+    }
 
-        builder.with(PrefabBuilder::vaults());
-
+    builder.with(PrefabBuilder::vaults());
 
     builder
 }
