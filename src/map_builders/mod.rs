@@ -31,6 +31,9 @@ mod voronoi_spawning;
 mod rooms_corridors_nearest;
 mod rooms_corridors_lines;
 mod room_corridors_spawner;
+mod door_placement;
+
+use door_placement::*;
 
 use room_corridors_spawner::*;
 
