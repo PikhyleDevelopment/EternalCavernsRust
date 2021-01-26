@@ -83,8 +83,8 @@ pub fn save_game(ecs: &mut World) {
             EntryTrigger,
             EntityMoved,
             SingleActivation,
-	    BlocksVisibility,
-	    Door
+            BlocksVisibility,
+            Door
         );
     }
 
@@ -172,8 +172,8 @@ pub fn load_game(ecs: &mut World) {
             EntryTrigger,
             EntityMoved,
             SingleActivation,
-	    BlocksVisibility,
-	    Door
+            BlocksVisibility,
+            Door
         );
     }
 
@@ -186,7 +186,7 @@ pub fn load_game(ecs: &mut World) {
         for (e, h) in (&entities, &helper).join() {
             let mut worldmap = ecs.write_resource::<super::map::Map>();
             *worldmap = h.map.clone();
-            worldmap.tile_content = vec![Vec::new(); super::map::MAPCOUNT];
+            worldmap.tile_content = vec![Vec::new(); (worldmap.height * worldmap.width) as usize];
             deleteme = Some(e);
         }
         for (e, _p, pos) in (&entities, &player, &position).join() {

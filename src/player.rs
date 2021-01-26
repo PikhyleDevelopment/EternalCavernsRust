@@ -1,7 +1,7 @@
 use super::{
-    gamelog::GameLog, CombatStats, EntityMoved, HungerClock, HungerState, Item, Map, Monster,
-    Player, Position, RunState, State, TileType, Viewshed, WantsToMelee, WantsToPickupItem,
-    Door, BlocksTile, BlocksVisibility, Renderable
+    gamelog::GameLog, BlocksTile, BlocksVisibility, CombatStats, Door, EntityMoved, HungerClock,
+    HungerState, Item, Map, Monster, Player, Position, Renderable, RunState, State, TileType,
+    Viewshed, WantsToMelee, WantsToPickupItem,
 };
 use rltk::{Point, Rltk, VirtualKeyCode};
 use specs::prelude::*;
@@ -45,21 +45,21 @@ pub fn try_move_player(delta_x: i32, delta_y: i32, ecs: &mut World) {
                         },
                     )
                     .expect("Add target failed");
-		return;
+                return;
             }
-	    let door = doors.get_mut(*potential_target);
-	    if let Some(door) = door {
-		door.open = true;
-		blocks_visibility.remove(*potential_target);
-		blocks_movement.remove(*potential_target);
-		let glyph = renderables.get_mut(*potential_target).unwrap();
-		glyph.glyph = rltk::to_cp437('/');
-		viewshed.dirty = true;
-	    }
+            let door = doors.get_mut(*potential_target);
+            if let Some(door) = door {
+                door.open = true;
+                blocks_visibility.remove(*potential_target);
+                blocks_movement.remove(*potential_target);
+                let glyph = renderables.get_mut(*potential_target).unwrap();
+                glyph.glyph = rltk::to_cp437('/');
+                viewshed.dirty = true;
+            }
         }
         if !map.blocked[destination_idx] {
-            pos.x = min(79, max(0, pos.x + delta_x));
-            pos.y = min(49, max(0, pos.y + delta_y));
+            pos.x = min(map.width - 1, max(0, pos.x + delta_x));
+            pos.y = min(map.height - 1, max(0, pos.y + delta_y));
             entity_moved
                 .insert(entity, EntityMoved {})
                 .expect("Unable to insert marker");

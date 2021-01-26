@@ -1,6 +1,4 @@
-use super::{
-    MetaMapBuilder, BuilderMap, Rect, draw_corridor
-};
+use super::{draw_corridor, BuilderMap, MetaMapBuilder, Rect};
 use rltk::RandomNumberGenerator;
 use std::collections::HashSet;
 
@@ -28,7 +26,7 @@ impl NearestCorridors {
         }
 
         let mut connected: HashSet<usize> = HashSet::new();
-	let mut corridors: Vec<Vec<usize>> = Vec::new();
+        let mut corridors: Vec<Vec<usize>> = Vec::new();
         for (i, room) in rooms.iter().enumerate() {
             let mut room_distance: Vec<(usize, f32)> = Vec::new();
             let room_center = room.center();
@@ -37,7 +35,8 @@ impl NearestCorridors {
                 if i != j && !connected.contains(&j) {
                     let other_center = other_room.center();
                     let other_center_pt = rltk::Point::new(other_center.0, other_center.1);
-                    let distance = rltk::DistanceAlg::Pythagoras.distance2d(room_center_pt, other_center_pt);
+                    let distance =
+                        rltk::DistanceAlg::Pythagoras.distance2d(room_center_pt, other_center_pt);
                     room_distance.push((j, distance));
                 }
             }
@@ -47,14 +46,16 @@ impl NearestCorridors {
                 let dest_center = rooms[room_distance[0].0].center();
                 let corridor = draw_corridor(
                     &mut build_data.map,
-                    room_center.0, room_center.1,
-                    dest_center.0, dest_center.1
+                    room_center.0,
+                    room_center.1,
+                    dest_center.0,
+                    dest_center.1,
                 );
                 connected.insert(i);
                 build_data.take_snapshot();
-		corridors.push(corridor);
+                corridors.push(corridor);
             }
         }
-	build_data.corridors = Some(corridors);
+        build_data.corridors = Some(corridors);
     }
 }

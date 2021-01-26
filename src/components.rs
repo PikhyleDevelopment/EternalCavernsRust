@@ -10,7 +10,7 @@ pub struct BlocksVisibility {}
 
 #[derive(Component, Debug, Serialize, Deserialize, Clone)]
 pub struct Door {
-    pub open: bool
+    pub open: bool,
 }
 
 #[derive(Component, Debug, Serialize, Deserialize, Clone)]
