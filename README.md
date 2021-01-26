@@ -31,6 +31,7 @@ When in the Remove Item Screen, press the corresponding key to the item you want
 - Orc
 - Goblin
 - Troll
+- Blood Elf
 
 ### Current Magic
 - Fireball Scroll
@@ -65,3 +66,13 @@ When in the Remove Item Screen, press the corresponding key to the item you want
     - DLA Symmetry
     - Brush size
     - Floor percentage
+- Voronoi Hive Maps
+  - Creates hive-like spawn areas and map generation
+- Wave Function Collapse
+  - Reads in source data and builds a map featuring elements from that source data
+- Prefabs & Sectionals
+  - Prefabricated maps that are hard-coded.
+  - Secional map areas that are layed on top of previously laid out maps.
+- Room Vaults
+ - Little vaults that get added to already spawned rooms.
+ 
