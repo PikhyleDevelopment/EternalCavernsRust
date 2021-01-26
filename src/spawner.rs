@@ -3,7 +3,7 @@ use super::{
     Consumable, DefenseBonus, EntryTrigger, EquipmentSlot, Equippable, Hidden, HungerClock,
     HungerState, InflictsDamage, Item, MagicMapper, Map, MeleePowerBonus, Monster, Name, Player,
     Position, ProvidesFood, ProvidesHealing, Ranged, Rect, Renderable, SerializeMe,
-    SingleActivation, Viewshed,
+    SingleActivation, Viewshed, Door, BlocksVisibility,
 };
 use crate::TileType;
 use rltk::{RandomNumberGenerator, RGB};
@@ -456,6 +456,11 @@ fn door(ecs: &mut World, x: i32, y: i32) {
 	})
 	.with(Name {
 	    name: "Door".to_string()
+	})
+	.with(BlocksTile {})
+	.with(BlocksVisibility {})
+	.with(Door {
+	    open: false
 	})
 	.marked::<SimpleMarker<SerializeMe>>()
 	.build();

@@ -293,13 +293,38 @@ pub fn random_builder(new_depth: i32, rng: &mut rltk::RandomNumberGenerator) -> 
 
     if rng.roll_dice(1, 3) == 1 {
         builder.with(WaveformCollapseBuilder::new());
+
+	// Now set the start to a random starting area
+	let (start_x, start_y) = random_start_position(rng);
+	builder.with(AreaStartingPosition::new(start_x, start_y));
+
+	// Setup an exit and spawn mobs
+	builder.with(VoronoiSpawning::new());
+	builder.with(DistantExit::new());
     }
 
     if rng.roll_dice(1, 20) == 1 {
         builder.with(PrefabBuilder::sectional(prefab_builder::prefab_sections::UNDERGROUND_FORT));
     }
 
+    builder.with(DoorPlacement::new());
     builder.with(PrefabBuilder::vaults());
 
+    /*
+    let mut builder = BuilderChain::new(new_depth);
+    builder.start_with(BspInteriorBuilder::new());
+    builder.with(DoorPlacement::new());
+    builder.with(RoomBasedSpawner::new());
+    builder.with(RoomBasedStairs::new());
+    builder.with(RoomBasedStartingPosition::new());
+    builder.with(RoomDrawer::new());
+    builder.with(RoomSorter::new(RoomSort::LEFTMOST));
+    builder.with(StraightLineCorridors::new());
+    builder.with(RoomBasedSpawner::new());
+    builder.with(CorridorSpawner::new());
+    builder.with(RoomBasedStairs::new());
+    builder.with(RoomBasedStartingPosition::new());
+    builder.with(DoorPlacement::new());
+    */
     builder
 }

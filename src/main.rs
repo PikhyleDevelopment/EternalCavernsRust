@@ -32,6 +32,7 @@ mod rex_assets;
 mod saveload_system;
 mod spawner;
 mod trigger_system;
+pub mod camera;
 
 use inventory_system::{ItemCollectionSystem, ItemDropSystem, ItemRemoveSystem, ItemUseSystem};
 
@@ -525,6 +526,8 @@ fn main() -> rltk::BError {
     gs.ecs.register::<EntryTrigger>();
     gs.ecs.register::<EntityMoved>();
     gs.ecs.register::<SingleActivation>();
+    gs.ecs.register::<BlocksVisibility>();
+    gs.ecs.register::<Door>();
 
     gs.ecs.insert(SimpleMarkerAllocator::<SerializeMe>::new());
 
