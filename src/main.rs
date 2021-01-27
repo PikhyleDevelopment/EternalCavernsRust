@@ -33,6 +33,9 @@ mod rex_assets;
 mod saveload_system;
 mod spawner;
 mod trigger_system;
+pub mod raws;
+#[macro_use]
+extern crate lazy_static;
 
 use inventory_system::{ItemCollectionSystem, ItemDropSystem, ItemRemoveSystem, ItemUseSystem};
 
@@ -458,7 +461,7 @@ impl State {
 
 fn main() -> rltk::BError {
     use rltk::RltkBuilder;
-    let version = "0.1.2";
+    let version = "0.2.0";
     let mut context = RltkBuilder::simple80x50()
         .with_dimensions(120, 90)
         //.with_fullscreen(true)
@@ -516,6 +519,8 @@ fn main() -> rltk::BError {
 
     gs.ecs.insert(SimpleMarkerAllocator::<SerializeMe>::new());
 
+    raws::load_raws();
+    
     gs.ecs.insert(Map::new(1, 64, 64));
     gs.ecs.insert(Point::new(0, 0));
     gs.ecs.insert(rltk::RandomNumberGenerator::new());
