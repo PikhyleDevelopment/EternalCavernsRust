@@ -56,22 +56,7 @@ pub fn player(ecs: &mut World, player_x: i32, player_y: i32) -> Entity {
 /// Spawn table to be fed to spawn_room(). The higher the weight, the more likely
 /// an item is to show up
 fn room_table(map_depth: i32) -> RandomTable {
-    RandomTable::new()
-        .add("Goblin", 10)
-        .add("Orc", 4 + map_depth)
-        .add("Troll", 1 + (map_depth - 1))
-        .add("Blood Elf", 1 + (map_depth - 2))
-        .add("Health Potion", 7)
-        .add("Fireball Scroll", 2 + map_depth)
-        .add("Confusion Scroll", 2 + map_depth)
-        .add("Magic Missile Scroll", 4)
-        .add("Dagger", 4)
-        .add("Shield", 4)
-        .add("Longsword", map_depth - 1)
-        .add("Tower Shield", map_depth - 1)
-        .add("Rations", 10)
-        .add("Magic Mapping Scroll", 2)
-        .add("Bear Trap", 4)
+    get_spawn_table_for_depth(&RAWS.lock().unwrap(), map_depth)
 }
 
 pub fn spawn_region(

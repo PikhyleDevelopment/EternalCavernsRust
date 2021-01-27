@@ -39,7 +39,7 @@ extern crate lazy_static;
 
 use inventory_system::{ItemCollectionSystem, ItemDropSystem, ItemRemoveSystem, ItemUseSystem};
 
-const SHOW_MAPGEN_VISUALIZER: bool = true;
+const SHOW_MAPGEN_VISUALIZER: bool = false;
 
 #[derive(PartialEq, Copy, Clone)]
 pub enum RunState {
