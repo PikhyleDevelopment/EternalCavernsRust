@@ -1,9 +1,9 @@
 use super::{
-    random_table::RandomTable, AreaOfEffect, BlocksTile, BlocksVisibility, CombatStats, Confusion,
-    Consumable, DefenseBonus, Door, EntryTrigger, EquipmentSlot, Equippable, Hidden, HungerClock,
-    HungerState, InflictsDamage, Item, MagicMapper, Map, MeleePowerBonus, Monster, Name, Player,
-    Position, ProvidesFood, ProvidesHealing, Ranged, Rect, Renderable, SerializeMe,
-    SingleActivation, TileType, Viewshed, raws::*
+    random_table::RandomTable, raws::*, AreaOfEffect, BlocksTile, BlocksVisibility, CombatStats,
+    Confusion, Consumable, DefenseBonus, Door, EntryTrigger, EquipmentSlot, Equippable, Hidden,
+    HungerClock, HungerState, InflictsDamage, Item, MagicMapper, Map, MeleePowerBonus, Monster,
+    Name, Player, Position, ProvidesFood, ProvidesHealing, Ranged, Rect, Renderable, SerializeMe,
+    SingleActivation, TileType, Viewshed,
 };
 use rltk::{RandomNumberGenerator, RGB};
 use specs::prelude::*;
@@ -131,11 +131,18 @@ pub fn spawn_entity(ecs: &mut World, spawn: &(&usize, &String)) {
     let y = (*spawn.0 / width) as i32;
     std::mem::drop(map);
 
-    let spawn_result = spawn_named_entity(&RAWS.lock().unwrap(), ecs.create_entity(), &spawn.1, SpawnType::AtPosition{x, y});
+    let spawn_result = spawn_named_entity(
+        &RAWS.lock().unwrap(),
+        ecs.create_entity(),
+        &spawn.1,
+        SpawnType::AtPosition { x, y },
+    );
     if spawn_result.is_some() {
-	return;
+        return;
     }
 
-    rltk::console::log(format!("WARNING:: We don't know how to spawn [{},{}]!", spawn.0, spawn.1));
+    rltk::console::log(format!(
+        "WARNING:: We don't know how to spawn [{},{}]!",
+        spawn.0, spawn.1
+    ));
 }
-

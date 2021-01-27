@@ -6,6 +6,9 @@ use specs::saveload::{ConvertSaveload, Marker};
 use specs_derive::*;
 
 #[derive(Component, Debug, Serialize, Deserialize, Clone)]
+pub struct Bystander {}
+
+#[derive(Component, Debug, Serialize, Deserialize, Clone)]
 pub struct BlocksVisibility {}
 
 #[derive(Component, Debug, Serialize, Deserialize, Clone)]

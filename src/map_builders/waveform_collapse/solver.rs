@@ -202,6 +202,7 @@ impl Solver {
 
             if possible_options.is_empty() {
                 rltk::console::log("Oh no! It's not possible!");
+                panic!("[solver.rs] says: That isn't possible!!");
                 self.possible = false;
                 return true;
             } else {

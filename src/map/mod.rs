@@ -4,7 +4,7 @@ use specs::prelude::*;
 use std::collections::HashSet;
 
 mod tiletype;
-use tiletype::{TileType, tile_walkable, tile_opaque};
+pub use tiletype::{tile_cost, tile_opaque, tile_walkable, TileType};
 
 #[derive(Default, Serialize, Deserialize, Clone)]
 pub struct Map {
@@ -74,11 +74,11 @@ impl Algorithm2D for Map {
 
 impl BaseMap for Map {
     fn is_opaque(&self, idx: usize) -> bool {
-	if idx > 0 && idx < self.tiles.len() {
-            tile_opaque(self.tiles[idx_u]) || self.view_blocked.contains(&idx)
-	} else {
-	    true
-	}
+        if idx > 0 && idx < self.tiles.len() {
+            tile_opaque(self.tiles[idx]) || self.view_blocked.contains(&idx)
+        } else {
+            true
+        }
     }
 
     fn get_pathing_distance(&self, idx1: usize, idx2: usize) -> f32 {
@@ -92,34 +92,35 @@ impl BaseMap for Map {
         let mut exits = rltk::SmallVec::new();
         let x = idx as i32 % self.width;
         let y = idx as i32 / self.width;
+        let tt = self.tiles[idx as usize];
         let w = self.width as usize;
 
         // Cardinal directions
         if self.is_exit_valid(x - 1, y) {
-            exits.push((idx - 1, 1.0))
+            exits.push((idx - 1, tile_cost(tt)))
         };
         if self.is_exit_valid(x + 1, y) {
-            exits.push((idx + 1, 1.0))
+            exits.push((idx + 1, tile_cost(tt)))
         };
         if self.is_exit_valid(x, y - 1) {
-            exits.push((idx - w, 1.0))
+            exits.push((idx - w, tile_cost(tt)))
         };
         if self.is_exit_valid(x, y + 1) {
-            exits.push((idx + w, 1.0))
+            exits.push((idx + w, tile_cost(tt)))
         };
 
         // Diagonals
         if self.is_exit_valid(x - 1, y - 1) {
-            exits.push(((idx - w) - 1, 1.45))
+            exits.push(((idx - w) - 1, tile_cost(tt) * 1.45))
         };
         if self.is_exit_valid(x + 1, y - 1) {
-            exits.push(((idx - w) + 1, 1.45))
+            exits.push(((idx - w) + 1, tile_cost(tt) * 1.45))
         };
         if self.is_exit_valid(x - 1, y + 1) {
-            exits.push(((idx + w) - 1, 1.45))
+            exits.push(((idx + w) - 1, tile_cost(tt) * 1.45))
         };
         if self.is_exit_valid(x + 1, y + 1) {
-            exits.push(((idx + w) + 1, 1.45))
+            exits.push(((idx + w) + 1, tile_cost(tt) * 1.45))
         };
 
         exits

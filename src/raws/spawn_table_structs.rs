@@ -1,5 +1,5 @@
-use serde::{Deserialize};
-use super::{Renderable};
+use super::Renderable;
+use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
 pub struct SpawnTableEntry {
@@ -7,5 +7,5 @@ pub struct SpawnTableEntry {
     pub weight: i32,
     pub min_depth: i32,
     pub max_depth: i32,
-    pub add_map_depth_to_weight: Option<bool>
+    pub add_map_depth_to_weight: Option<bool>,
 }

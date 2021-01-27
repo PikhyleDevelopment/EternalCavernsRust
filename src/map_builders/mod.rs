@@ -31,7 +31,10 @@ mod rooms_corridors_bsp;
 mod rooms_corridors_dogleg;
 mod rooms_corridors_lines;
 mod rooms_corridors_nearest;
+mod town;
 mod voronoi_spawning;
+
+use town::town_builder;
 
 use door_placement::*;
 
@@ -338,4 +341,17 @@ pub fn random_builder(
     builder.with(DoorPlacement::new());
     */
     builder
+}
+
+pub fn level_builder(
+    new_depth: i32,
+    rng: &mut rltk::RandomNumberGenerator,
+    width: i32,
+    height: i32,
+) -> BuilderChain {
+    rltk::console::log(format!("Depth: {}", new_depth));
+    match new_depth {
+        1 => town_builder(new_depth, rng, width, height),
+        _ => random_builder(new_depth, rng, width, height),
+    }
 }
