@@ -74,5 +74,5 @@ When in the Remove Item Screen, press the corresponding key to the item you want
   - Prefabricated maps that are hard-coded.
   - Secional map areas that are layed on top of previously laid out maps.
 - Room Vaults
- - Little vaults that get added to already spawned rooms.
+  - Little vaults that get added to already spawned rooms.
  

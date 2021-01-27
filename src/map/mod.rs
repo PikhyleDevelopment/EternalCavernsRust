@@ -3,17 +3,8 @@ use serde::{Deserialize, Serialize};
 use specs::prelude::*;
 use std::collections::HashSet;
 
-/*pub const MAPWIDTH: usize = 64;
-pub const MAPHEIGHT: usize = 64;
-pub const MAPCOUNT: usize = MAPHEIGHT * MAPWIDTH;
-*/
-
-#[derive(PartialEq, Eq, Hash, Copy, Clone, Serialize, Deserialize)]
-pub enum TileType {
-    Wall,
-    Floor,
-    DownStairs,
-}
+mod tiletype;
+use tiletype::{TileType, tile_walkable, tile_opaque};
 
 #[derive(Default, Serialize, Deserialize, Clone)]
 pub struct Map {
@@ -64,7 +55,7 @@ impl Map {
 
     pub fn populate_blocked(&mut self) {
         for (i, tile) in self.tiles.iter_mut().enumerate() {
-            self.blocked[i] = *tile == TileType::Wall;
+            self.blocked[i] = !tile_walkable(*tile);
         }
     }
 
@@ -83,7 +74,11 @@ impl Algorithm2D for Map {
 
 impl BaseMap for Map {
     fn is_opaque(&self, idx: usize) -> bool {
-        self.tiles[idx] == TileType::Wall || self.view_blocked.contains(&idx)
+	if idx > 0 && idx < self.tiles.len() {
+            tile_opaque(self.tiles[idx_u]) || self.view_blocked.contains(&idx)
+	} else {
+	    true
+	}
     }
 
     fn get_pathing_distance(&self, idx1: usize, idx2: usize) -> f32 {
