@@ -1,6 +1,5 @@
 use super::{
-    AreaStartingPosition, BuilderChain, BuilderMap, DistantExit, InitialMapBuilder, Position,
-    TileType,
+    BuilderChain, BuilderMap, InitialMapBuilder, Position, TileType,
 };
 use std::collections::HashSet;
 
@@ -56,12 +55,6 @@ impl TownBuilder {
 	let building_size = self.sort_buildings(&buildings);
 	self.building_factory(rng, build_data, &buildings, &building_size);
 	
-        // Start the player in the pub
-        let the_pub = &buildings[building_size[0].0];
-        build_data.starting_position = Some(Position {
-            x: the_pub.0 + (the_pub.2 / 2),
-            y: the_pub.1 + (the_pub.3 / 2),
-        });
 
         // Make visible for screenshot
         for t in build_data.map.visible_tiles.iter_mut() {
@@ -237,6 +230,22 @@ impl TownBuilder {
 	self.random_building_spawn(building, build_data, rng, &mut to_place, 0);
     }
 
+    fn build_abandoned_house(
+	&mut self,
+	building: &(i32, i32, i32, i32),
+	build_data: &mut BuilderMap,
+	rng: &mut rltk::RandomNumberGenerator)
+    {
+	for y in building.1..building.1 + building.3 {
+	    for x in building.0..building.0 + building.2 {
+		let idx = build_data.map.xy_idx(x, y);
+		if build_data.map.tiles[idx] == TileType::WoodFloor && idx != 0 && rng.roll_dice(1, 2) == 1 {
+		    build_data.spawn_list.push((idx, "Rat".to_string()));
+		}
+	    }
+	}
+    }
+
     fn building_factory(&mut self,
 			rng: &mut rltk::RandomNumberGenerator,
 			build_data: &mut BuilderMap,
@@ -253,6 +262,7 @@ impl TownBuilder {
 		BuildingTag::Alchemist => self.build_alchemist(&building, build_data, rng),
 		BuildingTag::PlayerHouse => self.build_my_house(&building, build_data, rng),
 		BuildingTag::Hovel => self.build_hovel(&building, build_data, rng),
+		BuildingTag::Abandoned => self.build_abandoned_house(&building, build_data, rng),
 		_ => {}
 	    }
 	}
