@@ -1,5 +1,5 @@
 use super::{
-    camera, gamelog::GameLog, rex_assets::RexAssets, CombatStats, Entity, Equipped, Hidden,
+    camera, gamelog::GameLog, rex_assets::RexAssets, Pools, Entity, Equipped, Hidden,
     HungerClock, HungerState, InBackpack, Map, Name, Player, Position, RunState, State, Viewshed,
 };
 use rltk::{Point, Rltk, VirtualKeyCode, RGB};
@@ -512,11 +512,11 @@ pub fn draw_ui(ecs: &World, ctx: &mut Rltk) {
         RGB::named(rltk::BLACK),
     );
 
-    let combat_stats = ecs.read_storage::<CombatStats>();
+    let pools = ecs.read_storage::<Pools>();
     let players = ecs.read_storage::<Player>();
     let hunger = ecs.read_storage::<HungerClock>();
-    for (_player, stats, hc) in (&players, &combat_stats, &hunger).join() {
-        let health = format!("HP: {} / {}", stats.hp, stats.max_hp);
+    for (_player, pool, hc) in (&players, &pools, &hunger).join() {
+        let health = format!("HP: {} / {}", pool.hit_points.current, pool.hit_points.max);
         ctx.print_color(
             12,
             43,
@@ -529,8 +529,8 @@ pub fn draw_ui(ecs: &World, ctx: &mut Rltk) {
             28,
             43,
             51,
-            stats.hp,
-            stats.max_hp,
+            pool.hit_points.current,
+            pool.hit_points.max,
             RGB::named(rltk::RED),
             RGB::named(rltk::BLACK),
         );

@@ -40,11 +40,9 @@ impl TownBuilder {
     ) {
         self.grass_layer(build_data);
         self.water_and_piers(rng, build_data);
-	self.spawn_dockers(build_data, rng);
+	
 
         let (mut available_building_tiles, wall_gap_y) = self.town_walls(rng, build_data);
-
-	self.spawn_townsfolk(build_data, rng, &mut available_building_tiles);
 
 
         let mut buildings = self.buildings(rng, build_data, &mut available_building_tiles);
@@ -58,7 +56,9 @@ impl TownBuilder {
 
 	let building_size = self.sort_buildings(&buildings);
 	self.building_factory(rng, build_data, &buildings, &building_size);
-	
+
+	self.spawn_dockers(build_data, rng);
+	self.spawn_townsfolk(build_data, rng, &mut available_building_tiles);
 
         // Make visible for screenshot
         for t in build_data.map.visible_tiles.iter_mut() {
@@ -102,7 +102,7 @@ impl TownBuilder {
             let y = rng.roll_dice(1, build_data.height) - 1;
             for x in 2 + rng.roll_dice(1, 6)..water_width[y as usize] + 4 {
                 let idx = build_data.map.xy_idx(x, y);
-                build_data.map.tiles[idx] = TileType::WoodFloor;
+                build_data.map.tiles[idx] = TileType::Bridge;
             }
         }
         build_data.take_snapshot();

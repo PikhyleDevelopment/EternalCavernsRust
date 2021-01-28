@@ -1,5 +1,5 @@
 use super::{
-    gamelog::GameLog, particle_system::ParticleBuilder, AreaOfEffect, CombatStats, Confusion,
+    gamelog::GameLog, particle_system::ParticleBuilder, AreaOfEffect, Pools, Confusion,
     Consumable, Entity, Equippable, Equipped, HungerClock, HungerState, InBackpack, InflictsDamage,
     MagicMapper, Map, Name, Position, ProvidesFood, ProvidesHealing, RunState, SufferDamage,
     WantsToDropItem, WantsToPickupItem, WantsToRemoveItem, WantsToUseItem,
@@ -102,7 +102,7 @@ impl<'a> System<'a> for ItemUseSystem {
         ReadStorage<'a, Consumable>,
         ReadStorage<'a, ProvidesHealing>,
         ReadStorage<'a, InflictsDamage>,
-        WriteStorage<'a, CombatStats>,
+        WriteStorage<'a, Pools>,
         WriteStorage<'a, SufferDamage>,
         ReadStorage<'a, AreaOfEffect>,
         WriteStorage<'a, Confusion>,
@@ -128,7 +128,7 @@ impl<'a> System<'a> for ItemUseSystem {
             consumables,
             healing,
             inflict_damage,
-            mut combat_stats,
+            mut pools,
             mut suffer_damage,
             aoe,
             mut confused,
@@ -275,9 +275,9 @@ impl<'a> System<'a> for ItemUseSystem {
                 None => {}
                 Some(healer) => {
                     for target in targets.iter() {
-                        let stats = combat_stats.get_mut(*target);
-                        if let Some(stats) = stats {
-                            stats.hp = i32::min(stats.max_hp, stats.hp + healer.heal_amount);
+                        let pool = pools.get_mut(*target);
+                        if let Some(pool) = pool {
+                            pool.hit_points.current = i32::min(pool.hit_points.max, pool.hit_points.current + healer.heal_amount);
                             if entity == *player_entity {
                                 gamelog.entries.push(format!(
                                     "You drink the {}, healing {} hp.",

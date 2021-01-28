@@ -1,5 +1,5 @@
 use super::{
-    gamelog::GameLog, BlocksTile, BlocksVisibility, CombatStats, Door, EntityMoved, HungerClock,
+    gamelog::GameLog, BlocksTile, BlocksVisibility, Pools, Door, EntityMoved, HungerClock,
     HungerState, Item, Map, Monster, Player, Position, Renderable, RunState, State, TileType,
     Viewshed, WantsToMelee, WantsToPickupItem, Bystander, Vendor
 };
@@ -184,9 +184,9 @@ fn skip_turn(ecs: &mut World) -> RunState {
     }
 
     if can_heal {
-        let mut health_components = ecs.write_storage::<CombatStats>();
-        let player_hp = health_components.get_mut(*player_entity).unwrap();
-        player_hp.hp = i32::min(player_hp.hp + 1, player_hp.max_hp);
+        let mut health_components = ecs.write_storage::<Pools>();
+        let pools = health_components.get_mut(*player_entity).unwrap();
+        pools.hit_points.current = i32::min(pools.hit_points.current + 1, pools.hit_points.max);
     }
 
     RunState::PlayerTurn

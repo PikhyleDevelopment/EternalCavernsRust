@@ -55,7 +55,6 @@ pub fn save_game(ecs: &mut World) {
             Monster,
             Name,
             BlocksTile,
-            CombatStats,
             SufferDamage,
             WantsToMelee,
             Item,
@@ -77,7 +76,7 @@ pub fn save_game(ecs: &mut World) {
             WantsToRemoveItem,
             ParticleLifetime,
             HungerClock,
-            ProvidesHealing,
+            ProvidesFood,
             MagicMapper,
             Hidden,
             EntryTrigger,
@@ -87,7 +86,9 @@ pub fn save_game(ecs: &mut World) {
             Door,
 	    Bystander,
 	    Vendor,
-	    Quips
+	    Quips,
+	    Attributes,
+	    Skills
         );
     }
 
@@ -104,7 +105,7 @@ macro_rules! deserialize_individually {
         $(
         DeserializeComponents::<NoError, _>::deserialize(
             &mut (&mut $ecs.write_storage::<$type>(), ),
-            &mut $data.0, // entities
+            &$data.0, // entities
             &mut $data.1, // marker
             &mut $data.2, // allocator
             &mut $de,
@@ -147,7 +148,6 @@ pub fn load_game(ecs: &mut World) {
             Monster,
             Name,
             BlocksTile,
-            CombatStats,
             SufferDamage,
             WantsToMelee,
             Item,
@@ -169,7 +169,7 @@ pub fn load_game(ecs: &mut World) {
             WantsToRemoveItem,
             ParticleLifetime,
             HungerClock,
-            ProvidesHealing,
+            ProvidesFood,
             MagicMapper,
             Hidden,
             EntryTrigger,
@@ -179,7 +179,9 @@ pub fn load_game(ecs: &mut World) {
             Door,
 	    Bystander,
 	    Vendor,
-	    Quips
+	    Quips,
+	    Attributes,
+	    Skills
         );
     }
 

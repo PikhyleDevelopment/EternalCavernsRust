@@ -41,21 +41,21 @@ impl<'a> System<'a> for HungerSystem {
                     match clock.state {
                         HungerState::WellFed => {
                             clock.state = HungerState::Normal;
-                            clock.duration = 200;
+                            clock.duration = 400;
                             if entity == *player_entity {
                                 log.entries.push("You are no longer well fed.".to_string());
                             }
                         }
                         HungerState::Normal => {
                             clock.state = HungerState::Hungry;
-                            clock.duration = 200;
+                            clock.duration = 400;
                             if entity == *player_entity {
                                 log.entries.push("You are hungry.".to_string());
                             }
                         }
                         HungerState::Hungry => {
                             clock.state = HungerState::Starving;
-                            clock.duration = 200;
+                            clock.duration = 400;
                             if entity == *player_entity {
                                 log.entries.push("You are starving!".to_string());
                             }

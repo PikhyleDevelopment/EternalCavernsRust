@@ -51,11 +51,11 @@ impl AreaStartingPosition {
         let mut available_floors: Vec<(usize, f32)> = Vec::new();
         for (idx, tiletype) in build_data.map.tiles.iter().enumerate() {
             if *tiletype == TileType::Floor
-                || *tiletype == TileType::Grass
+/*                || *tiletype == TileType::Grass
                 || *tiletype == TileType::WoodFloor
                 || *tiletype == TileType::ShallowWater
                 || *tiletype == TileType::Gravel
-                || *tiletype == TileType::Road
+                || *tiletype == TileType::Road */
             {
                 available_floors.push((
                     idx,

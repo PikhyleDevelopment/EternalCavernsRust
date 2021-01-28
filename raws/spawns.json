@@ -191,15 +191,10 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 16,
-		"hp" : 16,
-		"defense" : 1,
-		"power" : 4
-	    },
 	    "vision_range" : 4,
 	    "ai" : "bystander",
-	    "quips" : [ "Nice weather today, huh?", "Hi", "There always seems to be a dock in need of repair..." ]
+	    "quips" : [ "Nice weather today, huh?", "Hi", "There always seems to be a dock in need of repair..." ],
+	    "attributes" : {}
 	},
 
 	{
@@ -211,15 +206,10 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 16,
-		"hp" : 16,
-		"defense" : 1,
-		"power" : 4
-	    },
 	    "vision_range" : 4,
 	    "ai" : "bystander",
-	    "quips" : [ "They're really biting today!!", "I caught something yesterday.. but it definitely wasn't a fish", "My brother says there is something big in these waters"  ]
+	    "quips" : [ "They're really biting today!!", "I caught something yesterday.. but it definitely wasn't a fish", "My brother says there is something big in these waters"  ],
+	    "attributes" : {}
 	},
 
 	{
@@ -231,15 +221,10 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 16,
-		"hp" : 16,
-		"defense" : 1,
-		"power" : 4
-	    },
 	    "vision_range" : 4,
 	    "ai" : "bystander",
-	    "quips" : [ "Yar!!", "Did you just say 'parley'?", "Scurvy!" ]
+	    "quips" : [ "Yar!!", "Did you just say 'parley'?", "Scurvy!" ],
+	    "attributes" : {}
 	},
 
 	{
@@ -251,15 +236,10 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 16,
-		"hp" : 16,
-		"defense" : 1,
-		"power" : 4
-	    },
 	    "vision_range" : 4,
 	    "ai" : "bystander",
-	    "quips" : [ "Hic", "I..HIC.. need mo..HIC..re booze", "Spare some change?" ]
+	    "quips" : [ "Hic", "I..HIC.. need mo..HIC..re booze", "Spare some change?" ],
+	    "attributes" : {}
 	},
 	
 	{
@@ -271,14 +251,9 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 2,
-		"hp" : 2,
-		"defense" : 1,
-		"power" : 3
-	    },
 	    "vision_range" : 8,
-	    "ai" : "melee"
+	    "ai" : "melee",
+	    "attributes" : {}
 	},
 	
 	{
@@ -290,15 +265,15 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 16,
-		"hp" : 16,
-		"defense" : 1,
-		"power" : 4
-	    },
 	    "vision_range" : 4,
 	    "ai" : "vendor",
-	    "quips" : [ "Hey! Kid! Did you pay your tab last night?", "The lot of ya smell like garbage!", "I need to hire barmaids.." ]
+	    "attributes" : {
+		"intelligence" : 13
+	    },
+	    "quips" : [ "Hey! Kid! Did you pay your tab last night?", "The lot of ya smell like garbage!", "I need to hire barmaids.." ],
+	    "skills" : {
+		"Melee" : 2
+	    }
 	},
 
 	{
@@ -310,14 +285,9 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 16,
-		"hp" : 16,
-		"defense" : 1,
-		"power" : 4
-	    },
 	    "vision_range" : 4,
-	    "ai" : "bystander"
+	    "ai" : "bystander",
+	    "attributes" : {}
 	},
 
 	{
@@ -329,15 +299,10 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 16,
-		"hp" : 16,
-		"defense" : 1,
-		"power" : 4
-	    },
 	    "vision_range" : 4,
 	    "ai" : "bystander",
-	    "quips" : [ "I hear a sermon is starting soon!", "I hope they have those tasty crackers..", "Who can return the Totem of Eternity?!" ]
+	    "quips" : [ "I hear a sermon is starting soon!", "I hope they have those tasty crackers..", "Who can return the Totem of Eternity?!" ],
+	    "attributes" : {}
 	},
 
 	{
@@ -349,15 +314,10 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 16,
-		"hp" : 16,
-		"defense" : 1,
-		"power" : 4
-	    },
 	    "vision_range" : 4,
 	    "ai" : "vendor",
-	    "quips" : [ "I may or may not have some special goods for you..", "Hey.. kid.. wanna see something cool?", "Heh, you? To save the world?" ]
+	    "quips" : [ "I may or may not have some special goods for you..", "Hey.. kid.. wanna see something cool?", "Heh, you? To save the world?" ],
+	    "attributes" : {}
 	},
 
 	{
@@ -369,15 +329,10 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 16,
-		"hp" : 16,
-		"defense" : 1,
-		"power" : 4
-	    },
 	    "vision_range" : 4,
 	    "ai" : "bystander",
-	    "quips" : [ "Quiet down, it's too early!", "Oh my, I drank too much.", "Still saving the world, kid?" ]
+	    "quips" : [ "Quiet down, it's too early!", "Oh my, I drank too much.", "Still saving the world, kid?" ],
+	    "attributes" : {}
 	},
 
 	{
@@ -389,14 +344,9 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 16,
-		"hp" : 16,
-		"defense" : 1,
-		"power" : 4
-	    },
 	    "vision_range" : 4,
-	    "ai" : "vendor"
+	    "ai" : "vendor",
+	    "attributes" : {}
 	},
 
 	{
@@ -408,14 +358,9 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 16,
-		"hp" : 16,
-		"defense" : 1,
-		"power" : 4
-	    },
 	    "vision_range" : 4,
-	    "ai" : "vendor"
+	    "ai" : "vendor",
+	    "attributes" : {}
 	},
 
 	{
@@ -427,14 +372,9 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 16,
-		"hp" : 16,
-		"defense" : 1,
-		"power" : 4
-	    },
 	    "vision_range" : 4,
-	    "ai" : "vendor"
+	    "ai" : "vendor",
+	    "attributes" : {}
 	},
 
 	{
@@ -446,15 +386,10 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 16,
-		"hp" : 16,
-		"defense" : 1,
-		"power" : 4
-	    },
 	    "vision_range" : 4,
 	    "ai" : "bystander",
-	    "quips" : [ "Don't forget to take a lunch with you!", "Your father never came home last night.. but he would be so proud of you.", "I'll leave your bed how you left it, dear." ]
+	    "quips" : [ "Don't forget to take a lunch with you!", "Your father never came home last night.. but he would be so proud of you.", "I'll leave your bed how you left it, dear." ],
+	    "attributes" : {}
 	},
 
 	{
@@ -466,15 +401,10 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 16,
-		"hp" : 16,
-		"defense" : 1,
-		"power" : 4
-	    },
 	    "vision_range" : 4,
 	    "ai" : "bystander",
-	    "quips" : [ "What are ya doin' in me house?", "Yer just as bad as those damn rats!" ]
+	    "quips" : [ "What are ya doin' in me house?", "Yer just as bad as those damn rats!" ],
+	    "attributes" : {}
 	},
 	
 	{
@@ -486,14 +416,9 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 16,
-		"hp" : 16,
-		"defense" : 1,
-		"power" : 4
-	    },
 	    "vision_range" : 8,
-	    "ai" : "melee"
+	    "ai" : "melee",
+	    "attributes" : {}
 	},
 
 	{
@@ -505,14 +430,9 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 8,
-		"hp" : 8,
-		"defense" : 1,
-		"power" : 3
-	    },
 	    "vision_range" : 8,
-	    "ai" : "melee"
+	    "ai" : "melee",
+	    "attributes" : {}
 	},
 
 	{
@@ -524,14 +444,9 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 4,
-		"hp" : 4,
-		"defense" : 0,
-		"power" : 2
-	    },
 	    "vision_range" : 4,
-	    "ai" : "melee"
+	    "ai" : "melee",
+	    "attributes" : {}
 	},
 
 	{
@@ -543,14 +458,9 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 16,
-		"hp" : 16,
-		"defense" : 1,
-		"power" : 5
-	    },
 	    "vision_range" : 8,
-	    "ai" : "melee"
+	    "ai" : "melee",
+	    "attributes" : {}
 	},
 
 	{
@@ -562,14 +472,9 @@
 		"order" : 1
 	    },
 	    "blocks_tile" : true,
-	    "stats" : {
-		"max_hp" : 20,
-		"hp" : 20,
-		"defense": 3,
-		"power": 6
-	    },
 	    "vision_range" : 10,
-	    "ai" : "melee"
+	    "ai" : "melee",
+	    "attributes" : {}
 	}
     ],
     "props" : [
