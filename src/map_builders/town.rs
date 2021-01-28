@@ -40,8 +40,12 @@ impl TownBuilder {
     ) {
         self.grass_layer(build_data);
         self.water_and_piers(rng, build_data);
+	self.spawn_dockers(build_data, rng);
 
         let (mut available_building_tiles, wall_gap_y) = self.town_walls(rng, build_data);
+
+	self.spawn_townsfolk(build_data, rng, &mut available_building_tiles);
+
 
         let mut buildings = self.buildings(rng, build_data, &mut available_building_tiles);
 
@@ -457,6 +461,39 @@ impl TownBuilder {
 	let last_index = building_size.len() - 1;
 	building_size[last_index].2 = BuildingTag::Abandoned;
 	building_size
+    }
+
+    fn spawn_dockers(&mut self, build_data: &mut BuilderMap, rng: &mut rltk::RandomNumberGenerator) {
+	for (idx, tt) in build_data.map.tiles.iter().enumerate() {
+	    if *tt == TileType::Bridge && rng.roll_dice(1, 6) == 1 {
+		let roll = rng.roll_dice(1, 3);
+		match roll {
+		    1 => build_data.spawn_list.push((idx, "Dock Worker".to_string())),
+		    2 => build_data.spawn_list.push((idx, "Wannabe Pirate".to_string())),
+		    _ => build_data.spawn_list.push((idx, "Fisher".to_string())),
+		}
+	    }
+	}
+    }
+
+    fn spawn_townsfolk(
+	&mut self,
+	build_data: &mut BuilderMap,
+	rng: &mut rltk::RandomNumberGenerator,
+	available_building_tiles: &mut HashSet<usize>
+    )
+    {
+	for idx in available_building_tiles.iter() {
+	    if rng.roll_dice(1, 10) == 1 {
+		let roll = rng.roll_dice(1, 4);
+		match roll {
+		    1 => build_data.spawn_list.push((*idx, "Peasant".to_string())),
+		    2 => build_data.spawn_list.push((*idx, "Drunk".to_string())),
+		    3 => build_data.spawn_list.push((*idx, "Dock Worker".to_string())),
+		    _ => build_data.spawn_list.push((*idx, "Fisher".to_string())),
+		}
+	    }
+	}
     }
 
 }

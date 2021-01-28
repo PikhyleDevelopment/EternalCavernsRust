@@ -219,29 +219,42 @@ pub fn spawn_named_mob(
             eb = eb.with(get_renderable_component(renderable));
         }
 
+	// Name
         eb = eb.with(Name {
             name: mob_template.name.clone(),
         });
 
+	// AI
 	match mob_template.ai.as_ref() {
 	    "melee" => eb = eb.with(Monster {}),
 	    "bystander" => eb = eb.with(Bystander {}),
+	    "vendor" => eb = eb.with(Vendor {}),
 	    _ => {}
 	}
+	// Blocks Tile
         if mob_template.blocks_tile {
             eb = eb.with(BlocksTile {});
         }
+	// Combat Stats
         eb = eb.with(CombatStats {
             max_hp: mob_template.stats.max_hp,
             hp: mob_template.stats.hp,
             power: mob_template.stats.power,
             defense: mob_template.stats.defense,
         });
+	// Viewshed
         eb = eb.with(Viewshed {
             visible_tiles: Vec::new(),
             range: mob_template.vision_range,
             dirty: true,
         });
+
+	// Quips
+	if let Some(quips) = &mob_template.quips {
+	    eb = eb.with(Quips {
+		available: quips.clone()
+	    });
+	}
 
         return Some(eb.build());
     }

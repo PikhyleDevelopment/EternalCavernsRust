@@ -6,6 +6,14 @@ use specs::saveload::{ConvertSaveload, Marker};
 use specs_derive::*;
 
 #[derive(Component, Debug, Serialize, Deserialize, Clone)]
+pub struct Quips {
+    pub available: Vec<String>
+}
+
+#[derive(Component, Debug, Serialize, Deserialize, Clone)]
+pub struct Vendor {}
+
+#[derive(Component, Debug, Serialize, Deserialize, Clone)]
 pub struct Bystander {}
 
 #[derive(Component, Debug, Serialize, Deserialize, Clone)]
