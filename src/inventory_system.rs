@@ -1,7 +1,7 @@
 use super::{
-    gamelog::GameLog, particle_system::ParticleBuilder, AreaOfEffect, Pools, Confusion,
-    Consumable, Entity, Equippable, Equipped, HungerClock, HungerState, InBackpack, InflictsDamage,
-    MagicMapper, Map, Name, Position, ProvidesFood, ProvidesHealing, RunState, SufferDamage,
+    gamelog::GameLog, particle_system::ParticleBuilder, AreaOfEffect, Confusion, Consumable,
+    Entity, Equippable, Equipped, HungerClock, HungerState, InBackpack, InflictsDamage,
+    MagicMapper, Map, Name, Pools, Position, ProvidesFood, ProvidesHealing, RunState, SufferDamage,
     WantsToDropItem, WantsToPickupItem, WantsToRemoveItem, WantsToUseItem,
 };
 use specs::prelude::*;
@@ -277,7 +277,10 @@ impl<'a> System<'a> for ItemUseSystem {
                     for target in targets.iter() {
                         let pool = pools.get_mut(*target);
                         if let Some(pool) = pool {
-                            pool.hit_points.current = i32::min(pool.hit_points.max, pool.hit_points.current + healer.heal_amount);
+                            pool.hit_points.current = i32::min(
+                                pool.hit_points.max,
+                                pool.hit_points.current + healer.heal_amount,
+                            );
                             if entity == *player_entity {
                                 gamelog.entries.push(format!(
                                     "You drink the {}, healing {} hp.",

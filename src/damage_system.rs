@@ -1,4 +1,4 @@
-use super::{gamelog::GameLog, Pools, Map, Name, Player, Position, RunState, SufferDamage};
+use super::{gamelog::GameLog, Map, Name, Player, Pools, Position, RunState, SufferDamage};
 use specs::prelude::*;
 
 pub struct DamageSystem {}
@@ -15,7 +15,7 @@ impl<'a> System<'a> for DamageSystem {
     fn run(&mut self, data: Self::SystemData) {
         let (mut pools, mut damage, positions, mut map, entities) = data;
 
-        for (entity, mut pool, damage) in (&entities, &mut pool, &damage).join() {
+        for (entity, mut pool, damage) in (&entities, &mut pools, &damage).join() {
             pool.hit_points.current -= damage.amount.iter().sum::<i32>();
             let pos = positions.get(entity);
             if let Some(pos) = pos {

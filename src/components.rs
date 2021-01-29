@@ -4,12 +4,12 @@ use specs::error::NoError;
 use specs::prelude::*;
 use specs::saveload::{ConvertSaveload, Marker};
 use specs_derive::*;
-use std::collections::{HashMap};
+use std::collections::HashMap;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Pool {
     pub max: i32,
-    pub current: i32
+    pub current: i32,
 }
 
 #[derive(Component, Debug, Serialize, Deserialize, Clone)]
@@ -17,26 +17,26 @@ pub struct Pools {
     pub hit_points: Pool,
     pub mana: Pool,
     pub xp: i32,
-    pub level: i32
+    pub level: i32,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone, Eq, PartialEq, Hash)]
 pub enum Skill {
     Melee,
     Defense,
-    Magic
+    Magic,
 }
 
 #[derive(Component, Debug, Serialize, Deserialize, Clone)]
 pub struct Skills {
-    pub skills: HashMap<Skill, i32>
+    pub skills: HashMap<Skill, i32>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Attribute {
     pub base: i32,
     pub modifiers: i32,
-    pub bonus: i32
+    pub bonus: i32,
 }
 
 #[derive(Component, Debug, Serialize, Deserialize, Clone)]
@@ -44,12 +44,12 @@ pub struct Attributes {
     pub might: Attribute,
     pub fitness: Attribute,
     pub quickness: Attribute,
-    pub intelligence: Attribute
+    pub intelligence: Attribute,
 }
 
 #[derive(Component, Debug, Serialize, Deserialize, Clone)]
 pub struct Quips {
-    pub available: Vec<String>
+    pub available: Vec<String>,
 }
 
 #[derive(Component, Debug, Serialize, Deserialize, Clone)]

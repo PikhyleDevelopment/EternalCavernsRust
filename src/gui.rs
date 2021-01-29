@@ -1,6 +1,6 @@
 use super::{
-    camera, gamelog::GameLog, rex_assets::RexAssets, Pools, Entity, Equipped, Hidden,
-    HungerClock, HungerState, InBackpack, Map, Name, Player, Position, RunState, State, Viewshed,
+    camera, gamelog::GameLog, rex_assets::RexAssets, Entity, Equipped, Hidden, HungerClock,
+    HungerState, InBackpack, Map, Name, Player, Pools, Position, RunState, State, Viewshed,
 };
 use rltk::{Point, Rltk, VirtualKeyCode, RGB};
 use specs::prelude::*;

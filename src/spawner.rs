@@ -1,15 +1,15 @@
 use super::{
-    random_table::RandomTable, raws::*, AreaOfEffect, BlocksTile, BlocksVisibility, CombatStats,
-    Confusion, Consumable, DefenseBonus, Door, EntryTrigger, EquipmentSlot, Equippable, Hidden,
-    HungerClock, HungerState, InflictsDamage, Item, MagicMapper, Map, MeleePowerBonus, Monster,
-    Name, Player, Position, ProvidesFood, ProvidesHealing, Ranged, Rect, Renderable, SerializeMe,
-    SingleActivation, TileType, Viewshed, Attribute, Attributes, Skills, Skill
+    random_table::RandomTable, raws::*, AreaOfEffect, Attribute, Attributes, BlocksTile,
+    BlocksVisibility, Confusion, Consumable, DefenseBonus, Door, EntryTrigger,
+    EquipmentSlot, Equippable, Hidden, HungerClock, HungerState, InflictsDamage, Item, MagicMapper,
+    Map, MeleePowerBonus, Monster, Name, Player, Pool, Pools, Position, ProvidesFood, ProvidesHealing, Ranged,
+    Rect, Renderable, SerializeMe, SingleActivation, Skill, Skills, TileType, Viewshed, attr_bonus,
+    mana_at_level, player_hp_at_level
 };
 use rltk::{RandomNumberGenerator, RGB};
 use specs::prelude::*;
 use specs::saveload::{MarkedBuilder, SimpleMarker};
 use std::collections::HashMap;
-use crate::attr_bonus;
 
 // Constants
 const MAX_MONSTERS: i32 = 4;
@@ -19,11 +19,13 @@ const MAX_MONSTERS: i32 = 4;
 
 /// Spawns the player and returns his/her entity object
 pub fn player(ecs: &mut World, player_x: i32, player_y: i32) -> Entity {
-    let mut skill = Skill{ skills: HashMap::new() };
+    let mut skills = Skills {
+        skills: HashMap::new(),
+    };
     skills.skills.insert(Skill::Melee, 1);
     skills.skills.insert(Skill::Defense, 1);
     skills.skills.insert(Skill::Magic, 1);
-    
+
     ecs.create_entity()
         .with(Position {
             x: player_x,
@@ -44,35 +46,45 @@ pub fn player(ecs: &mut World, player_x: i32, player_y: i32) -> Entity {
         .with(Name {
             name: "Player".to_string(),
         })
-        .with(CombatStats {
-            max_hp: 30,
-            hp: 30,
-            defense: 2,
-            power: 5,
-        })
         .with(HungerClock {
             state: HungerState::WellFed,
             duration: 20,
         })
-	.with(Attributes {
-	    might: Attribute { base: 11, modifiers: 0, bonus: attr_bonus(11) },
-	    fitness: Attribute { base: 11, modifiers: 0, bonus: attr_bonus(11) },
-	    quickness: Attribute { base: 11, modifiers: 0, bonus: attr_bonus(11) },
-	    intelligence: Attribute { base: 11, modifiers: 0, bonus: attr_bonus(11) },
-	})
-	.with(skills)
-	.with(Pools {
-	    hit_points: Pool {
-		current: player_hp_at_level(11, 1),
-		max: player_hp_at_level(11, 1)
-	    },
-	    mana: Pool {
-		current: mana_at_level(11, 1),
-		max: mana_at_level(11, 1)
-	    },
-	    xp: 0,
-	    level: 1
-	})
+        .with(Attributes {
+            might: Attribute {
+                base: 11,
+                modifiers: 0,
+                bonus: attr_bonus(11),
+            },
+            fitness: Attribute {
+                base: 11,
+                modifiers: 0,
+                bonus: attr_bonus(11),
+            },
+            quickness: Attribute {
+                base: 11,
+                modifiers: 0,
+                bonus: attr_bonus(11),
+            },
+            intelligence: Attribute {
+                base: 11,
+                modifiers: 0,
+                bonus: attr_bonus(11),
+            },
+        })
+        .with(skills)
+        .with(Pools {
+            hit_points: Pool {
+                current: player_hp_at_level(11, 1),
+                max: player_hp_at_level(11, 1),
+            },
+            mana: Pool {
+                current: mana_at_level(11, 1),
+                max: mana_at_level(11, 1),
+            },
+            xp: 0,
+            level: 1,
+        })
         .marked::<SimpleMarker<SerializeMe>>()
         .build()
 }

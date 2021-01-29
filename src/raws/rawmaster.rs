@@ -1,9 +1,9 @@
-use super::Raws;
+use super::{Raws,};
+use crate::{attr_bonus, npc_hp, mana_at_level};
 use crate::components::*;
 use crate::random_table::RandomTable;
 use specs::prelude::*;
 use std::collections::{HashMap, HashSet};
-use crate::attr_bonus;
 
 pub enum SpawnType {
     AtPosition { x: i32, y: i32 },
@@ -220,99 +220,141 @@ pub fn spawn_named_mob(
             eb = eb.with(get_renderable_component(renderable));
         }
 
-	// Name
+        // Name
         eb = eb.with(Name {
             name: mob_template.name.clone(),
         });
 
-	// AI
-	match mob_template.ai.as_ref() {
-	    "melee" => eb = eb.with(Monster {}),
-	    "bystander" => eb = eb.with(Bystander {}),
-	    "vendor" => eb = eb.with(Vendor {}),
-	    _ => {}
-	}
-	// Blocks Tile
+        // AI
+        match mob_template.ai.as_ref() {
+            "melee" => eb = eb.with(Monster {}),
+            "bystander" => eb = eb.with(Bystander {}),
+            "vendor" => eb = eb.with(Vendor {}),
+            _ => {}
+        }
+        // Blocks Tile
         if mob_template.blocks_tile {
             eb = eb.with(BlocksTile {});
         }
-	// Viewshed
+        // Viewshed
         eb = eb.with(Viewshed {
             visible_tiles: Vec::new(),
             range: mob_template.vision_range,
             dirty: true,
         });
 
-	// Quips
-	if let Some(quips) = &mob_template.quips {
-	    eb = eb.with(Quips {
-		available: quips.clone()
-	    });
-	}
+        // Quips
+        if let Some(quips) = &mob_template.quips {
+            eb = eb.with(Quips {
+                available: quips.clone(),
+            });
+        }
 
-	// Attributes
-	let mut mob_fitness = 11;
-	let mut mob_int = 11;
-	let mut attr = Attributes {
-	    might: Attribute { base: 11, modifiers: 0, bonus: attr_bonus(11) },
-	    fitness: Attribute { base: 11, modifiers: 0, bonus: attr_bonus(11) },
-	    quickness: Attribute { base: 11, modifiers: 0, bonus: attr_bonus(11) },
-	    intelligence: Attribute { base: 11, modifiers: 0, bonus: attr_bonus(11) },
-	};
-	if let Some(might) = mob_template.attributes.might {
-	    attr.might = Attribute { base: might, modifiers: 0, bonus: attr_bonus(might) };
-	}
-	if let Some(fitness) = mob_template.attributes.fitness {
-	    attr.fitness = Attribute { base: fitness, modifiers: 0, bonus: attr_bonus(fitness) };
-	    mob_fitness = fitness;
-	}
-	if let Some(quickness) = mob_template.attributes.quickness {
-	    attr.quickness = Attribute { base: quickness, modifiers: 0, bonus: attr_bonus(quickness) };
-	}
-	if let Some(intelligence) = mob_template.attributes.intelligence {
-	    attr.intelligence = Attribute { base: intelligence, modifiers: 0, bonus: attr_bonus(intelligence) };
-	    mob_int = intelligence;
-	}
-	eb = eb.with(attr);
+        // Attributes
+        let mut mob_fitness = 11;
+        let mut mob_int = 11;
+        let mut attr = Attributes {
+            might: Attribute {
+                base: 11,
+                modifiers: 0,
+                bonus: attr_bonus(11),
+            },
+            fitness: Attribute {
+                base: 11,
+                modifiers: 0,
+                bonus: attr_bonus(11),
+            },
+            quickness: Attribute {
+                base: 11,
+                modifiers: 0,
+                bonus: attr_bonus(11),
+            },
+            intelligence: Attribute {
+                base: 11,
+                modifiers: 0,
+                bonus: attr_bonus(11),
+            },
+        };
+        if let Some(might) = mob_template.attributes.might {
+            attr.might = Attribute {
+                base: might,
+                modifiers: 0,
+                bonus: attr_bonus(might),
+            };
+        }
+        if let Some(fitness) = mob_template.attributes.fitness {
+            attr.fitness = Attribute {
+                base: fitness,
+                modifiers: 0,
+                bonus: attr_bonus(fitness),
+            };
+            mob_fitness = fitness;
+        }
+        if let Some(quickness) = mob_template.attributes.quickness {
+            attr.quickness = Attribute {
+                base: quickness,
+                modifiers: 0,
+                bonus: attr_bonus(quickness),
+            };
+        }
+        if let Some(intelligence) = mob_template.attributes.intelligence {
+            attr.intelligence = Attribute {
+                base: intelligence,
+                modifiers: 0,
+                bonus: attr_bonus(intelligence),
+            };
+            mob_int = intelligence;
+        }
+        eb = eb.with(attr);
 
-	let mob_level = if mob_template.level.is_some() {
-	    mob_template.level.unwrap()
-	} else {
-	    1
-	};
-	let mob_hp = npc_hp(mob_fitness, mob_level);
-	let mob_mana = mana_at_level(mob_int, mob_level);
+        let mob_level = if mob_template.level.is_some() {
+            mob_template.level.unwrap()
+        } else {
+            1
+        };
+        let mob_hp = npc_hp(mob_fitness, mob_level);
+        let mob_mana = mana_at_level(mob_int, mob_level);
 
-	let pools = Pools {
-	    level: mob_level,
-	    xp: 0,
-	    hit_points: Pool {
-		current: mob_hp,
-		max: mob_hp
-	    },
-	    mana: Pool {
-		current: mob_mana,
-		max: mob_mana
-	    }
-	};
-	eb = eb.with(pools);
+        let pools = Pools {
+            level: mob_level,
+            xp: 0,
+            hit_points: Pool {
+                current: mob_hp,
+                max: mob_hp,
+            },
+            mana: Pool {
+                current: mob_mana,
+                max: mob_mana,
+            },
+        };
+        eb = eb.with(pools);
 
-	// Skills
-	let mut skills = Skills { skills: HashMap::new() };
-	skills.skills.insert(Skill::Melee, 1);
-	skills.skills.insert(Skill::Defense, 1);
-	skills.skills.insert(Skill::Magic, 1);
-	if let Some(mobskills) = &mob_template.skills {
-	    for sk in mobskills.iter() {
-		match sk.0.as_str() {
-		    "Melee" => { skills.skills.insert(Skill::Melee, *sk.1); }
-		    "Defense" => { skills.skills.insert(Skill::Defense, *sk.1); }
-		    "Magic" => { skills.skills.insert(Skill::Magic, *sk.1); }
-		    _ => { rltk::console::log(format!("Unknown skill referenced: [{}]", sk.0)); }
-		}
-	    }
-	}
-	eb = eb.with(skills);
+        // Skills
+        let mut skills = Skills {
+            skills: HashMap::new(),
+        };
+        skills.skills.insert(Skill::Melee, 1);
+        skills.skills.insert(Skill::Defense, 1);
+        skills.skills.insert(Skill::Magic, 1);
+        if let Some(mobskills) = &mob_template.skills {
+            for sk in mobskills.iter() {
+                match sk.0.as_str() {
+                    "Melee" => {
+                        skills.skills.insert(Skill::Melee, *sk.1);
+                    }
+                    "Defense" => {
+                        skills.skills.insert(Skill::Defense, *sk.1);
+                    }
+                    "Magic" => {
+                        skills.skills.insert(Skill::Magic, *sk.1);
+                    }
+                    _ => {
+                        rltk::console::log(format!("Unknown skill referenced: [{}]", sk.0));
+                    }
+                }
+            }
+        }
+        eb = eb.with(skills);
 
         return Some(eb.build());
     }

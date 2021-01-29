@@ -21,8 +21,10 @@ mod damage_system;
 use damage_system::DamageSystem;
 mod melee_combat_system;
 use melee_combat_system::MeleeCombatSystem;
+pub mod bystander_ai_system;
 pub mod camera;
 mod gamelog;
+mod gamesystem;
 mod gui;
 mod hunger_system;
 mod inventory_system;
@@ -34,8 +36,6 @@ mod rex_assets;
 mod saveload_system;
 mod spawner;
 mod trigger_system;
-pub mod bystander_ai_system;
-mod gamesystem;
 pub use gamesystem::*;
 
 #[macro_use]
@@ -89,8 +89,8 @@ impl State {
         triggers.run_now(&self.ecs);
         let mut mapindex = MapIndexingSystem {};
         mapindex.run_now(&self.ecs);
-	let mut bystander = bystander_ai_system::BystanderAI {};
-	bystander.run_now(&self.ecs);
+        let mut bystander = bystander_ai_system::BystanderAI {};
+        bystander.run_now(&self.ecs);
         let mut melee = MeleeCombatSystem {};
         melee.run_now(&self.ecs);
         let mut damage = DamageSystem {};
@@ -486,7 +486,6 @@ fn main() -> rltk::BError {
     gs.ecs.register::<Monster>();
     gs.ecs.register::<Name>();
     gs.ecs.register::<BlocksTile>();
-    gs.ecs.register::<CombatStats>();
     gs.ecs.register::<WantsToMelee>();
     gs.ecs.register::<SufferDamage>();
     gs.ecs.register::<Item>();
@@ -522,6 +521,7 @@ fn main() -> rltk::BError {
     gs.ecs.register::<Quips>();
     gs.ecs.register::<Attributes>();
     gs.ecs.register::<Skills>();
+    gs.ecs.register::<Pools>();
 
     gs.ecs.insert(SimpleMarkerAllocator::<SerializeMe>::new());
 

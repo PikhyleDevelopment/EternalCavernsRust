@@ -84,11 +84,12 @@ pub fn save_game(ecs: &mut World) {
             SingleActivation,
             BlocksVisibility,
             Door,
-	    Bystander,
-	    Vendor,
-	    Quips,
-	    Attributes,
-	    Skills
+            Bystander,
+            Vendor,
+            Quips,
+            Attributes,
+            Skills,
+            Pools
         );
     }
 
@@ -177,11 +178,12 @@ pub fn load_game(ecs: &mut World) {
             SingleActivation,
             BlocksVisibility,
             Door,
-	    Bystander,
-	    Vendor,
-	    Quips,
-	    Attributes,
-	    Skills
+            Bystander,
+            Vendor,
+            Quips,
+            Attributes,
+            Skills,
+            Pools
         );
     }
 

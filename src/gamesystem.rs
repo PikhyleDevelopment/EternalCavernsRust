@@ -8,14 +8,14 @@ pub fn player_hp_per_level(fitness: i32) -> i32 {
     10 + attr_bonus(fitness)
 }
 
-pub fn player_hp_at_levevl(fitness: i32, level: i32) -> i32 {
+pub fn player_hp_at_level(fitness: i32, level: i32) -> i32 {
     player_hp_per_level(fitness) * level
 }
 
 pub fn npc_hp(fitness: i32, level: i32) -> i32 {
     let mut total = 1;
     for _i in 0..level {
-	total += i32::max(1, 8 + attr_bonus(fitness));
+        total += i32::max(1, 8 + attr_bonus(fitness));
     }
     total
 }
@@ -30,8 +30,8 @@ pub fn mana_at_level(intelligence: i32, level: i32) -> i32 {
 
 pub fn skill_bonus(skill: Skill, skills: &Skills) -> i32 {
     if skills.skills.contains_key(&skill) {
-	skills.skills[&skill]
+        skills.skills[&skill]
     } else {
-	-4
+        -4
     }
 }
