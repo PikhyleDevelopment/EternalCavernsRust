@@ -1,8 +1,8 @@
 use super::{
     random_table::RandomTable, raws::*, AreaOfEffect, Attribute, Attributes, BlocksTile,
-    BlocksVisibility, Confusion, Consumable, DefenseBonus, Door, EntryTrigger,
+    BlocksVisibility, Confusion, Consumable, Wearable, Door, EntryTrigger,
     EquipmentSlot, Equippable, Hidden, HungerClock, HungerState, InflictsDamage, Item, MagicMapper,
-    Map, MeleePowerBonus, Monster, Name, Player, Pool, Pools, Position, ProvidesFood, ProvidesHealing, Ranged,
+    Map, MeleeWeapon, Monster, Name, Player, Pool, Pools, Position, ProvidesFood, ProvidesHealing, Ranged,
     Rect, Renderable, SerializeMe, SingleActivation, Skill, Skills, TileType, Viewshed, attr_bonus,
     mana_at_level, player_hp_at_level
 };
@@ -26,7 +26,7 @@ pub fn player(ecs: &mut World, player_x: i32, player_y: i32) -> Entity {
     skills.skills.insert(Skill::Defense, 1);
     skills.skills.insert(Skill::Magic, 1);
 
-    ecs.create_entity()
+    let player = ecs.create_entity()
         .with(Position {
             x: player_x,
             y: player_y,
@@ -48,7 +48,7 @@ pub fn player(ecs: &mut World, player_x: i32, player_y: i32) -> Entity {
         })
         .with(HungerClock {
             state: HungerState::WellFed,
-            duration: 20,
+            duration: 50,
         })
         .with(Attributes {
             might: Attribute {
@@ -86,7 +86,17 @@ pub fn player(ecs: &mut World, player_x: i32, player_y: i32) -> Entity {
             level: 1,
         })
         .marked::<SimpleMarker<SerializeMe>>()
-        .build()
+        .build();
+
+    // Starting equipment
+    spawn_named_entity(&RAWS.lock().unwrap(), ecs, "Rusty Longsword", SpawnType::Equipped {by: player});
+    spawn_named_entity(&RAWS.lock().unwrap(), ecs, "Dried Sausage", SpawnType::Carried {by: player});
+    spawn_named_entity(&RAWS.lock().unwrap(), ecs, "Beer", SpawnType::Carried {by: player});
+    spawn_named_entity(&RAWS.lock().unwrap(), ecs, "Stained Tunic", SpawnType::Equipped {by: player});
+    spawn_named_entity(&RAWS.lock().unwrap(), ecs, "Torn Trousers", SpawnType::Equipped {by: player});
+    spawn_named_entity(&RAWS.lock().unwrap(), ecs, "Old Boots", SpawnType::Equipped {by: player});
+
+    player
 }
 
 // Spawn table
@@ -170,7 +180,7 @@ pub fn spawn_entity(ecs: &mut World, spawn: &(&usize, &String)) {
 
     let spawn_result = spawn_named_entity(
         &RAWS.lock().unwrap(),
-        ecs.create_entity(),
+        ecs,
         &spawn.1,
         SpawnType::AtPosition { x, y },
     );
