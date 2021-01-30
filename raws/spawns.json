@@ -29,7 +29,9 @@
 			"order" : 2
 	    },
 	    "consumable" : {
-			"effects" : { "provides_healing" : "20" }
+			"effects" : {
+				"provides_healing" : "20"
+			}
 	    }
 	},
 

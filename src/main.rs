@@ -463,8 +463,8 @@ impl State {
 fn main() -> rltk::BError {
     use rltk::RltkBuilder;
     let version = "0.2.0";
-    let mut context = RltkBuilder::simple80x50()
-        .with_dimensions(120, 90)
+    let mut context = RltkBuilder::simple(80, 60)
+        .unwrap()
         //.with_fullscreen(true)
         .with_title(format!("Eternal Caverns Version: {}", version))
         .build()?;
@@ -528,7 +528,7 @@ fn main() -> rltk::BError {
 
     raws::load_raws();
 
-    gs.ecs.insert(Map::new(1, 64, 64));
+    gs.ecs.insert(Map::new(1, 64, 64, "New Map"));
     gs.ecs.insert(Point::new(0, 0));
     gs.ecs.insert(rltk::RandomNumberGenerator::new());
     let player_entity = spawner::player(&mut gs.ecs, 0, 0);

@@ -178,17 +178,17 @@ pub struct Confusion {
     pub turns: i32,
 }
 
-#[derive(Component, ConvertSaveload, Debug)]
+#[derive(Component, ConvertSaveload, Debug, Clone)]
 pub struct AreaOfEffect {
     pub radius: i32,
 }
 
-#[derive(Component, ConvertSaveload, Debug)]
+#[derive(Component, ConvertSaveload, Debug, Clone)]
 pub struct Ranged {
     pub range: i32,
 }
 
-#[derive(Component, ConvertSaveload, Debug)]
+#[derive(Component, ConvertSaveload, Debug, Clone)]
 pub struct InflictsDamage {
     pub damage: i32,
 }
@@ -252,7 +252,7 @@ pub struct WantsToMelee {
 #[derive(Component, Serialize, Deserialize, Debug, Clone)]
 pub struct BlocksTile {}
 
-#[derive(Component, ConvertSaveload, Debug)]
+#[derive(Component, Debug, ConvertSaveload, Clone)]
 pub struct Name {
     pub name: String,
 }
