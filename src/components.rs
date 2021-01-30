@@ -135,7 +135,7 @@ pub enum WeaponAttribute {
     Quickness
 }
 
-#[derive(Component, ConvertSaveload, Clone)]
+#[derive(Component, Serialize, Deserialize, Clone)]
 pub struct MeleeWeapon {
     pub attribute: WeaponAttribute,
     pub damage_n_dice: i32,
@@ -173,7 +173,7 @@ pub struct SerializationHelper {
     pub map: super::map::Map,
 }
 
-#[derive(Component, ConvertSaveload, Debug)]
+#[derive(Component, ConvertSaveload, Debug, Clone)]
 pub struct Confusion {
     pub turns: i32,
 }
@@ -201,7 +201,7 @@ pub struct WantsToDropItem {
     pub item: Entity,
 }
 
-#[derive(Component, ConvertSaveload, Debug)]
+#[derive(Component, ConvertSaveload, Debug, Clone)]
 pub struct WantsToUseItem {
     pub item: Entity,
     pub target: Option<rltk::Point>,
@@ -221,12 +221,12 @@ pub struct InBackpack {
 #[derive(Component, Serialize, Deserialize, Debug, Clone)]
 pub struct Item {}
 
-#[derive(Component, ConvertSaveload, Debug)]
+#[derive(Component, ConvertSaveload, Debug, Clone)]
 pub struct ProvidesHealing {
     pub heal_amount: i32,
 }
 
-#[derive(Component, ConvertSaveload, Debug)]
+#[derive(Component, ConvertSaveload, Debug, Clone)]
 pub struct SufferDamage {
     pub amount: Vec<i32>,
 }
@@ -260,7 +260,7 @@ pub struct Name {
 #[derive(Component, Serialize, Deserialize, Debug, Clone)]
 pub struct Monster {}
 
-#[derive(Component, ConvertSaveload)]
+#[derive(Component, ConvertSaveload, Clone)]
 pub struct Viewshed {
     pub visible_tiles: Vec<rltk::Point>,
     pub range: i32,
@@ -273,7 +273,7 @@ pub struct Position {
     pub y: i32,
 }
 
-#[derive(Component, ConvertSaveload)]
+#[derive(Component, ConvertSaveload, Clone)]
 pub struct Renderable {
     pub glyph: rltk::FontCharType,
     pub fg: RGB,
