@@ -1,9 +1,17 @@
 {
+	"loot_tables" : [
+		{ "name" : "Animal",
+			"drops" : [
+				{ "name" : "Hide", "weight" : 10 },
+				{ "name" : "Meat", "weight" : 10 }
+			]
+		}
+	],
     "spawn_table" : [
-		{ "name" : "Kobold", "weight" : 15, "min_depth" : 0, "max_depth" : 3 },
-		{ "name" : "Goblin", "weight" : 10, "min_depth" : 0, "max_depth" : 100 },
-		{ "name" : "Orc", "weight" : 1, "min_depth": 0, "max_depth" : 100, "add_map_depth_to_weight" : true},
-		{ "name" : "Troll", "weight" : 1, "min_depth": 3, "max_depth" : 100, "add_map_depth_to_weight" : true},
+		{ "name" : "Kobold", "weight" : 15, "min_depth" : 3, "max_depth" : 100 },
+		{ "name" : "Goblin", "weight" : 10, "min_depth" : 3, "max_depth" : 100 },
+		{ "name" : "Orc", "weight" : 1, "min_depth": 3, "max_depth" : 100, "add_map_depth_to_weight" : true},
+		{ "name" : "Troll", "weight" : 1, "min_depth": 5, "max_depth" : 100, "add_map_depth_to_weight" : true},
 		{ "name" : "Blood Elf", "weight" : 1, "min_depth": 7, "max_depth" : 100, "add_map_depth_to_weight" : true},
 		{ "name" : "Health Potion", "weight" : 7, "min_depth": 0, "max_depth" : 100 },
 		{ "name" : "Fireball Scroll", "weight" : 2, "min_depth" : 0, "max_depth" : 100, "add_map_depth_to_weight" : true},
@@ -16,900 +24,1070 @@
 		{ "name" : "Battleaxe", "weight": 1, "min_depth" : 2, "max_depth" : 100 },
 		{ "name" : "Rations", "weight" : 10, "min_depth" : 0, "max_depth" : 100 },
 		{ "name" : "Magic Mapping Scroll", "weight" : 2, "min_depth" : 0, "max_depth" : 100},
-		{ "name" : "Bear Trap", "weight" : 5, "min_depth" : 0, "max_depth" : 100 }
+		{ "name" : "Bear Trap", "weight" : 5, "min_depth" : 0, "max_depth" : 100 },
+		{ "name" : "Rat", "weight" : 15, "min_depth" : 2, "max_depth" : 3 },
+		{ "name" : "Mangy Wolf", "weight" : 13, "min_depth" : 2, "max_depth" : 3 },
+		{ "name" : "Fox", "weight" : 15, "min_depth" : 2, "max_depth" : 3 },
+		{ "name" : "Deer", "weight" : 14, "min_depth" : 2, "max_depth" : 3 },
+		{ "name" : "Bandit", "weight" : 9, "min_depth" : 2, "max_depth" : 3 }
     ],
 
     "items" : [
-	{
-	    "name" : "Health Potion",
-	    "renderable" : {
-			"glyph" : "!",
-			"fg" : "#FF00FF",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "consumable" : {
-			"effects" : {
-				"provides_healing" : "20"
+		{
+			"name" : "Meat",
+			"renderable" : {
+				"glyph" : "%",
+				"fg" : "#00FF00",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"consumable" : {
+				"effects" : {
+					"food" : ""
+				}
 			}
-	    }
-	},
+		},
 
-	{
-	    "name" : "Magic Missile Scroll",
-	    "renderable" : {
-			"glyph" : ")",
-			"fg" : "#00FFFF",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "consumable" : {
-			"effects" : {
-				"ranged" : "6",
-				"damage" : "20"
+		{
+			"name" : "Hide",
+			"renderable" : {
+				"glyph" : "ß",
+				"fg" : "#A52A2A",
+				"bg" : "#000000",
+				"order" : 2
 			}
-	    }
-	},
-	
-	{
-	    "name" : "Fireball Scroll",
-	    "renderable": {
-			"glyph" : ")",
-			"fg" : "#FFA500",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "consumable" : {
-			"effects" : {
-				"ranged" : "6",
-				"damage" : "20",
-				"area_of_effect" : "3"
+		},
+
+		{
+			"name" : "Health Potion",
+			"renderable" : {
+				"glyph" : "!",
+				"fg" : "#FF00FF",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"consumable" : {
+				"effects" : {
+					"provides_healing" : "20"
+				}
 			}
-	    }
-	},
+		},
 
-	{
-	    "name" : "Confusion Scroll",
-	    "renderable" : {
-			"glyph" : ")",
-			"fg" : "#FFAAAA",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "consumable" : {
-			"effects" : {
-				"ranged" : "6",
-				"confusion" : "4"
+		{
+			"name" : "Magic Missile Scroll",
+			"renderable" : {
+				"glyph" : ")",
+				"fg" : "#00FFFF",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"consumable" : {
+				"effects" : {
+					"ranged" : "6",
+					"damage" : "20"
+				}
 			}
-	    }
-	},
+		},
 
-	{
-	    "name" : "Magic Mapping Scroll",
-	    "renderable" : {
-			"glyph": ")",
-			"fg" : "#AAAAFF",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "consumable" : {
-			"effects" : {
-				"magic_mapping" : ""
+		{
+			"name" : "Fireball Scroll",
+			"renderable": {
+				"glyph" : ")",
+				"fg" : "#FFA500",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"consumable" : {
+				"effects" : {
+					"ranged" : "6",
+					"damage" : "20",
+					"area_of_effect" : "3"
+				}
 			}
-	    }
-	},
+		},
 
-	{
-	    "name" : "Rations",
-	    "renderable" : {
-			"glyph" : "%",
-			"fg" : "#00FF00",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "consumable" : {
-			"effects" : {
-				"food" : ""
+		{
+			"name" : "Confusion Scroll",
+			"renderable" : {
+				"glyph" : ")",
+				"fg" : "#FFAAAA",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"consumable" : {
+				"effects" : {
+					"ranged" : "6",
+					"confusion" : "4"
+				}
 			}
-	    }
-	},
-
-	{
-		"name" : "Dried Sausage",
-		"renderable" : {
-			"glyph" : "%",
-			"fg" : "#00FF00",
-			"bg" : "#000000",
-			"order" : 2
 		},
-		"consumable" : {
-			"effects" : {
-				"food" : ""
+
+		{
+			"name" : "Magic Mapping Scroll",
+			"renderable" : {
+				"glyph": ")",
+				"fg" : "#AAAAFF",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"consumable" : {
+				"effects" : {
+					"magic_mapping" : ""
+				}
+			}
+		},
+
+		{
+			"name" : "Rations",
+			"renderable" : {
+				"glyph" : "%",
+				"fg" : "#00FF00",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"consumable" : {
+				"effects" : {
+					"food" : ""
+				}
+			}
+		},
+
+		{
+			"name" : "Dried Sausage",
+			"renderable" : {
+				"glyph" : "%",
+				"fg" : "#00FF00",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"consumable" : {
+				"effects" : {
+					"food" : ""
+				}
+			}
+		},
+
+		{
+			"name" : "Beer",
+			"renderable" : {
+				"glyph" : "!",
+				"fg" : "#00FF00",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"consumable" : {
+				"effects" : {
+					"provides_healing" : "4"
+				}
+			}
+		},
+
+		{
+			"name" : "Shortsword",
+			"renderable" : {
+				"glyph" : "/",
+				"fg" : "#FFAAFF",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"weapon" : {
+				"range" : "melee",
+				"attribute" : "Might",
+				"base_damage" : "1d6",
+				"hit_bonus"	: 0
+			}
+		},
+
+		{
+			"name" : "Leather Armor",
+			"renderable" : {
+				"glyph" : "[",
+				"fg" : "#00FF00",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"wearable" : {
+				"slot" : "Torso",
+				"armor_class" : 1.0
+			}
+		},
+
+		{
+			"name" : "Leather Boots",
+			"renderable" : {
+				"glyph" : "[",
+				"fg" : "#00FF00",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"wearable" : {
+				"slot" : "Feet",
+				"armor_class" : 0.2
+			}
+		},
+
+		{
+			"name" : "Rusty Longsword",
+			"renderable" : {
+				"glyph" : "/",
+				"fg" : "#BB77BB",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"weapon" : {
+				"range" : "melee",
+				"attribute" : "Quickness",
+				"base_damage" : "1d8-1",
+				"hit_bonus" : -1
+			}
+		},
+
+		{
+			"name" : "Dagger",
+			"renderable" : {
+				"glyph" : "/",
+				"fg" : "#FFAAAA",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"weapon" : {
+				"range" : "melee",
+				"attribute" : "Quickness",
+				"base_damage" : "1d4",
+				"hit_bonus" : 0
+			}
+		},
+
+		{
+			"name" : "Longsword",
+			"renderable" : {
+				"glyph" : "/",
+				"fg" : "#FFAAFF",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"weapon" : {
+				"range" : "melee",
+				"attribute" : "Quickness",
+				"base_damage" : "1d4",
+				"hit_bonus" : 4
+			}
+		},
+
+		{
+			"name" : "Battleaxe",
+			"renderable" : {
+				"glyph" : "\u00B6",
+				"fg" : "#FF55FF",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"weapon" : {
+				"range" : "melee",
+				"attribute" : "Quickness",
+				"base_damage" : "1d4",
+				"hit_bonus" : 5
+			}
+		},
+
+		{
+			"name" : "Cudgel",
+			"renderable" : {
+				"glyph" : "/",
+				"fg" : "#A52A2A",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"weapon" : {
+				"range" : "melee",
+				"attribute" : "Quickness",
+				"base_damage" : "1d4",
+				"hit_bonus" : 0
+			}
+		},
+
+		{
+			"name" : "Shield",
+			"renderable" : {
+				"glyph" : "[",
+				"fg" : "#00AAFF",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"wearable" : {
+				"slot" : "Shield",
+				"armor_class" : 1.0
+			}
+		},
+
+		{
+			"name" : "Tower Shield",
+			"renderable" : {
+				"glyph" : "[",
+				"fg" : "#00FFFF",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"wearable" : {
+				"slot" : "Shield",
+				"armor_class" : 3.0
+			}
+		},
+
+		{
+			"name" : "Stained Tunic",
+			"renderable" : {
+				"glyph" : "[",
+				"fg" : "#00FF00",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"wearable" : {
+				"slot" : "Torso",
+				"armor_class" : 0.1
+			}
+		},
+
+		{
+			"name" : "Torn Trousers",
+			"renderable" : {
+				"glyph" : "[",
+				"fg" : "#00FFFF",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"wearable" : {
+				"slot" : "Legs",
+				"armor_class" : 0.1
+			}
+		},
+
+		{
+			"name" : "Old Boots",
+			"renderable" : {
+				"glyph" : "[",
+				"fg" : "#FF9999",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"wearable" : {
+				"slot" : "Feet",
+				"armor_class" : 0.1
+			}
+		},
+
+		{
+			"name" : "Cloth Tunic",
+			"renderable" : {
+				"glyph" : "[",
+				"fg" : "#00FF00",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"wearable" : {
+				"slot" : "Torso",
+				"armor_class" : 0.1
+			}
+		},
+
+		{
+			"name" : "Cloth Pants",
+			"renderable" : {
+				"glyph" : "[",
+				"fg" : "#00FFFF",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"wearable" : {
+				"slot" : "Legs",
+				"armor_class" : 0.1
+			}
+		},
+
+		{
+			"name" : "Slippers",
+			"renderable" : {
+				"glyph" : "[",
+				"fg" : "#FF9999",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"wearable" : {
+				"slot" : "Feet",
+				"armor_class" : 0.1
 			}
 		}
-	},
-
-	{
-		"name" : "Beer",
-		"renderable" : {
-			"glyph" : "!",
-			"fg" : "#00FF00",
-			"bg" : "#000000",
-			"order" : 2
-		},
-		"consumable" : {
-			"effects" : {
-				"provides_healing" : "4"
-			}
-		}
-	},
-
-	{
-		"name" : "Rusty Longsword",
-		"renderable" : {
-			"glyph" : "/",
-			"fg" : "#BB77BB",
-			"bg" : "#000000",
-			"order" : 2
-		},
-		"weapon" : {
-			"range" : "melee",
-			"attribute" : "Quickness",
-			"base_damage" : "1d8-1",
-			"hit_bonus" : -1
-		}
-	},
-
-	{
-	    "name" : "Dagger",
-	    "renderable" : {
-			"glyph" : "/",
-			"fg" : "#FFAAAA",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "weapon" : {
-			"range" : "melee",
-			"attribute" : "Quickness",
-			"base_damage" : "1d4",
-			"hit_bonus" : 0
-	    }
-	},
-
-	{
-	    "name" : "Longsword",
-	    "renderable" : {
-			"glyph" : "/",
-			"fg" : "#FFAAFF",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-		"weapon" : {
-			"range" : "melee",
-			"attribute" : "Quickness",
-			"base_damage" : "1d4",
-			"hit_bonus" : 4
-		}
-	},
-
-	{
-	    "name" : "Battleaxe",
-	    "renderable" : {
-			"glyph" : "\u00B6",
-			"fg" : "#FF55FF",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-		"weapon" : {
-			"range" : "melee",
-			"attribute" : "Quickness",
-			"base_damage" : "1d4",
-			"hit_bonus" : 5
-		}
-	},
-
-	{
-		"name" : "Cudgel",
-		"renderable" : {
-			"glyph" : "/",
-			"fg" : "#A52A2A",
-			"bg" : "#000000",
-			"order" : 2
-		},
-		"weapon" : {
-			"range" : "melee",
-			"attribute" : "Quickness",
-			"base_damage" : "1d4",
-			"hit_bonus" : 0
-		}
-	},
-
-	{
-	    "name" : "Shield",
-	    "renderable" : {
-			"glyph" : "[",
-			"fg" : "#00AAFF",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "wearable" : {
-			"slot" : "Shield",
-			"armor_class" : 1.0
-	    }
-	},
-
-	{
-	    "name" : "Tower Shield",
-	    "renderable" : {
-			"glyph" : "[",
-			"fg" : "#00FFFF",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "wearable" : {
-			"slot" : "Shield",
-			"armor_class" : 3.0
-	    }
-	},
-
-	{
-		"name" : "Stained Tunic",
-		"renderable" : {
-			"glyph" : "[",
-			"fg" : "#00FF00",
-			"bg" : "#000000",
-			"order" : 2
-		},
-		"wearable" : {
-			"slot" : "Torso",
-			"armor_class" : 0.1
-		}
-	},
-
-	{
-		"name" : "Torn Trousers",
-		"renderable" : {
-			"glyph" : "[",
-			"fg" : "#00FFFF",
-			"bg" : "#000000",
-			"order" : 2
-		},
-		"wearable" : {
-			"slot" : "Legs",
-			"armor_class" : 0.1
-		}
-	},
-
-	{
-		"name" : "Old Boots",
-		"renderable" : {
-			"glyph" : "[",
-			"fg" : "#FF9999",
-			"bg" : "#000000",
-			"order" : 2
-		},
-		"wearable" : {
-			"slot" : "Feet",
-			"armor_class" : 0.1
-		}
-	},
-
-	{
-		"name" : "Cloth Tunic",
-		"renderable" : {
-			"glyph" : "[",
-			"fg" : "#00FF00",
-			"bg" : "#000000",
-			"order" : 2
-		},
-		"wearable" : {
-			"slot" : "Torso",
-			"armor_class" : 0.1
-		}
-	},
-
-	{
-		"name" : "Cloth Pants",
-		"renderable" : {
-			"glyph" : "[",
-			"fg" : "#00FFFF",
-			"bg" : "#000000",
-			"order" : 2
-		},
-		"wearable" : {
-			"slot" : "Legs",
-			"armor_class" : 0.1
-		}
-	},
-
-	{
-		"name" : "Slippers",
-		"renderable" : {
-			"glyph" : "[",
-			"fg" : "#FF9999",
-			"bg" : "#000000",
-			"order" : 2
-		},
-		"wearable" : {
-			"slot" : "Feet",
-			"armor_class" : 0.1
-		}
-	}
     ],
     "mobs" : [
-
-	{
-	    "name" : "Dock Worker",
-	    "renderable" : {
-			"glyph": "\u263A",
-			"fg" : "#999999",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 4,
-	    "ai" : "bystander",
-	    "quips" : [ "Nice weather today, huh?", "Hi", "There always seems to be a dock in need of repair..." ],
-	    "attributes" : {},
-		"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
-	},
-
-	{
-	    "name" : "Fisher",
-	    "renderable" : {
-			"glyph": "\u263A",
-			"fg" : "#999999",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 4,
-	    "ai" : "bystander",
-	    "quips" : [ "They're really biting today!!", "I caught something yesterday.. but it definitely wasn't a fish", "My brother says there is something big in these waters"  ],
-	    "attributes" : {},
-		"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
-	},
-
-	{
-	    "name" : "Wannabe Pirate",
-	    "renderable" : {
-			"glyph": "\u263A",
-			"fg" : "#aa9999",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 4,
-	    "ai" : "bystander",
-	    "quips" : [ "Yar!!", "Did you just say 'parley'?", "Scurvy!" ],
-	    "attributes" : {},
-		"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
-	},
-
-	{
-	    "name" : "Drunk",
-	    "renderable" : {
-			"glyph": "\u263A",
-			"fg" : "#aa9999",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 4,
-	    "ai" : "bystander",
-	    "quips" : [ "Hic", "I..HIC.. need mo..HIC..re booze", "Spare some change?" ],
-	    "attributes" : {},
-		"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
-	},
-	
-	{
-	    "name" : "Rat",
-	    "renderable" : {
-			"glyph": "r",
-			"fg" : "#FF0000",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 8,
-	    "ai" : "melee",
-	    "attributes" : {
-			"Might" : 3,
-			"Fitness" : 3
+		{
+			"name" : "Bandit",
+			"renderable" : {
+				"glyph" : "☻",
+				"fg" : "#FF0000",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 4,
+			"ai" : "melee",
+			"quips" : [ "Stand and face me!", "Alright, kid. Hand over your loot!" ],
+			"attributes" : {},
+			"equipped" : [ "Shortsword", "Shield", "Leather Armor", "Leather Boots" ]
 		},
-		"skills" : {
-			"Melee" : -1,
-			"Defense" : -1
+		{
+			"name" : "Dock Worker",
+			"renderable" : {
+				"glyph": "\u263A",
+				"fg" : "#999999",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 4,
+			"ai" : "bystander",
+			"quips" : [ "Nice weather today, huh?", "Hi", "There always seems to be a dock in need of repair..." ],
+			"attributes" : {},
+			"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
 		},
-		"natural" : {
-			"armor_class" : 11,
-			"attacks" : [
-				{ "name" : "bite", "hit_bonus" : 0, "damage" : "1d4" }
-			]
+
+		{
+			"name" : "Fisher",
+			"renderable" : {
+				"glyph": "\u263A",
+				"fg" : "#999999",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 4,
+			"ai" : "bystander",
+			"quips" : [ "They're really biting today!!", "I caught something yesterday.. but it definitely wasn't a fish", "My brother says there is something big in these waters"  ],
+			"attributes" : {},
+			"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
+		},
+
+		{
+			"name" : "Wannabe Pirate",
+			"renderable" : {
+				"glyph": "\u263A",
+				"fg" : "#aa9999",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 4,
+			"ai" : "bystander",
+			"quips" : [ "Yar!!", "Did you just say 'parley'?", "Scurvy!" ],
+			"attributes" : {},
+			"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
+		},
+
+		{
+			"name" : "Drunk",
+			"renderable" : {
+				"glyph": "\u263A",
+				"fg" : "#aa9999",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 4,
+			"ai" : "bystander",
+			"quips" : [ "Hic", "I..HIC.. need mo..HIC..re booze", "Spare some change?" ],
+			"attributes" : {},
+			"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
+		},
+
+		{
+			"name" : "Rat",
+			"renderable" : {
+				"glyph": "r",
+				"fg" : "#FF0000",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 8,
+			"ai" : "melee",
+			"attributes" : {
+				"Might" : 3,
+				"Fitness" : 3
+			},
+			"skills" : {
+				"Melee" : -1,
+				"Defense" : -1
+			},
+			"natural" : {
+				"armor_class" : 11,
+				"attacks" : [
+					{ "name" : "bite", "hit_bonus" : 0, "damage" : "1d4" }
+				]
+			}
+		},
+
+		{
+			"name" : "Mangy Wolf",
+			"renderable" : {
+				"glyph": "w",
+				"fg" : "#FF0000",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 8,
+			"ai" : "carnivore",
+			"attributes" : {
+				"Might" : 3,
+				"Fitness" : 3
+			},
+			"skills" : {
+				"Melee" : -1,
+				"Defense" : -1
+			},
+			"natural" : {
+				"armor_class" : 12,
+				"attacks" : [
+					{ "name" : "bite", "hit_bonus" : 0, "damage" : "1d6" }
+				]
+			},
+			"loot_table" : "Animal"
+		},
+
+		{
+			"name" : "Fox",
+			"renderable" : {
+				"glyph": "f",
+				"fg" : "#FF0000",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 8,
+			"ai" : "melee",
+			"attributes" : {
+				"Might" : 3,
+				"Fitness" : 3
+			},
+			"skills" : {
+				"Melee" : -1,
+				"Defense" : -1
+			},
+			"natural" : {
+				"armor_class" : 11,
+				"attacks" : [
+					{ "name" : "bite", "hit_bonus" : 0, "damage" : "1d4" }
+				]
+			}
+		},
+
+		{
+			"name" : "Deer",
+			"renderable" : {
+				"glyph": "d",
+				"fg" : "#FFFF00",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 8,
+			"ai" : "herbivore",
+			"attributes" : {
+				"Might" : 3,
+				"Fitness" : 3
+			},
+			"skills" : {
+				"Melee" : -1,
+				"Defense" : -1
+			},
+			"natural" : {
+				"armor_class" : 11,
+				"attacks" : [
+					{ "name" : "bite", "hit_bonus" : 0, "damage" : "1d4" }
+				]
+			},
+			"loot_table" : "Animal"
+		},
+
+		{
+			"name" : "Barkeep",
+			"renderable" : {
+				"glyph": "\u263A",
+				"fg" : "#EE82EE",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 4,
+			"ai" : "vendor",
+			"attributes" : {
+				"intelligence" : 13
+			},
+			"quips" : [ "Hey! Kid! Did you pay your tab last night?", "The lot of ya smell like garbage!", "I need to hire barmaids.." ],
+			"skills" : {
+				"Melee" : 2
+			},
+			"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
+		},
+
+		{
+			"name" : "Priest",
+			"renderable" : {
+				"glyph": "\u263A",
+				"fg" : "#EE82EE",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 4,
+			"ai" : "vendor",
+			"attributes" : {},
+			"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
+		},
+
+		{
+			"name" : "Parishioner",
+			"renderable" : {
+				"glyph": "\u263A",
+				"fg" : "#AAAAAA",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 4,
+			"ai" : "bystander",
+			"quips" : [ "I hear a sermon is starting soon!", "I hope they have those tasty crackers..", "Who can return the Totem of Eternity?!" ],
+			"attributes" : {},
+			"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
+		},
+
+		{
+			"name" : "Shady Salesman",
+			"renderable" : {
+				"glyph": "h",
+				"fg" : "#EE82EE",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 4,
+			"ai" : "vendor",
+			"quips" : [ "I may or may not have some special goods for you..", "Hey.. kid.. wanna see something cool?", "Heh, you? To save the world?" ],
+			"attributes" : {},
+			"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
+		},
+
+		{
+			"name" : "Patron",
+			"renderable" : {
+				"glyph": "\u263A",
+				"fg" : "#AAAAAA",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 4,
+			"ai" : "bystander",
+			"quips" : [ "Quiet down, it's too early!", "Oh my, I drank too much.", "Still saving the world, kid?" ],
+			"attributes" : {},
+			"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
+		},
+
+		{
+			"name" : "Blacksmith",
+			"renderable" : {
+				"glyph": "\u263A",
+				"fg" : "#EE82EE",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 4,
+			"ai" : "vendor",
+			"attributes" : {},
+			"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
+		},
+
+		{
+			"name" : "Clothier",
+			"renderable" : {
+				"glyph": "\u263A",
+				"fg" : "#EE82EE",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 4,
+			"ai" : "vendor",
+			"attributes" : {},
+			"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
+		},
+
+		{
+			"name" : "Alchemist",
+			"renderable" : {
+				"glyph": "\u263A",
+				"fg" : "#EE82EE",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 4,
+			"ai" : "vendor",
+			"attributes" : {},
+			"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
+		},
+
+		{
+			"name" : "Mom",
+			"renderable" : {
+				"glyph": "\u263A",
+				"fg" : "#FFAAAA",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 4,
+			"ai" : "bystander",
+			"quips" : [ "Don't forget to take a lunch with you!", "Your father never came home last night.. but he would be so proud of you.", "I'll leave your bed how you left it, dear." ],
+			"attributes" : {},
+			"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
+		},
+
+		{
+			"name" : "Peasant",
+			"renderable" : {
+				"glyph": "\u263A",
+				"fg" : "#999999",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 4,
+			"ai" : "bystander",
+			"quips" : [ "What are ya doin' in me house?", "Yer just as bad as those damn rats!" ],
+			"attributes" : {},
+			"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
+		},
+
+		{
+			"name" : "Orc",
+			"renderable" : {
+				"glyph" : "o",
+				"fg" : "#FF0000",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 8,
+			"ai" : "melee",
+			"attributes" : {
+				"Might" : 4,
+				"Fitness" : 4
+			},
+			"skills" : {
+				"Melee" : 0,
+				"Defense" : 0
+			},
+			"natural" : {
+				"armor_class" : 11,
+				"attacks" : [
+					{ "name" : "slash", "hit_bonus" : 0, "damage" : "1d4" }
+				]
+			}
+		},
+
+		{
+			"name": "Goblin",
+			"renderable" : {
+				"glyph" : "g",
+				"fg" : "#FF0000",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 8,
+			"ai" : "melee",
+			"attributes" : {
+				"Might" : 5,
+				"Fitness" : 5
+			},
+			"skills" : {
+				"Melee" : 0,
+				"Defense" : 0
+			},
+			"natural" : {
+				"armor_class" : 11,
+				"attacks" : [
+					{ "name" : "slash", "hit_bonus" : 0, "damage" : "1d4" }
+				]
+			}
+		},
+
+		{
+			"name" : "Kobold",
+			"renderable" : {
+				"glyph" : "k",
+				"fg" : "#FF0000",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 4,
+			"ai" : "melee",
+			"attributes" : {
+				"Might" : 4,
+				"Fitness" : 4
+			},
+			"skills" : {
+				"Melee" : -1,
+				"Defense" : -1
+			},
+			"natural" : {
+				"armor_class" : 11,
+				"attacks" : [
+					{ "name" : "slash", "hit_bonus" : 0, "damage" : "1d4" }
+				]
+			}
+		},
+
+		{
+			"name" : "Troll",
+			"renderable" : {
+				"glyph" : "t",
+				"fg" : "#FF0000",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 8,
+			"ai" : "melee",
+			"attributes" : {
+				"Might" : 5,
+				"Fitness" : 5
+			},
+			"skills" : {
+				"Melee" : 1,
+				"Defense" : 1
+			},
+			"natural" : {
+				"armor_class" : 11,
+				"attacks" : [
+					{ "name" : "slash", "hit_bonus" : 0, "damage" : "1d4" }
+				]
+			}
+		},
+
+		{
+			"name" : "Blood Elf",
+			"renderable" : {
+				"glyph" : "b",
+				"fg" : "#FF0000",
+				"bg" : "#000000",
+				"order" : 1
+			},
+			"blocks_tile" : true,
+			"vision_range" : 10,
+			"ai" : "melee",
+			"attributes" : {
+				"Might" : 5,
+				"Fitness" : 5
+			},
+			"skills" : {
+				"Melee" : 2,
+				"Defense" : 2
+			},
+			"natural" : {
+				"armor_class" : 11,
+				"attacks" : [
+					{ "name" : "slash", "hit_bonus" : 0, "damage" : "1d4" }
+				]
+			}
 		}
-	},
-	
-	{
-	    "name" : "Barkeep",
-	    "renderable" : {
-			"glyph": "\u263A",
-			"fg" : "#EE82EE",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 4,
-	    "ai" : "vendor",
-	    "attributes" : {
-			"intelligence" : 13
-	    },
-	    "quips" : [ "Hey! Kid! Did you pay your tab last night?", "The lot of ya smell like garbage!", "I need to hire barmaids.." ],
-	    "skills" : {
-			"Melee" : 2
-	    },
-		"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
-	},
-
-	{
-	    "name" : "Priest",
-	    "renderable" : {
-			"glyph": "\u263A",
-			"fg" : "#EE82EE",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 4,
-	    "ai" : "vendor",
-	    "attributes" : {},
-		"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
-	},
-
-	{
-	    "name" : "Parishioner",
-	    "renderable" : {
-			"glyph": "\u263A",
-			"fg" : "#AAAAAA",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 4,
-	    "ai" : "bystander",
-	    "quips" : [ "I hear a sermon is starting soon!", "I hope they have those tasty crackers..", "Who can return the Totem of Eternity?!" ],
-	    "attributes" : {},
-		"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
-	},
-
-	{
-	    "name" : "Shady Salesman",
-	    "renderable" : {
-			"glyph": "h",
-			"fg" : "#EE82EE",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 4,
-	    "ai" : "vendor",
-	    "quips" : [ "I may or may not have some special goods for you..", "Hey.. kid.. wanna see something cool?", "Heh, you? To save the world?" ],
-	    "attributes" : {},
-		"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
-	},
-
-	{
-	    "name" : "Patron",
-	    "renderable" : {
-			"glyph": "\u263A",
-			"fg" : "#AAAAAA",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 4,
-	    "ai" : "bystander",
-	    "quips" : [ "Quiet down, it's too early!", "Oh my, I drank too much.", "Still saving the world, kid?" ],
-	    "attributes" : {},
-		"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
-	},
-
-	{
-	    "name" : "Blacksmith",
-	    "renderable" : {
-			"glyph": "\u263A",
-			"fg" : "#EE82EE",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 4,
-	    "ai" : "vendor",
-	    "attributes" : {},
-		"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
-	},
-
-	{
-	    "name" : "Clothier",
-	    "renderable" : {
-			"glyph": "\u263A",
-			"fg" : "#EE82EE",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 4,
-	    "ai" : "vendor",
-	    "attributes" : {},
-		"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
-	},
-
-	{
-	    "name" : "Alchemist",
-	    "renderable" : {
-			"glyph": "\u263A",
-			"fg" : "#EE82EE",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 4,
-	    "ai" : "vendor",
-	    "attributes" : {},
-		"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
-	},
-
-	{
-	    "name" : "Mom",
-	    "renderable" : {
-			"glyph": "\u263A",
-			"fg" : "#FFAAAA",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 4,
-	    "ai" : "bystander",
-	    "quips" : [ "Don't forget to take a lunch with you!", "Your father never came home last night.. but he would be so proud of you.", "I'll leave your bed how you left it, dear." ],
-	    "attributes" : {},
-		"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
-	},
-
-	{
-	    "name" : "Peasant",
-	    "renderable" : {
-			"glyph": "\u263A",
-			"fg" : "#999999",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 4,
-	    "ai" : "bystander",
-	    "quips" : [ "What are ya doin' in me house?", "Yer just as bad as those damn rats!" ],
-	    "attributes" : {},
-		"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
-	},
-	
-	{
-	    "name" : "Orc",
-	    "renderable" : {
-			"glyph" : "o",
-			"fg" : "#FF0000",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 8,
-	    "ai" : "melee",
-		"attributes" : {
-			"Might" : 4,
-			"Fitness" : 4
-		},
-		"skills" : {
-			"Melee" : 0,
-			"Defense" : 0
-		},
-		"natural" : {
-			"armor_class" : 11,
-			"attacks" : [
-				{ "name" : "slash", "hit_bonus" : 0, "damage" : "1d4" }
-			]
-		},
-		"equipped" : [ "Cudgel", "Cloth Tunic", "Cloth Pants", "Slippers" ]
-	},
-
-	{
-	    "name": "Goblin",
-	    "renderable" : {
-			"glyph" : "g",
-			"fg" : "#FF0000",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 8,
-	    "ai" : "melee",
-		"attributes" : {
-			"Might" : 5,
-			"Fitness" : 5
-		},
-		"skills" : {
-			"Melee" : 0,
-			"Defense" : 0
-		},
-		"natural" : {
-			"armor_class" : 11,
-			"attacks" : [
-				{ "name" : "slash", "hit_bonus" : 0, "damage" : "1d4" }
-			]
-		}
-	},
-
-	{
-	    "name" : "Kobold",
-	    "renderable" : {
-			"glyph" : "k",
-			"fg" : "#FF0000",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 4,
-	    "ai" : "melee",
-		"attributes" : {
-			"Might" : 4,
-			"Fitness" : 4
-		},
-		"skills" : {
-			"Melee" : -1,
-			"Defense" : -1
-		},
-		"natural" : {
-			"armor_class" : 11,
-			"attacks" : [
-				{ "name" : "slash", "hit_bonus" : 0, "damage" : "1d4" }
-			]
-		}
-	},
-
-	{
-	    "name" : "Troll",
-	    "renderable" : {
-			"glyph" : "t",
-			"fg" : "#FF0000",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 8,
-	    "ai" : "melee",
-		"attributes" : {
-			"Might" : 5,
-			"Fitness" : 5
-		},
-		"skills" : {
-			"Melee" : 1,
-			"Defense" : 1
-		},
-		"natural" : {
-			"armor_class" : 11,
-			"attacks" : [
-				{ "name" : "slash", "hit_bonus" : 0, "damage" : "1d4" }
-			]
-		}
-	},
-
-	{
-	    "name" : "Blood Elf",
-	    "renderable" : {
-			"glyph" : "b",
-			"fg" : "#FF0000",
-			"bg" : "#000000",
-			"order" : 1
-	    },
-	    "blocks_tile" : true,
-	    "vision_range" : 10,
-	    "ai" : "melee",
-		"attributes" : {
-			"Might" : 5,
-			"Fitness" : 5
-		},
-		"skills" : {
-			"Melee" : 2,
-			"Defense" : 2
-		},
-		"natural" : {
-			"armor_class" : 11,
-			"attacks" : [
-				{ "name" : "slash", "hit_bonus" : 0, "damage" : "1d4" }
-			]
-		}
-	}
     ],
     "props" : [
-	{
-	    "name" : "Bear Trap",
-	    "renderable" : {
-			"glyph" : "^",
-			"fg" : "#FF0000",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "hidden" : true,
-	    "entry_trigger" : {
-			"effects" : {
-				"damage" : "6",
-				"single_activation" : "1"
+		{
+			"name" : "Bear Trap",
+			"renderable" : {
+				"glyph" : "^",
+				"fg" : "#FF0000",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"hidden" : true,
+			"entry_trigger" : {
+				"effects" : {
+					"damage" : "6",
+					"single_activation" : "1"
+				}
 			}
-	    }
-	},
+		},
 
-	{
-	    "name" : "Keg",
-	    "renderable" : {
-			"glyph" : "\u03A6",
-			"fg" : "#AAAAAA",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "hidden" : false
-	},
+		{
+			"name" : "Keg",
+			"renderable" : {
+				"glyph" : "\u03A6",
+				"fg" : "#AAAAAA",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"hidden" : false
+		},
 
-	{
-	    "name" : "Anvil",
-	    "renderable" : {
-			"glyph" : "\u2554",
-			"fg" : "#AAAAAA",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "hidden" : false
-	},
+		{
+			"name" : "Anvil",
+			"renderable" : {
+				"glyph" : "\u2554",
+				"fg" : "#AAAAAA",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"hidden" : false
+		},
 
-	{
-	    "name" : "Water Trough",
-	    "renderable" : {
-			"glyph" : "\u00B7",
-			"fg" : "#5555FF",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "hidden" : false
-	},
+		{
+			"name" : "Water Trough",
+			"renderable" : {
+				"glyph" : "\u00B7",
+				"fg" : "#5555FF",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"hidden" : false
+		},
 
-	{
-	    "name" : "Weapon Rack",
-	    "renderable" : {
-			"glyph" : "\u03C0",
-			"fg" : "#FFD700",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "hidden" : false
-	},
+		{
+			"name" : "Weapon Rack",
+			"renderable" : {
+				"glyph" : "\u03C0",
+				"fg" : "#FFD700",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"hidden" : false
+		},
 
-	{
-	    "name" : "Armor Stand",
-	    "renderable" : {
-			"glyph" : "\u2320",
-			"fg" : "#FFFFFF",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "hidden" : false
-	},
+		{
+			"name" : "Armor Stand",
+			"renderable" : {
+				"glyph" : "\u2320",
+				"fg" : "#FFFFFF",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"hidden" : false
+		},
 
-	{
-	    "name" : "Chemistry Set",
-	    "renderable" : {
-			"glyph" : "\u03B4",
-			"fg" : "#00FFFF",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "hidden" : false
-	},
+		{
+			"name" : "Chemistry Set",
+			"renderable" : {
+				"glyph" : "\u03B4",
+				"fg" : "#00FFFF",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"hidden" : false
+		},
 
-	{
-	    "name" : "Dead Thing",
-	    "renderable" : {
-			"glyph" : "\u263B",
-			"fg" : "#AA0000",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "hidden" : false
-	},
+		{
+			"name" : "Dead Thing",
+			"renderable" : {
+				"glyph" : "\u263B",
+				"fg" : "#AA0000",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"hidden" : false
+		},
 
-	{
-	    "name" : "Cabinet",
-	    "renderable" : {
-			"glyph" : "\u2229",
-			"fg" : "#805A46",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "hidden" : false
-	},
+		{
+			"name" : "Cabinet",
+			"renderable" : {
+				"glyph" : "\u2229",
+				"fg" : "#805A46",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"hidden" : false
+		},
 
-	{
-	    "name" : "Bed",
-	    "renderable" : {
-			"glyph" : "8",
-			"fg" : "#805A46",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "hidden" : false
-	},
+		{
+			"name" : "Bed",
+			"renderable" : {
+				"glyph" : "8",
+				"fg" : "#805A46",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"hidden" : false
+		},
 
-	{
-	    "name" : "Loom",
-	    "renderable" : {
-			"glyph" : "\u2261",
-			"fg" : "#805A46",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "hidden" : false
-	},
+		{
+			"name" : "Loom",
+			"renderable" : {
+				"glyph" : "\u2261",
+				"fg" : "#805A46",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"hidden" : false
+		},
 
-	{
-	    "name" : "Hide Rack",
-	    "renderable" : {
-			"glyph" : "\u03C0",
-			"fg" : "#805A46",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "hidden" : false
-	},
+		{
+			"name" : "Hide Rack",
+			"renderable" : {
+				"glyph" : "\u03C0",
+				"fg" : "#805A46",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"hidden" : false
+		},
 
-	{
-	    "name" : "Candle",
-	    "renderable" : {
-			"glyph" : "\u00C4",
-			"fg" : "#FFA500",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "hidden" : false
-	},
+		{
+			"name" : "Candle",
+			"renderable" : {
+				"glyph" : "\u00C4",
+				"fg" : "#FFA500",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"hidden" : false
+		},
 
-	{
-	    "name" : "Table",
-	    "renderable" : {
-			"glyph" : "\u2566",
-			"fg" : "#AAAAAA",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "hidden" : false
-	},
+		{
+			"name" : "Table",
+			"renderable" : {
+				"glyph" : "\u2566",
+				"fg" : "#AAAAAA",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"hidden" : false
+		},
 
-	{
-	    "name" : "Chair",
-	    "renderable" : {
-			"glyph" : "\u2514",
-			"fg" : "#AAAAAA",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "hidden" : false
-	},
+		{
+			"name" : "Chair",
+			"renderable" : {
+				"glyph" : "\u2514",
+				"fg" : "#AAAAAA",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"hidden" : false
+		},
 
-	{
-	    "name" : "Door",
-	    "renderable" : {
-			"glyph" : "+",
-			"fg" : "#D2691E",
-			"bg" : "#000000",
-			"order" : 2
-	    },
-	    "hidden" : false,
-	    "blocks_tile" : true,
-	    "blocks_visibility" : true,
-	    "door_open" : true
-	}
+		{
+			"name" : "Door",
+			"renderable" : {
+				"glyph" : "+",
+				"fg" : "#D2691E",
+				"bg" : "#000000",
+				"order" : 2
+			},
+			"hidden" : false,
+			"blocks_tile" : true,
+			"blocks_visibility" : true,
+			"door_open" : true
+		}
     ]
 }

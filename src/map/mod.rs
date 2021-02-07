@@ -4,6 +4,9 @@ use specs::prelude::*;
 use std::collections::HashSet;
 
 mod tiletype;
+mod themes;
+pub use themes::*;
+
 pub use tiletype::{tile_cost, tile_opaque, tile_walkable, TileType};
 
 #[derive(Default, Serialize, Deserialize, Clone)]

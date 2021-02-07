@@ -36,6 +36,8 @@ mod rex_assets;
 mod saveload_system;
 mod spawner;
 mod trigger_system;
+mod animal_ai_system;
+
 pub use gamesystem::*;
 
 #[macro_use]
@@ -89,6 +91,8 @@ impl State {
         triggers.run_now(&self.ecs);
         let mut mapindex = MapIndexingSystem {};
         mapindex.run_now(&self.ecs);
+        let mut animal = animal_ai_system::AnimalAI{};
+        animal.run_now(&self.ecs);
         let mut bystander = bystander_ai_system::BystanderAI {};
         bystander.run_now(&self.ecs);
         let mut melee = MeleeCombatSystem {};
@@ -523,6 +527,9 @@ fn main() -> rltk::BError {
     gs.ecs.register::<Skills>();
     gs.ecs.register::<Pools>();
     gs.ecs.register::<NaturalAttackDefense>();
+    gs.ecs.register::<LootTable>();
+    gs.ecs.register::<Carnivore>();
+    gs.ecs.register::<Herbivore>();
 
     gs.ecs.insert(SimpleMarkerAllocator::<SerializeMe>::new());
 

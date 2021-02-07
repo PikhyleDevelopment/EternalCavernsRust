@@ -197,21 +197,23 @@ fn skip_turn(ecs: &mut World) -> RunState {
 pub fn player_input(gs: &mut State, ctx: &mut Rltk) -> RunState {
     // Hotkeys
     if ctx.shift && ctx.key.is_some() {
-        let key: Option<i32> = match ctx.key.unwrap() {
-            VirtualKeyCode::Key1 => Some(1),
-            VirtualKeyCode::Key2 => Some(2),
-            VirtualKeyCode::Key3 => Some(3),
-            VirtualKeyCode::Key4 => Some(4),
-            VirtualKeyCode::Key5 => Some(5),
-            VirtualKeyCode::Key6 => Some(6),
-            VirtualKeyCode::Key7 => Some(7),
-            VirtualKeyCode::Key8 => Some(8),
-            VirtualKeyCode::Key9 => Some(9),
-            _ => None
-        };
+        let key: Option<i32> =
+            match ctx.key.unwrap() {
+                VirtualKeyCode::Key1 => Some(1),
+                VirtualKeyCode::Key2 => Some(2),
+                VirtualKeyCode::Key3 => Some(3),
+                VirtualKeyCode::Key4 => Some(4),
+                VirtualKeyCode::Key5 => Some(5),
+                VirtualKeyCode::Key6 => Some(6),
+                VirtualKeyCode::Key7 => Some(7),
+                VirtualKeyCode::Key8 => Some(8),
+                VirtualKeyCode::Key9 => Some(9),
+                _ => None
+            };
+        // TODO: For some reason, we aren't getting to this next part..
         if let Some(key) = key {
-            return use_consumable_hotkey(gs, key - 1);
             rltk::console::log(format!("Pressed {}", key));
+            return use_consumable_hotkey(gs, key);
         }
     }
 

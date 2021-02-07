@@ -6,6 +6,17 @@ use specs::saveload::{ConvertSaveload, Marker};
 use specs_derive::*;
 use std::collections::HashMap;
 
+#[derive(Component, Debug, Serialize, Deserialize, Clone)]
+pub struct Carnivore {}
+
+#[derive(Component, Debug, Serialize, Deserialize, Clone)]
+pub struct Herbivore {}
+
+#[derive(Component, Debug, Serialize, Deserialize, Clone)]
+pub struct LootTable {
+    pub table: String
+}
+
 #[derive(Serialize, Deserialize, Clone)]
 pub struct NaturalAttack {
     pub name: String,

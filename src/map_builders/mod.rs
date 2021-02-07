@@ -33,6 +33,9 @@ mod rooms_corridors_lines;
 mod rooms_corridors_nearest;
 mod town;
 mod voronoi_spawning;
+mod forest;
+
+use forest::forest_builder;
 
 use town::town_builder;
 
@@ -352,6 +355,7 @@ pub fn level_builder(
     rltk::console::log(format!("Depth: {}", new_depth));
     match new_depth {
         1 => town_builder(new_depth, rng, width, height),
+        2 => forest_builder(new_depth, rng, width, height),
         _ => random_builder(new_depth, rng, width, height),
     }
 }
